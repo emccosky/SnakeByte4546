@@ -62,25 +62,72 @@ public class TankMode extends OpMode {
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
     @Override
-    public void loop() {
-        if (Math.abs(gamepad1.left_stick_y) > .1 || Math.abs(gamepad1.right_stick_y) > .1) {
-            motorFL.setPower(-gamepad1.left_stick_y);
-            motorBL.setPower(-gamepad1.left_stick_y);
-            motorFR.setPower(gamepad1.right_stick_y);
-            motorBR.setPower(gamepad1.right_stick_y);
-        }
+    public void loop() 
+    {
+        float y1 = gamepad1.left_stick_y;
+		float x1 = gamepad1.left_stick_x;
+		float x2 = gamepad1.right_stick_x;
+		float y2 = gamepad1.left_stick_y;
+		if(y1 > 0.1 || y1 < -0.1 || x1 > 0.1 || x1 < -0.1 || y2 > 0.1 || y2 < -0.1) //checks if sticks are being moved
+		{
+			if(y1 > 0.1 && y1 > x1 && -y1 < x1) //down
+			{
+		
+			}
+			else if(y1 < x1 && y1 < -0.1) //up -0.5 1
+			{
 
-        else {
+			}
+			else if(Math.abs(x1) > Math.abs(y1) && x1 > 0.1) //right
+			{
 
-            motorFL.setPower(0);
-            motorFR.setPower(0);
-            motorBL.setPower(0);
-            motorBR.setPower(0);
-        }
+			}
+			else if(Math.abs(x1) > Math.abs(y1) && x1 < -0.1) //left
+			{
 
-        telemetry.addData("Voltage", EventLoopManager.ROBOT_BATTERY_LEVEL_KEY);
+			}
+			else if(y2 > 0.1) //rotate right
+			{
 
+			{
+			else if(y2 < -0.1) //rotate left
+			{
 
+			}
+		}
+		else //individual motor control
+		{
+			boolean trigL = gamepad1.leftTrigger;
+			boolean trigR = gamepad1.rightTrigger;
+			float bumpL = gamepad1.leftBumper;
+			float bumpR = gamepad1.rightBumper;
+			if(trigL || trigR || bumpR > 0.1 || bumpL > 0.1)
+			{
+				if(trigL) //motorBL control
+				{
+					motorBL.setPower(1.0);
+				}
+				if(trigR) //motorBR control
+				{
+					motorBR.setPower(1.0);
+				}
+				if(bumpR > 0.1) //motorFR control
+				{
+					motorFR.setPower(1.0);
+				}
+				if{bumpL > 0.1) //motorFL control
+				{
+					motorFL.setPower(1.0);
+				}
+			}
+			else
+			{
+				motorFL.setPower(0.0);
+				motorBL.setPower(0.0);
+				motorFR.setPower(0.0);
+				motorBR.setPower(0.0);
+			}
+		}
     }
 
     public void stop() {
