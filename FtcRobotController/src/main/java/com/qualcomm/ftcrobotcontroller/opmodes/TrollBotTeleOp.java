@@ -70,38 +70,35 @@ public class TankMode extends OpMode {
 		float y2 = gamepad1.left_stick_y;
 		if(y1 > 0.1 || y1 < -0.1 || x1 > 0.1 || x1 < -0.1 || y2 > 0.1 || y2 < -0.1) //checks if sticks are being moved
 		{
-			if(y1 > 0.1 && y1 > x1 && -y1 < x1) //down
+			if(y1 > 0.1 || y1 < -0.1) // Up/Down
 			{
-		
+				motorFL.setPower(-y1); //neg
+				motorBL.setPower(-y1); //neg
+				motorFR.setPower(y1); //pos
+				motorBR.setPower(y1); //pos
 			}
-			else if(y1 < x1 && y1 < -0.1) //up -0.5 1
+			else if(x1 > 0.1 || x1 < -0.1) // Right/Left
 			{
-
+				motorFL.setPower(-x1); //neg
+				motorBL.setPower(x1); //pos
+				motorFR.setPower(-x1); //neg
+				motorBR.setPower(x1); //pos
 			}
-			else if(Math.abs(x1) > Math.abs(y1) && x1 > 0.1) //right
+			else if(y2 > 0.1 || y2 < -0.1) //rotate
 			{
-
-			}
-			else if(Math.abs(x1) > Math.abs(y1) && x1 < -0.1) //left
+				motorFL.setPower(y2); //pos
+				motorBL.setPower(y2); //pos
+				motorFR.setPower(y2); //pos
+				motorBR.setPower(y2); //pos
 			{
-
-			}
-			else if(y2 > 0.1) //rotate right
-			{
-
-			{
-			else if(y2 < -0.1) //rotate left
-			{
-
-			}
 		}
 		else //individual motor control
 		{
-			boolean trigL = gamepad1.leftTrigger;
-			boolean trigR = gamepad1.rightTrigger;
-			float bumpL = gamepad1.leftBumper;
-			float bumpR = gamepad1.rightBumper;
-			if(trigL || trigR || bumpR > 0.1 || bumpL > 0.1)
+			float trigL = gamepad1.left_trigger;
+			float trigR = gamepad1.right_trigger;
+			boolean bumpL = gamepad1.left_bumper;
+			boolean bumpR = gamepad1.right_bumper;
+			if(trigL > 0.1 || trigL < -0.1 || trigR > 0.1 || trigR < -0.1 || bumpR || bumpL)
 			{
 				if(trigL) //motorBL control
 				{
