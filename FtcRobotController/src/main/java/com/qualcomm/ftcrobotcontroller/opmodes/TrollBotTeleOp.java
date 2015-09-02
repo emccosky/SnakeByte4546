@@ -27,7 +27,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.text.SimpleDateFormat;
@@ -38,13 +38,13 @@ import java.util.Date;
  * <p>
  *Enables control of the robot via the gamepad
  */
-public class TankMode extends OpMode {
+public class TrollBotTeleOp extends OpMode {
     DcMotor motorBL;
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
 
-    public TankMode() {}
+    public TrollBotTeleOp() {}
     /*
      * Code to run when the op mode is first enabled goes here
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
@@ -62,25 +62,69 @@ public class TankMode extends OpMode {
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
     @Override
-    public void loop() {
-        if (Math.abs(gamepad1.left_stick_y) > .1 || Math.abs(gamepad1.right_stick_y) > .1) {
-            motorFL.setPower(-gamepad1.left_stick_y);
-            motorBL.setPower(-gamepad1.left_stick_y);
-            motorFR.setPower(gamepad1.right_stick_y);
-            motorBR.setPower(gamepad1.right_stick_y);
-        }
-
-        else {
-
-            motorFL.setPower(0);
-            motorFR.setPower(0);
-            motorBL.setPower(0);
-            motorBR.setPower(0);
-        }
-
-        telemetry.addData("Voltage", EventLoopManager.ROBOT_BATTERY_LEVEL_KEY);
-
-
+    public void loop() 
+    {
+        float y1 = gamepad1.left_stick_y;
+		float x1 = gamepad1.left_stick_x;
+		float x2 = gamepad1.right_stick_x;
+		float y2 = gamepad1.right_stick_y;
+		if(y1 > 0.1 || y1 < -0.1 || x1 > 0.1 || x1 < -0.1 || y2 > 0.1 || y2 < -0.1) //checks if sticks are being moved
+		{
+			if(y1 > 0.1 || y1 < -0.1) // Up/Down
+			{
+				motorFL.setPower(-y1); //neg
+				motorBL.setPower(-y1); //neg
+				motorFR.setPower(y1); //pos
+				motorBR.setPower(y1); //pos
+			}
+			else if(x1 > 0.1 || x1 < -0.1) // Right/Left
+			{
+				motorFL.setPower(x1); //neg
+				motorBL.setPower(-x1); //pos
+				motorFR.setPower(x1); //neg
+				motorBR.setPower(-x1); //pos
+			}
+			else if(y2 > 0.1 || y2 < -0.1) //rotate
+			{
+				motorFL.setPower(y2); //pos
+				motorBL.setPower(y2); //pos
+				motorFR.setPower(y2); //pos
+				motorBR.setPower(y2); //pos
+			}
+		}
+		else //individual motor control
+		{
+			float trigL = gamepad1.left_trigger;
+			float trigR = gamepad1.right_trigger;
+			boolean bumpL = gamepad1.left_bumper;
+			boolean bumpR = gamepad1.right_bumper;
+			if(trigL > 0.1 || trigL < -0.1 || trigR > 0.1 || trigR < -0.1 || bumpR || bumpL)
+			{
+				if(trigL > 0.1) //motorBL control
+				{
+					motorBL.setPower(1.0);
+				}
+				if(trigR > 0.1) //motorBR control
+				{
+					motorBR.setPower(1.0);
+				}
+				if(bumpR) //motorFR control
+				{
+					motorFR.setPower(1.0);
+				}
+				if(bumpL) //motorFL control
+				{
+					motorFL.setPower(1.0);
+				}
+			}
+			else
+			{
+				motorFL.setPower(0.0);
+				motorBL.setPower(0.0);
+				motorFR.setPower(0.0);
+				motorBR.setPower(0.0);
+			}
+		}
     }
 
     public void stop() {

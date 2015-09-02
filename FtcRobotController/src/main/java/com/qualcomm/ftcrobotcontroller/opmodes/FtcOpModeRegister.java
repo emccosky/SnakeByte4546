@@ -54,7 +54,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
+	manager.register("TrollBotTeleOp", TrollBotTeleOp.class);
 
     /*
      * The following op modes are example op modes provided by QualComm.
@@ -69,7 +69,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     /*
      * The NullOp op mode
      */
-    manager.register("NullOp", NullOp.class);
+    //manager.register("NullOp", NullOp.class);
 
 
     /*
@@ -79,8 +79,8 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - K9Line uses a legacy LEGO NXT light sensor to follow a white line.
      */
 
-    manager.register("K9TeleOp", K9TeleOp.class);
-    manager.register("K9IrSeeker", K9IrSeeker.class);
+    //manager.register("K9TeleOp", K9TeleOp.class);
+    //manager.register("K9IrSeeker", K9IrSeeker.class);
 
     /*
      * The following example op modes are designed to work with a pushbot-style robot.
@@ -91,12 +91,12 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - PushBotSquare uses the LinearOpMOde class and shows how to drive in a square pattern autonomously.
      */
 
-    manager.register("PushBotManual", PushBotManual.class);
-    manager.register("PushBotAuto", PushBotAuto.class);
-    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
-    manager.register("PushBotIrSeek", PushBotIrSeek.class);
-    manager.register("PushBotSquare", PushBotSquare.class);
-    manager.register("TankMode", TankMode.class);
+    //manager.register("PushBotManual", PushBotManual.class);
+    //manager.register("PushBotAuto", PushBotAuto.class);
+    //manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
+    //manager.register("PushBotIrSeek", PushBotIrSeek.class);
+    //manager.register("PushBotSquare", PushBotSquare.class);
+    
 
   }
 }
