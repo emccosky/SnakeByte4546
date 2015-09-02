@@ -43,6 +43,8 @@ public class RookieCode extends OpMode {
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
+	DcMotor motorLiftL;
+	DcMotor motorLiftR;
 
     public RookieCode() {}
     /*
