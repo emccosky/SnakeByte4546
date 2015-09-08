@@ -90,9 +90,14 @@ public class RookieCode extends OpMode {
         if(Math.abs(gamepad1.left_stick_y) > 0.1)
 		{
 			motorFL.setPower(-gamepad1.left_stick_y);
-			motorBL.setPower(=gamepad1.left_stick_y);
+			motorBL.setPower(-gamepad1.left_stick_y);
 		}
-		else if(Math.abs(gamepad1.right_stick_y > 0.1)
+		else
+		{
+			motorFL.setPower(0.0);
+			motorBL.setPower(0.0);
+		}
+		if(Math.abs(gamepad1.right_stick_y) > 0.1)
 		{
 			motorBR.setPower(gamepad1.left_stick_y);
 			motorFR.setPower(gamepad1.left_stick_y);
@@ -100,11 +105,8 @@ public class RookieCode extends OpMode {
 		else
 		{
 			motorFR.setPower(0.0);
-			motorFL.setPower(0.0);
 			motorBR.setPower(0.0);
-			motorBL.setPower(0.0);
 		}
-
     }
 
     public void stop() {
