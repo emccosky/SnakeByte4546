@@ -45,6 +45,9 @@ public class RookieCode extends OpMode {
     DcMotor motorFR;
 	DcMotor motorLiftL;
 	DcMotor motorLiftR;
+	Servo servo1;
+	Servo servo2;
+	double servoPos;
 
     public RookieCode() {}
     /*
@@ -53,56 +56,81 @@ public class RookieCode extends OpMode {
      */
     @Override
     public void init() {
-        motorBL = hardwareMap.dcMotor.get("motor_1");
-        motorBR = hardwareMap.dcMotor.get("motor_2");
-        motorFR = hardwareMap.dcMotor.get("motor_3");
-        motorFL = hardwareMap.dcMotor.get("motor_4");
-		motorLiftL = hardwareMap.dcMotor.get("motor_5");
-		motorLiftR = hardwareMap.dcMotor.get("motor_5");
-    }
+        motorBR = hardwareMap.dcMotor.get("motorbl");
+        motorBL = hardwareMap.dcMotor.get("motorbr");
+        motorFR = hardwareMap.dcMotor.get("motorfl");
+        motorFL = hardwareMap.dcMotor.get("motorfr");
+		motorLiftL = hardwareMap.dcMotor.get("motorLift");
+		servo1 = hardwareMap.servo.get("right");
+		servo2 = hardwareMap.servo.get("left");
+		servoPos = 0.0;
+	}
 
     /*
      * This method will be called repeatedly in a loop
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
+	public void start()
+	{
+		servo1.setPosition(0.0);
+		servo2.setPosition(1.0);
+	}
+
     @Override
     public void loop()
     {
 		//Lift
+		servo1.setPosition(servoPos);
+		servo2.setPosition(1.0 - servoPos);
+		if(Math.abs(gamepad1.left_trigger) > 0.1)
+		{
+			//if(servoPos <= 0.05)
+				servoPos = 0.0;
+			//else
+				//servoPos = servoPos - 0.05;
+		}
+		else if(Math.abs(gamepad1.right_trigger) > 0.1)
+		{
+			//if(servoPos >= 0.95)
+				servoPos = 0.3;
+			//else
+				//servoPos = servoPos + 0.05;
+		}
 
-		if(gamepad1.left_bumper)
+		if(gamepad1.left_bumper) //Left Back Bumper controls lift up
 		{
 			motorLiftL.setPower(1.0);
-			motorLiftR.setPower(-1.0);
+			//motorLiftR.setPower(-1.0);
 		}
-		else if(gamepad1.right_bumper)
+		else if(gamepad1.right_bumper) //Right Back Bumper controls lift down
 		{
-			motorLiftL.setPower(1.0);
-			motorLiftR.setPower(-1.0);
+			motorLiftL.setPower(-1.0);
+			//motorLiftR.setPower(1.0);
 		}
-		else
+		else //Lift doesn't move if you press nothing
 		{
 			motorLiftL.setPower(0.0);
-			motorLiftR.setPower(0.0);
+			//motorLiftR.setPower(0.0);
 		}
 
 		//Tank Drive
-        if(Math.abs(gamepad1.left_stick_y) > 0.1)
+        if(Math.abs(gamepad1.left_stick_y) > 0.1) //Left stick moves left side of robot forwards/backwards
 		{
 			motorFL.setPower(-gamepad1.left_stick_y);
 			motorBL.setPower(-gamepad1.left_stick_y);
 		}
-		else
+		else //Left side of robot doesn't move if you don't touch it
 		{
 			motorFL.setPower(0.0);
 			motorBL.setPower(0.0);
 		}
-		if(Math.abs(gamepad1.right_stick_y) > 0.1)
+
+		if(Math.abs(gamepad1.right_stick_y) > 0.1) //Right stick controls right side of robot
 		{
-			motorBR.setPower(gamepad1.left_stick_y);
-			motorFR.setPower(gamepad1.left_stick_y);
+			motorBR.setPower(gamepad1.right_stick_y);
+			motorFR.setPower(gamepad1.right_stick_y);
 		}
-		else
+		else //Right side of robot doesn't move if right stick isn't being moved
 		{
 			motorFR.setPower(0.0);
 			motorBR.setPower(0.0);
