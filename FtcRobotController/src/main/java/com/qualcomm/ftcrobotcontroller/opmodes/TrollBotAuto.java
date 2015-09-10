@@ -32,8 +32,6 @@ import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 //import com.custom.;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * TeleOp Mode
@@ -41,23 +39,21 @@ import java.util.Date;
  *Enables control of the robot via the gamepad
  */
 public class TrollBotAuto extends LinearOpMode {
-    /*DcMotor motorBL;
+    DcMotor motorBL;
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
 
     public TrollBotAuto() {
+    }
 
-    public void init()
+    @Override
+    public void runOpMode()
     {
         motorBL = hardwareMap.dcMotor.get("motor_1");
         motorBR = hardwareMap.dcMotor.get("motor_2");
         motorFR = hardwareMap.dcMotor.get("motor_3");
         motorFL = hardwareMap.dcMotor.get("motor_4");
-    }*/
 
-    public void runOpMode()
-    {
-        //code here
     }
 }

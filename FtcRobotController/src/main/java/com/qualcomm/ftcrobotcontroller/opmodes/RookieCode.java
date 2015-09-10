@@ -82,14 +82,14 @@ public class RookieCode extends OpMode {
 		//Lift
 		servo1.setPosition(servoPos);
 		servo2.setPosition(1.0 - servoPos);
-		if(Math.abs(gamepad1.left_trigger) > 0.1)
+		if(Math.abs(gamepad2.left_trigger) > 0.1)
 		{
 			//if(servoPos <= 0.05)
 				servoPos = 0.0;
 			//else
 				//servoPos = servoPos - 0.05;
 		}
-		else if(Math.abs(gamepad1.right_trigger) > 0.1)
+		else if(Math.abs(gamepad2.right_trigger) > 0.1)
 		{
 			//if(servoPos >= 0.95)
 				servoPos = 0.3;
@@ -97,12 +97,12 @@ public class RookieCode extends OpMode {
 				//servoPos = servoPos + 0.05;
 		}
 
-		if(gamepad1.left_bumper) //Left Back Bumper controls lift up
+		if(gamepad2.left_bumper) //Left Back Bumper controls lift up
 		{
 			motorLiftL.setPower(1.0);
 			//motorLiftR.setPower(-1.0);
 		}
-		else if(gamepad1.right_bumper) //Right Back Bumper controls lift down
+		else if(gamepad2.right_bumper) //Right Back Bumper controls lift down
 		{
 			motorLiftL.setPower(-1.0);
 			//motorLiftR.setPower(1.0);
