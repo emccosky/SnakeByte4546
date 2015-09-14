@@ -38,102 +38,73 @@ import java.util.Date;
  * <p>
  *Enables control of the robot via the gamepad
  */
-public class RookieCode extends OpMode {
+public class FiveWheelTeleOp extends OpMode {
     DcMotor motorBL;
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
-	DcMotor motorLiftL;
-	DcMotor motorLiftR;
-	Servo servo1;
-	Servo servo2;
-	double servoPos;
+	DcMotor center;
 
-    public RookieCode() {}
+    public FiveWheelTeleOp() {}
     /*
      * Code to run when the op mode is first enabled goes here
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
      */
     @Override
     public void init() {
-        motorBR = hardwareMap.dcMotor.get("motorbl");
-        motorBL = hardwareMap.dcMotor.get("motorbr");
-        motorFR = hardwareMap.dcMotor.get("motorfl");
-        motorFL = hardwareMap.dcMotor.get("motorfr");
-		motorLiftL = hardwareMap.dcMotor.get("motorLift");
-		servo1 = hardwareMap.servo.get("right");
-		servo2 = hardwareMap.servo.get("left");
-		servoPos = 0.0;
-	}
+        motorBL = hardwareMap.dcMotor.get("motorbl");
+        motorBR = hardwareMap.dcMotor.get("motorbr");
+        motorFR = hardwareMap.dcMotor.get("motorfr");
+        motorFL = hardwareMap.dcMotor.get("motorfl");
+		center = hardwareMap.dcMotor.get("motorcenter");
+    }
 
     /*
      * This method will be called repeatedly in a loop
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
-	public void start()
-	{
-		servo1.setPosition(0.0);
-		servo2.setPosition(1.0);
-	}
-
     @Override
-    public void loop()
+    public void loop() 
     {
-		//Lift
-		servo1.setPosition(servoPos);
-		servo2.setPosition(1.0 - servoPos);
-		if(Math.abs(gamepad1.left_trigger) > 0.1)
-		{
-			//if(servoPos <= 0.05)
-				servoPos = 0.0;
-			//else
-				//servoPos = servoPos - 0.05;
+        float y1 = gamepad1.left_stick_y;
+		//float x1 = gamepad1.left_stick_x;
+		//float x2 = gamepad1.right_stick_x;
+		float y2 = gamepad1.right_stick_y;
+		//if same
+		//move center wheel
+		//else
+		//dont move center wheel
+		if((y1 > 0.1 && y2 > 0.1) || (y1 < -0.1 && y2 < -0.1)) //if moving same direction
+		{ //move front wheel also
+			center.setPower(y1);
+			motorFR.setPower(y1);
+			motorBR.setPower(y1);
+			motorBL.setPower(-y2);
+			motorFL.setPower(-y2);
 		}
-		else if(Math.abs(gamepad1.right_trigger) > 0.1)
+		else //else (sticks not moving same direction
 		{
-			//if(servoPos >= 0.95)
-				servoPos = 0.3;
-			//else
-				//servoPos = servoPos + 0.05;
-		}
-
-		if(gamepad1.left_bumper) //Left Back Bumper controls lift up
-		{
-			motorLiftL.setPower(1.0);
-			//motorLiftR.setPower(-1.0);
-		}
-		else if(gamepad1.right_bumper) //Right Back Bumper controls lift down
-		{
-			motorLiftL.setPower(-1.0);
-			//motorLiftR.setPower(1.0);
-		}
-		else //Lift doesn't move if you press nothing
-		{
-			motorLiftL.setPower(0.0);
-			//motorLiftR.setPower(0.0);
-		}
-
-		//Tank Drive
-        if(Math.abs(gamepad1.left_stick_y) > 0.1) //Left stick moves left side of robot forwards/backwards
-		{
-			motorFL.setPower(-gamepad1.left_stick_y);
-			motorBL.setPower(-gamepad1.left_stick_y);
-		}
-		else //Left side of robot doesn't move if you don't touch it
-		{
-			motorFL.setPower(0.0);
-			motorBL.setPower(0.0);
-		}
-
-		if(Math.abs(gamepad1.right_stick_y) > 0.1) //Right stick controls right side of robot
-		{
-			motorBR.setPower(gamepad1.right_stick_y);
-			motorFR.setPower(gamepad1.right_stick_y);
-		}
-		else //Right side of robot doesn't move if right stick isn't being moved
-		{
-			motorFR.setPower(0.0);
-			motorBR.setPower(0.0);
+			center.setPower(0.0);
+			if(y1 > 0.1 || y1 < -0.1)
+			{
+				motorFR.setPower(y1);
+				motorBR.setPower(y1);
+			}
+			else
+			{
+				motorBR.setPower(0.0);
+				motorFR.setPower(0.0);
+			}
+			if(y2 > 0.1 || y2 < -0.1)
+			{
+				motorFL.setPower(-y1);
+				motorBL.setPower(-y1);
+			}
+			else
+			{
+				motorFL.setPower(0.0);
+				motorBL.setPower(0.0);
+			}
 		}
     }
 
