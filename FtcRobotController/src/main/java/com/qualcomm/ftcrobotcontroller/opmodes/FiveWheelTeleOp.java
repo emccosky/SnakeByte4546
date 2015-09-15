@@ -43,7 +43,7 @@ public class FiveWheelTeleOp extends OpMode {
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
-	DcMotor center;
+	//DcMotor center;
 
     public FiveWheelTeleOp() {}
     /*
@@ -56,7 +56,8 @@ public class FiveWheelTeleOp extends OpMode {
         motorBR = hardwareMap.dcMotor.get("motorbr");
         motorFR = hardwareMap.dcMotor.get("motorfr");
         motorFL = hardwareMap.dcMotor.get("motorfl");
-		center = hardwareMap.dcMotor.get("motorcenter");
+		//center = hardwareMap.dcMotor.get("motorcenter");
+		//center = hardwareMap.dcMotor.get("motorcenter");
     }
 
     /*
@@ -76,7 +77,7 @@ public class FiveWheelTeleOp extends OpMode {
 		//dont move center wheel
 		if((y1 > 0.1 && y2 > 0.1) || (y1 < -0.1 && y2 < -0.1)) //if moving same direction
 		{ //move front wheel also
-			center.setPower(y1);
+			//center.setPower(y1);
 			motorFR.setPower(y1);
 			motorBR.setPower(y1);
 			motorBL.setPower(-y2);
@@ -84,7 +85,7 @@ public class FiveWheelTeleOp extends OpMode {
 		}
 		else //else (sticks not moving same direction
 		{
-			center.setPower(0.0);
+			//center.setPower(0.0);
 			if(y1 > 0.1 || y1 < -0.1)
 			{
 				motorFR.setPower(y1);
@@ -97,8 +98,8 @@ public class FiveWheelTeleOp extends OpMode {
 			}
 			if(y2 > 0.1 || y2 < -0.1)
 			{
-				motorFL.setPower(-y1);
-				motorBL.setPower(-y1);
+				motorFL.setPower(-y2);
+				motorBL.setPower(-y2);
 			}
 			else
 			{

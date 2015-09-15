@@ -30,6 +30,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.ftccommon.FtcEventLoopHandler;
 //import com.custom.;
 
 
@@ -43,7 +44,7 @@ public class MagicAuto extends LinearOpMode {
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
-    DcMotor center;
+    //DcMotor center;
 
     public MagicAuto() {
     }
@@ -56,7 +57,7 @@ public class MagicAuto extends LinearOpMode {
         motorBR = hardwareMap.dcMotor.get("motorbr");
         motorFR = hardwareMap.dcMotor.get("motorfr");
         motorFL = hardwareMap.dcMotor.get("motorfl");
-        center = hardwareMap.dcMotor.get("motorcenter");
+        //center = hardwareMap.dcMotor.get("motorcenter");
         //Intialize all motor encoder positions
         double encbl = motorBL.getCurrentPosition();
         double encbr = motorBR.getCurrentPosition();
@@ -125,23 +126,57 @@ public class MagicAuto extends LinearOpMode {
 
         while(1==1)
         {
+            telemetry.addData("encbl",encbl);
+            telemetry.addData("encbr",encbr);
+            telemetry.addData("encfl",encfl);
+            telemetry.addData("encbr",encbr);
             encbl = motorBL.getCurrentPosition();
             encbr = motorBR.getCurrentPosition();
             encfr = motorFR.getCurrentPosition();
             encfl = motorFL.getCurrentPosition();
-            if((encbl + encfl) > (encfr + encbr))
+            if((encbl + encfl + 800) > (encfr + encbr))
             {
-                BR = encbl - encbr;
-                FR = encfl - encfr;
-                FL = 1.0 - FR;
-                BL = 1.0 - BR;
+                if((encbl - encbr) > 1.0 )
+                    BR = 1.0;
+                else
+                    BR = encbl - encbr;
+
+                if((encfl - encfr) > 1.0)
+                    FR = 1.0;
+                else
+                    FR = encfl - encfr;
+
+                if((1.0 - FR) < -1.0)
+                    FL = -1.0;
+                else
+                    FL = 1.0 - FR:
+
+                if((1.0 - BR) < -1.0)
+                    BR = -1.0
+                else
+                    BR = 1.0 - BL;
             }
-            else if((encbl + encfl) < (encfr + encbr))
+            else if((encbl + encfl) < (encfr + encbr + 800))
             {
-                BL = encbr - encbl;
-                FL = encfr - encfl;
-                FR = 1.0 - FL;
-                BR = 1.0 - BL;
+                if((encbr - encbl) > 1.0)
+                    BL = 1.0;
+                else
+                    BL = encbr - encbl;
+
+                if((encfr - encfl) > 1.0)
+                    FL = 1.0;
+                else
+                    FL = encfr - encfl;
+
+                if((1.0 - FL) < -1.0)
+                    FR = -1.0;
+                else
+                    FR = 1.0 - FL;
+
+                if((1.0 - BL) < -1.0)
+                    BR = -1.0;
+                else
+                    BR = 1.0 - BL;
             }
             else
             {
@@ -154,11 +189,13 @@ public class MagicAuto extends LinearOpMode {
             motorBL.setPower(BL);
             motorBR.setPower(BR);
             motorFR.setPower(FR);
-            try{waitOneHardwareCycle();} catch(InterruptedException e){wait(10);}
+            //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
         }
+    }
 
-
+    public void stop()
+    {
 
     }
 }
