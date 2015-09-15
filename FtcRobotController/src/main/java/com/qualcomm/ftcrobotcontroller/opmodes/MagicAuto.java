@@ -64,10 +64,10 @@ public class MagicAuto extends LinearOpMode {
         double encfr = motorFR.getCurrentPosition();
         double encfl = motorFL.getCurrentPosition();
         //Create the variable that control the motor's speed
-        double BL;
-        double BR;
-        double FR;
-        double FL;
+        double BL = 0.0;
+        double BR = 0.0;
+        double FR = 0.0;
+        double FL = 0.0;
 
         /*Structure of code:
         1. Monitor Encoders on all motors
@@ -124,7 +124,7 @@ public class MagicAuto extends LinearOpMode {
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
 
-        while(1==1)
+        while(timer.time() < 100000000.00)
         {
             telemetry.addData("encbl",encbl);
             telemetry.addData("encbr",encbr);
@@ -136,7 +136,7 @@ public class MagicAuto extends LinearOpMode {
             encfl = motorFL.getCurrentPosition();
             if((encbl + encfl + 800) > (encfr + encbr))
             {
-                if((encbl - encbr) > 1.0 )
+                if((encbl - encbr) > 1.0)
                     BR = 1.0;
                 else
                     BR = encbl - encbr;
@@ -149,10 +149,10 @@ public class MagicAuto extends LinearOpMode {
                 if((1.0 - FR) < -1.0)
                     FL = -1.0;
                 else
-                    FL = 1.0 - FR:
+                    FL = 1.0 - FR;
 
                 if((1.0 - BR) < -1.0)
-                    BR = -1.0
+                    BR = -1.0;
                 else
                     BR = 1.0 - BL;
             }
@@ -192,10 +192,9 @@ public class MagicAuto extends LinearOpMode {
             //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
         }
-    }
-
-    public void stop()
-    {
-
+        motorFL.setPower(0.0);
+        motorFR.setPower(0.0);
+        motorBR.setPower(0.0);
+        motorBL.setPower(0.0);
     }
 }
