@@ -51,11 +51,23 @@ public class MagicAuto extends LinearOpMode {
     @Override
     public void runOpMode()
     {
+        //Intialize all of the motors
         motorBL = hardwareMap.dcMotor.get("motorbl");
         motorBR = hardwareMap.dcMotor.get("motorbr");
         motorFR = hardwareMap.dcMotor.get("motorfr");
         motorFL = hardwareMap.dcMotor.get("motorfl");
         center = hardwareMap.dcMotor.get("motorcenter");
+        //Intialize all motor encoder positions
+        double encbl = motorBL.getCurrentPosition();
+        double encbr = motorBR.getCurrentPosition();
+        double encfr = motorFR.getCurrentPosition();
+        double encfl = motorFL.getCurrentPosition();
+        //Create the variable that control the motor's speed
+        double BL;
+        double BR;
+        double FR;
+        double FL;
+
         /*Structure of code:
         1. Monitor Encoders on all motors
         2. Monitor gyro/accelerometer data
@@ -107,6 +119,45 @@ public class MagicAuto extends LinearOpMode {
         17. Update AutoProductV2 to AutoProductV3, including AI
         18. Improve speed, efficiency and accuracy.
         */
+
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+
+        while(1==1)
+        {
+            encbl = motorBL.getCurrentPosition();
+            encbr = motorBR.getCurrentPosition();
+            encfr = motorFR.getCurrentPosition();
+            encfl = motorFL.getCurrentPosition();
+            if((encbl + encfl) > (encfr + encbr))
+            {
+                BR = encbl - encbr;
+                FR = encfl - encfr;
+                FL = 1.0 - FR;
+                BL = 1.0 - BR;
+            }
+            else if((encbl + encfl) < (encfr + encbr))
+            {
+                BL = encbr - encbl;
+                FL = encfr - encfl;
+                FR = 1.0 - FL;
+                BR = 1.0 - BL;
+            }
+            else
+            {
+                FL = 1.0;
+                BL = 1.0;
+                FR = 1.0;
+                BR = 1.0;
+            }
+            motorFL.setPower(FL);
+            motorBL.setPower(BL);
+            motorBR.setPower(BR);
+            motorFR.setPower(FR);
+            try{waitOneHardwareCycle();} catch(InterruptedException e){wait(10);}
+            timer.time();
+        }
+
 
 
     }
