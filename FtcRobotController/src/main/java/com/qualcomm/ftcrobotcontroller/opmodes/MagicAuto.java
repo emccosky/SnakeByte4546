@@ -64,10 +64,10 @@ public class MagicAuto extends LinearOpMode {
         double encfr = motorFR.getCurrentPosition();
         double encfl = motorFL.getCurrentPosition();
         //Create the variable that control the motor's speed
-        double BL = 0.0;
-        double BR = 0.0;
-        double FR = 0.0;
-        double FL = 0.0;
+        double BL = 0.5;
+        double BR = 0.5;
+        double FR = -0.5;
+        double FL = -0.5;
 
         /*Structure of code:
         1. Monitor Encoders on all motors
@@ -134,49 +134,50 @@ public class MagicAuto extends LinearOpMode {
             encbr = motorBR.getCurrentPosition();
             encfr = motorFR.getCurrentPosition();
             encfl = motorFL.getCurrentPosition();
+
             if((encbl + encfl + 800) > (encfr + encbr))
             {
                 if((encbl - encbr) > 1.0)
                     BR = 1.0;
-                else
-                    BR = encbl - encbr;
+                //else
+                    //BR = encbl - encbr;
 
                 if((encfl - encfr) > 1.0)
                     FR = 1.0;
-                else
-                    FR = encfl - encfr;
+                //else
+                //    FR = encfl - encfr;
 
                 if((1.0 - FR) < -1.0)
                     FL = -1.0;
-                else
-                    FL = 1.0 - FR;
+                //else
+                //    FL = 1.0 - FR;
 
-                if((1.0 - BR) < -1.0)
-                    BR = -1.0;
-                else
-                    BR = 1.0 - BL;
+                if((1.0 - BL) < -1.0)
+                    BL = -1.0;
+                //else
+                //    BL = 1.0 - BL;
             }
             else if((encbl + encfl) < (encfr + encbr + 800))
             {
                 if((encbr - encbl) > 1.0)
                     BL = 1.0;
-                else
-                    BL = encbr - encbl;
+                //else
+                //    BL = encbr - encbl;
 
                 if((encfr - encfl) > 1.0)
                     FL = 1.0;
-                else
-                    FL = encfr - encfl;
+                //else
+                //    FL = encfr - encfl;
 
                 if((1.0 - FL) < -1.0)
                     FR = -1.0;
-                else
-                    FR = 1.0 - FL;
+                //else
+                //    FR = 1.0 - FL;
 
                 if((1.0 - BL) < -1.0)
                     BR = -1.0;
-                else
-                    BR = 1.0 - BL;
+                //else
+                //    BR = 1.0 - BL;
             }
             else
             {
@@ -191,6 +192,8 @@ public class MagicAuto extends LinearOpMode {
             motorFR.setPower(FR);
             //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
+            long a = 10;
+            try{waitOneHardwareCycle();}catch(InterruptedException b){}
         }
         motorFL.setPower(0.0);
         motorFR.setPower(0.0);
