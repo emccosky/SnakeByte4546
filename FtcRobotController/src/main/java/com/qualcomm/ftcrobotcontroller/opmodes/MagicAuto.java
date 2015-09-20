@@ -135,7 +135,7 @@ public class MagicAuto extends LinearOpMode {
             encfr = motorFR.getCurrentPosition();
             encfl = motorFL.getCurrentPosition();
 
-            if((encbl + encfl + 800) > (encfr + encbr))
+            if((encbl + encfl - 800) > (encfr + encbr))
             {
                 if((encbl - encbr) > 1.0)
                     BR = 1.0;
@@ -157,7 +157,7 @@ public class MagicAuto extends LinearOpMode {
                 //else
                 //    BL = 1.0 - BL;
             }
-            else if((encbl + encfl) < (encfr + encbr + 800))
+            else if((encbl + encfl) < (encfr + encbr - 800))
             {
                 if((encbr - encbl) > 1.0)
                     BL = 1.0;
