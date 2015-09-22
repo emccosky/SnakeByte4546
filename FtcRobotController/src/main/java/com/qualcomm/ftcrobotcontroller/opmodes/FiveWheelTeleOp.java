@@ -26,9 +26,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.*;
-import com.qualcomm.robotcore.util.ElapsedTime;
+		import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+		import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+		import com.qualcomm.robotcore.hardware.*;
+		import com.qualcomm.robotcore.util.ElapsedTime;
+		import com.qualcomm.ftccommon.FtcEventLoopHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,11 +54,11 @@ public class FiveWheelTeleOp extends OpMode {
      */
     @Override
     public void init() {
-        motorBL = hardwareMap.dcMotor.get("motorbl");
-        motorBR = hardwareMap.dcMotor.get("motorbr");
-        motorFR = hardwareMap.dcMotor.get("motorfr");
+        center = hardwareMap.dcMotor.get("motorfr");
         motorFL = hardwareMap.dcMotor.get("motorfl");
-		center = hardwareMap.dcMotor.get("motorcenter");
+        motorFR = hardwareMap.dcMotor.get("center");
+        motorBR = hardwareMap.dcMotor.get("motorbl");
+		motorBL = hardwareMap.dcMotor.get("motorbr");
 		//center = hardwareMap.dcMotor.get("motorcenter");
     }
 
@@ -65,12 +67,21 @@ public class FiveWheelTeleOp extends OpMode {
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
     @Override
-    public void loop() 
+    public void loop()
     {
         float y1 = gamepad1.left_stick_y;
 		//float x1 = gamepad1.left_stick_x;
 		//float x2 = gamepad1.right_stick_x;
 		float y2 = gamepad1.right_stick_y;
+		//if(y1 > 0.1) // fl
+		//	center.setPower(1.0);
+		//if(y1 < -0.1) //br
+		//	motorFL.setPower(1.0);
+		//if(y2 > 0.1) //center
+		//	motorBR.setPower(1.0);
+		//if(y2 < -0.1) //bl
+		//	motorFR.setPower(1.0);
+		//center = motorfr
 		//if same
 		//move center wheel
 		//else
@@ -81,7 +92,7 @@ public class FiveWheelTeleOp extends OpMode {
 			motorFR.setPower(y1);
 			motorBR.setPower(y1);
 			motorBL.setPower(-y2);
-			motorFL.setPower(-y2);
+			motorFL.setPower(y2);
 		}
 		else //else (sticks not moving same direction
 		{
@@ -98,7 +109,7 @@ public class FiveWheelTeleOp extends OpMode {
 			}
 			if(y2 > 0.1 || y2 < -0.1)
 			{
-				motorFL.setPower(-y2);
+				motorFL.setPower(y2);
 				motorBL.setPower(-y2);
 			}
 			else
