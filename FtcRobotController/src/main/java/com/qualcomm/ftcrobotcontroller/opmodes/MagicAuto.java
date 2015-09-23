@@ -44,7 +44,7 @@ public class MagicAuto extends LinearOpMode {
     DcMotor motorBR;
     DcMotor motorFL;
     DcMotor motorFR;
-    //DcMotor center;
+    DcMotor center;
 
     public MagicAuto() {
     }
@@ -53,10 +53,21 @@ public class MagicAuto extends LinearOpMode {
     public void runOpMode()
     {
         //Intialize all of the motors
-        motorBL = hardwareMap.dcMotor.get("motorbl");
-        motorBR = hardwareMap.dcMotor.get("motorbr");
-        motorFR = hardwareMap.dcMotor.get("motorfr");
+        center = hardwareMap.dcMotor.get("motorfr");
         motorFL = hardwareMap.dcMotor.get("motorfl");
+        motorFR = hardwareMap.dcMotor.get("center");
+        motorBR = hardwareMap.dcMotor.get("motorbl");
+        motorBL = hardwareMap.dcMotor.get("motorbr");
+        //Setting channel mode
+        motorFL.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorFR.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorBR.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorBL.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        center.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        //Setting read/write
+        hardwareMap.dcMotorController.get("Motor Controller 1").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
+        hardwareMap.dcMotorController.get("Motor Controller 2").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
+        hardwareMap.dcMotorController.get("Motor Controller 3").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
         //center = hardwareMap.dcMotor.get("motorcenter");
         //Intialize all motor encoder positions
         double encbl = motorBL.getCurrentPosition();
@@ -199,5 +210,6 @@ public class MagicAuto extends LinearOpMode {
         motorFR.setPower(0.0);
         motorBR.setPower(0.0);
         motorBL.setPower(0.0);
+        center.setPower(0.0);
     }
 }

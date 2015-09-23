@@ -89,28 +89,28 @@ public class FiveWheelTeleOp extends OpMode {
 		if((y1 > 0.1 && y2 > 0.1) || (y1 < -0.1 && y2 < -0.1)) //if moving same direction
 		{ //move front wheel also
 			center.setPower(y1);
-			motorFR.setPower(y1);
-			motorBR.setPower(y1);
-			motorBL.setPower(-y2);
-			motorFL.setPower(y2);
+			motorFR.setPower(y2);
+			motorBR.setPower(y2);
+			motorBL.setPower(-y1);
+			motorFL.setPower(-y1);
 		}
 		else //else (sticks not moving same direction
 		{
 			center.setPower(0.0);
-			if(y1 > 0.1 || y1 < -0.1)
+			if(y2 > 0.1 || y2 < -0.1)
 			{
-				motorFR.setPower(y1);
-				motorBR.setPower(y1);
+				motorFR.setPower(y2);
+				motorBR.setPower(y2);
 			}
 			else
 			{
 				motorBR.setPower(0.0);
 				motorFR.setPower(0.0);
 			}
-			if(y2 > 0.1 || y2 < -0.1)
+			if(y1 > 0.1 || y1 < -0.1)
 			{
-				motorFL.setPower(y2);
-				motorBL.setPower(-y2);
+				motorFL.setPower(-y1);
+				motorBL.setPower(-y1);
 			}
 			else
 			{
