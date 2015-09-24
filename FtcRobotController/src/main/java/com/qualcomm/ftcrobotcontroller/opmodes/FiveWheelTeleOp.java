@@ -53,14 +53,23 @@ public class FiveWheelTeleOp extends OpMode {
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
      */
     @Override
-    public void init() {
-        center = hardwareMap.dcMotor.get("motorfr");
+    public void init()
+	{
+        center = hardwareMap.dcMotor.get("center");
         motorFL = hardwareMap.dcMotor.get("motorfl");
-        motorFR = hardwareMap.dcMotor.get("center");
-        motorBR = hardwareMap.dcMotor.get("motorbl");
-		motorBL = hardwareMap.dcMotor.get("motorbr");
+        motorFR = hardwareMap.dcMotor.get("motorfr");
+        motorBR = hardwareMap.dcMotor.get("motorbr");
+		motorBL = hardwareMap.dcMotor.get("motorbl");
 		//center = hardwareMap.dcMotor.get("motorcenter");
     }
+
+	public void start()
+	{
+		motorFL.setPower(1.0);
+		motorBL.setPower(1.0);
+		motorBR.setPower(1.0);
+		motorFR.setPower(1.0);
+	}
 
     /*
      * This method will be called repeatedly in a loop
@@ -120,7 +129,8 @@ public class FiveWheelTeleOp extends OpMode {
 		}
     }
 
-    public void stop() {
+    public void stop()
+	{
 
     }
 }

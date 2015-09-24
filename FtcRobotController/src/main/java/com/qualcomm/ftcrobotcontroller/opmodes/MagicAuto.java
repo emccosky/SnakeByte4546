@@ -65,15 +65,15 @@ public class MagicAuto extends LinearOpMode {
         motorBL.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         center.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //Setting read/write
-        hardwareMap.dcMotorController.get("Motor Controller 1").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
-        hardwareMap.dcMotorController.get("Motor Controller 2").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
-        hardwareMap.dcMotorController.get("Motor Controller 3").setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_WRITE);
+        hardwareMap.dcMotorController.get("MC1").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        hardwareMap.dcMotorController.get("MC2").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        //hardwareMap.dcMotorController.get("MC3").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
         //center = hardwareMap.dcMotor.get("motorcenter");
         //Intialize all motor encoder positions
         double encbl = motorBL.getCurrentPosition();
         double encbr = motorBR.getCurrentPosition();
         double encfr = motorFR.getCurrentPosition();
-        double encfl = motorFL.getCurrentPosition();
+        double encfl = center.getCurrentPosition(); //switched motorFL and center
         //Create the variable that control the motor's speed
         double BL = 0.5;
         double BR = 0.5;
@@ -144,7 +144,7 @@ public class MagicAuto extends LinearOpMode {
             encbl = motorBL.getCurrentPosition();
             encbr = motorBR.getCurrentPosition();
             encfr = motorFR.getCurrentPosition();
-            encfl = motorFL.getCurrentPosition();
+            encfl = center.getCurrentPosition(); //switched motorFL and center
 
             if((encbl + encfl - 800) > (encfr + encbr))
             {
@@ -194,8 +194,8 @@ public class MagicAuto extends LinearOpMode {
             {
                 FL = 1.0;
                 BL = 1.0;
-                FR = 1.0;
-                BR = 1.0;
+                FR = -1.0;
+                BR = -1.0;
             }
             motorFL.setPower(FL);
             motorBL.setPower(BL);
@@ -204,7 +204,7 @@ public class MagicAuto extends LinearOpMode {
             //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
             long a = 10;
-            try{waitOneHardwareCycle();}catch(InterruptedException b){}
+            try{waitOneFullHardwareCycle();}catch(InterruptedException b){}
         }
         motorFL.setPower(0.0);
         motorFR.setPower(0.0);
