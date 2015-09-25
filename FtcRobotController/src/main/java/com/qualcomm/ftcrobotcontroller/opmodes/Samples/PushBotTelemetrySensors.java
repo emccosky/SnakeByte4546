@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package com.qualcomm.ftcrobotcontroller.opmodes.Samples;
 
 import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 
