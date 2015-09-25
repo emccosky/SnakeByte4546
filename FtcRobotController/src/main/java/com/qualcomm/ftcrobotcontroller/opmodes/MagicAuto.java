@@ -204,7 +204,7 @@ public class MagicAuto extends LinearOpMode {
             //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
             long a = 10;
-            try{waitOneFullHardwareCycle();}catch(InterruptedException b){}
+            try{waitForNextHardwareCycle();}catch(InterruptedException b){}
         }
         motorFL.setPower(0.0);
         motorFR.setPower(0.0);
