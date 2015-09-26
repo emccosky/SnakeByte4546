@@ -68,10 +68,8 @@ public class MagicAuto extends LinearOpMode {
         motorBR.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorBL.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         center.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        //Setting read/write
-        //hardwareMap.dcMotorController.get("MC1").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
-        //hardwareMap.dcMotorController.get("MC2").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
-        //hardwareMap.dcMotorController.get("MC3").setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        //Gyro set up
+
         //center = hardwareMap.dcMotor.get("motorcenter");
         //Intialize all motor encoder positions
         double encbl = motorBL.getCurrentPosition();
