@@ -178,13 +178,13 @@ public class FiveWheelTeleOp extends OpMode {
 		BigDecimal pwrB = pwrC.multiply(pwrF);
 		BigDecimal pwrA = pwrB.multiply(pwrF);
 
-		BigDecimal a = new BigDecimal("0.000000000000000000000020908186");
-		BigDecimal b = new BigDecimal("0.000000000000000000787251060748");
-		BigDecimal c = new BigDecimal("0.000000000000011097369834301800");
-		BigDecimal d = new BigDecimal("0.000000000071861770858534100000");
-		BigDecimal e = new BigDecimal("0.000000209400090744535000000000");
-		BigDecimal f = new BigDecimal("0.000205259851323802000000000000");
-		BigDecimal g = new BigDecimal("0.028620220940638300000000000000");
+		BigDecimal a = new BigDecimal("0.000000000000000000000007626656");
+		BigDecimal b = new BigDecimal("0.000000000000000000272080701657");
+		BigDecimal c = new BigDecimal("0.000000000000003715117053405310");
+		BigDecimal d = new BigDecimal("0.000000000024215489818429200000");
+		BigDecimal e = new BigDecimal("0.000000077305839163423100000000");
+		BigDecimal f = new BigDecimal("0.000102195266110368000000000000");
+		BigDecimal g = new BigDecimal("0.079417125827859500000000000000");
 		a = a.multiply(pwrA);
 		b = b.multiply(pwrB);
 		c = c.multiply(pwrC);
