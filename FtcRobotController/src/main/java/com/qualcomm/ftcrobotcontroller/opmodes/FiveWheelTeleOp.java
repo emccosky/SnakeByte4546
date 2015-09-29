@@ -47,6 +47,8 @@ public class FiveWheelTeleOp extends OpMode {
     DcMotor motorFL;
     DcMotor motorFR;
 	DcMotor center;
+	DcMotor motorLeftH;
+	DcMotor motorRightH;
 
     public FiveWheelTeleOp() {}
     /*
@@ -59,8 +61,10 @@ public class FiveWheelTeleOp extends OpMode {
         center = hardwareMap.dcMotor.get("center");
         motorFL = hardwareMap.dcMotor.get("motorfl");
         motorFR = hardwareMap.dcMotor.get("motorfr");
-        motorBR = hardwareMap.dcMotor.get("motorbr");
-		motorBL = hardwareMap.dcMotor.get("motorbl");
+        motorBR = hardwareMap.dcMotor.get("motorbl");
+		motorBL = hardwareMap.dcMotor.get("motorbr");
+		motorLeftH = hardwareMap.dcMotor.get("motorLeftH");
+		motorRightH = hardwareMap.dcMotor.get("motorRightH");
 		//center = hardwareMap.dcMotor.get("motorcenter");
     }
 
@@ -70,6 +74,94 @@ public class FiveWheelTeleOp extends OpMode {
 		motorBL.setPower(1.0);
 		motorBR.setPower(1.0);
 		motorFR.setPower(1.0);
+	}
+
+	private double scaleInputHang(double pwr)
+	{
+		double ret = 0.0;
+		if(pwr > 0.0)
+		{
+			if(pwr < 0.05) //0 PWR on chart
+				ret = 0.0;
+			else if(pwr >= 0.05 && pwr < 0.10) //0.05 on chart
+				ret = 0.01;
+			else if(pwr >= 0.10 && pwr < 0.15) //0.10 on chart
+				ret = 0.02;
+			else if(pwr >= 0.15 && pwr < 0.20) //0.15 on chart
+				ret = 0.03;
+			else if(pwr >= 0.20 && pwr < 0.25) //0.20 on chart
+				ret = 0.04;
+			else if(pwr >= 0.25 && pwr < 0.30) //0.25 on chart
+				ret = 0.05;
+			else if(pwr >= 0.30 && pwr < 0.35) //0.30 on chart
+				ret = 0.06;
+			else if(pwr >= 0.35 && pwr < 0.40) //0.35 on chart
+				ret = 0.07;
+			else if(pwr >= 0.40 && pwr < 0.45) //0.40 on chart
+				ret = 0.075;
+			else if(pwr >= 0.45 && pwr < 0.50) //0.45 on chart
+				ret = 0.08;
+			else if(pwr >= 0.50 && pwr < 0.55) //0.50 on chart
+				ret = 0.09;
+			else if(pwr >= 0.55 && pwr < 0.60) //0.55 on chart
+				ret = 0.10;
+			else if(pwr >= 0.60 && pwr < 0.65) //0.60 on chart
+				ret = 0.113;
+			else if(pwr >= 0.65 && pwr < 0.70) //0.65 on chart
+				ret = 0.126;
+			else if(pwr >= 0.70 && pwr < 0.75) //0.70 on chart
+				ret = 0.14;
+			else if(pwr >= 0.75 && pwr < 0.80) //0.75 on chart
+				ret = 0.15;
+			else if(pwr >= 0.80 && pwr < 0.85) //0.80 on chart
+				ret = 0.19;
+			else if(pwr >= 0.85 && pwr < 0.90) //0.85 on chart
+				ret = 0.225;
+			else
+				ret = 1.0;
+		}
+		else
+		{
+			if(pwr > -0.05) //0 PWR on chart
+				ret = 0.0;
+			else if(pwr <= -0.05 && pwr > -0.10) //0.05 on chart
+				ret = 0.01;
+			else if(pwr <= -0.10 && pwr > -0.15) //0.10 on chart
+				ret = 0.02;
+			else if(pwr <= -0.15 && pwr > -0.20) //0.15 on chart
+				ret = 0.03;
+			else if(pwr <= -0.20 && pwr > -0.25) //0.20 on chart
+				ret = 0.04;
+			else if(pwr <= -0.25 && pwr > -0.30) //0.25 on chart
+				ret = 0.05;
+			else if(pwr <= -0.30 && pwr > -0.35) //0.30 on chart
+				ret = 0.06;
+			else if(pwr <= -0.35 && pwr > -0.40) //0.35 on chart
+				ret = 0.07;
+			else if(pwr <= -0.40 && pwr > -0.45) //0.40 on chart
+				ret = 0.075;
+			else if(pwr <= -0.45 && pwr > -0.50) //0.45 on chart
+				ret = 0.08;
+			else if(pwr <= -0.50 && pwr > -0.55) //0.50 on chart
+				ret = 0.09;
+			else if(pwr <= -0.55 && pwr > -0.60) //0.55 on chart
+				ret = 0.10;
+			else if(pwr <= -0.60 && pwr > -0.65) //0.60 on chart
+				ret = 0.113;
+			else if(pwr <= -0.65 && pwr > -0.70) //0.65 on chart
+				ret = 0.126;
+			else if(pwr <= -0.70 && pwr > -0.75) //0.70 on chart
+				ret = 0.14;
+			else if(pwr <= -0.75 && pwr > -0.80) //0.75 on chart
+				ret = 0.15;
+			else if(pwr <= -0.80 && pwr > -0.85) //0.80 on chart
+				ret = 0.19;
+			else if(pwr <= -0.85 && pwr > -0.90) //0.85 on chart
+				ret = 0.225;
+			else
+				ret = 1.0;
+		}
+		return ret;
 	}
 
 	private double scaleInput(double y)
@@ -234,9 +326,34 @@ public class FiveWheelTeleOp extends OpMode {
 		//dont move center wheel
 		double sendy1 = scaleInput(y1);
 		double sendy2 = scaleInput(y2);
+		/*if(Math.abs(gamepad2.right_trigger) > 0.5)
+		{
+			motorLeftH.setPower(scaleInputHang(gamepad2.right_trigger));
+			motorRightH.setPower(scaleInputHang(-gamepad2.right_trigger));
+		}
+		else if(Math.abs(gamepad1.left_trigger) > 0.5)
+		{
+			motorLeftH.setPower(scaleInputHang(-gamepad2.left_trigger));
+			motorRightH.setPower(scaleInputHang(gamepad2.left_trigger));
+		}*/
+		if(gamepad1.left_bumper)
+		{
+			motorLeftH.setPower(1.0);
+			motorRightH.setPower(-1.0);
+		}
+		else if(gamepad1.right_bumper)
+		{
+			motorLeftH.setPower(-1.0);
+			motorRightH.setPower(1.0);
+		}
+		else
+		{
+			motorLeftH.setPower(0.0);
+			motorRightH.setPower(0.0);
+		}
 		if((y1 > 0.1 && y2 > 0.1) || (y1 < -0.1 && y2 < -0.1)) //if moving same direction
 		{ //move front wheel also
-			center.setPower(sendy1);
+			center.setPower(sendy2);
 			motorFR.setPower(sendy2);
 			motorBR.setPower(sendy2);
 			motorBL.setPower(-sendy1);

@@ -78,9 +78,9 @@ public class MagicAuto extends LinearOpMode {
         double encfl = center.getCurrentPosition(); //switched motorFL and center
         //Create the variable that control the motor's speed
         double BL = 0.066;
-        double BR = 0.066;
+        double BR = -0.066;
         double FR = -0.066;
-        double FL = -0.066;
+        double FL = 0.066;
 
         /*Structure of code:
         1. Monitor Encoders on all motors
@@ -149,61 +149,37 @@ public class MagicAuto extends LinearOpMode {
             encfr = motorFR.getCurrentPosition();
             encfl = center.getCurrentPosition(); //switched motorFL and center
 
-            if((encbl + encfl - 800) > (encfr + encbr))
+            if((Math.abs(encbl) + Math.abs(encfl) - 800) > (Math.abs(encfr) + Math.abs(encbr)))
             {
-                if((encbl - encbr) > 1.0)
                     BR = 0.066;
-                //else
-                    //BR = encbl - encbr;
 
-                if((encfl - encfr) > 1.0)
                     FR = 0.066;
-                //else
-                //    FR = encfl - encfr;
 
-                if((1.0 - FR) < -1.0)
-                    FL = -0.066;
-                //else
-                //    FL = 1.0 - FR;
+                    FL = 0.033;
 
-                if((1.0 - BL) < -1.0)
-                    BL = -0.066;
-                //else
-                //    BL = 1.0 - BL;
+                    BL = 0.033;
             }
             else if((encbl + encfl) < (encfr + encbr - 800))
             {
-                if((encbr - encbl) > 1.0)
-                    BL = 0.066;
-                //else
-                //    BL = encbr - encbl;
+                BL = 0.066;
 
-                if((encfr - encfl) > 1.0)
-                    FL = 0.066;
-                //else
-                //    FL = encfr - encfl;
+                FL = 0.066;
 
-                if((1.0 - FL) < -1.0)
-                    FR = -0.066;
-                //else
-                //    FR = 1.0 - FL;
+                FR = 0.033;
 
-                if((1.0 - BL) < -1.0)
-                    BR = -0.066;
-                //else
-                //    BR = 1.0 - BL;
+                BR = 0.033;
             }
             else
             {
                 FL = 0.066;
                 BL = 0.066;
-                FR = -0.066;
-                BR = -0.066;
+                FR = 0.066;
+                BR = 0.066;
             }
             motorFL.setPower(FL);
             motorBL.setPower(BL);
-            motorBR.setPower(BR);
-            motorFR.setPower(FR);
+            motorBR.setPower(-BR);
+            motorFR.setPower(-FR);
             //try{waitOneHardwareCycle();} catch(InterruptedException e){}
             timer.time();
             long a = 10;
