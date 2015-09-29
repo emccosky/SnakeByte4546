@@ -151,22 +151,16 @@ public class MagicAuto extends LinearOpMode {
 
             if((Math.abs(encbl) + Math.abs(encfl) - 800) > (Math.abs(encfr) + Math.abs(encbr)))
             {
-                    BR = 0.066;
-
-                    FR = 0.066;
-
-                    FL = 0.033;
-
-                    BL = 0.033;
+                BR = 0.066;
+                FR = 0.066;
+                FL = 0.033;
+                BL = 0.033;
             }
             else if((encbl + encfl) < (encfr + encbr - 800))
             {
                 BL = 0.066;
-
                 FL = 0.066;
-
                 FR = 0.033;
-
                 BR = 0.033;
             }
             else
