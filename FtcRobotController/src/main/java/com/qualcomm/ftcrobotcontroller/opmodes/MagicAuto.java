@@ -43,7 +43,8 @@ import com.qualcomm.ftccommon.FtcEventLoopHandler;
  * <p>
  *Enables control of the robot via the gamepad
  */
-public class MagicAuto extends LinearOpMode {
+public class MagicAuto extends LinearOpMode
+{
     DcMotor motorBL;
     DcMotor motorBR;
     DcMotor motorFL;

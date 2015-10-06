@@ -336,6 +336,17 @@ public class FiveWheelTeleOp extends OpMode {
 			motorLeftH.setPower(scaleInputHang(-gamepad2.left_trigger));
 			motorRightH.setPower(scaleInputHang(gamepad2.left_trigger));
 		}*/
+		/*double servoDif = 0.0;
+		if(gamepad1.left_trigger > 0.2 || gamepad1.left_trigger < -0.2)
+			servoDif -= 0.05;
+		else if(gamepad1.right_trigger > 0.2 || gamepad1.right_trigger < -0.2)
+			servoDif += 0.05;
+		if(servoDif < 0.0)
+			servoDif = 0.0;
+		if(servoDif > 1.0)
+			servoDif = 1.0;
+		l.setPosition(1.0 - servoDif);
+		r.setPosition(servoDif);*/
 		if(gamepad1.left_bumper)
 		{
 			motorLeftH.setPower(1.0);
