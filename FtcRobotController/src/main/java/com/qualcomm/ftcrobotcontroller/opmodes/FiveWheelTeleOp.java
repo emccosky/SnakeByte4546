@@ -70,10 +70,10 @@ public class FiveWheelTeleOp extends OpMode {
 
 	public void start()
 	{
-		motorFL.setPower(1.0);
-		motorBL.setPower(1.0);
-		motorBR.setPower(1.0);
-		motorFR.setPower(1.0);
+		motorFL.setPower(0.0);
+		motorBL.setPower(0.0);
+		motorBR.setPower(0.0);
+		motorFR.setPower(0.0);
 	}
 
 	private double scaleInputHang(double pwr)
@@ -307,10 +307,12 @@ public class FiveWheelTeleOp extends OpMode {
     @Override
     public void loop()
     {
-        float y1 = gamepad1.left_stick_y;
+        float g1y1 = gamepad1.left_stick_y;
 		//float x1 = gamepad1.left_stick_x;
 		//float x2 = gamepad1.right_stick_x;
-		float y2 = gamepad1.right_stick_y;
+		float g1y2 = gamepad1.right_stick_y;
+		float g2y1 = gamepad2.right_stick_y;
+		float g2y2 = gamepad2.left_stick_y;
 		//if(y1 > 0.1) // fl
 		//	center.setPower(1.0);
 		//if(y1 < -0.1) //br
@@ -326,7 +328,13 @@ public class FiveWheelTeleOp extends OpMode {
 		//dont move center wheel
 		double sendy1 = scaleInput(y1);
 		double sendy2 = scaleInput(y2);
-		/*if(Math.abs(gamepad2.right_trigger) > 0.5)
+		/*if(y1 > 0.3)
+			motorBR.setPower(0.01);
+		else if(y1 < -0.3)
+			motorBR.setPower(-0.01);
+		else
+			motorBR.setPower(0.0);*/
+		if(Math.abs(gamepad2.right_trigger) > 0.5)
 		{
 			motorLeftH.setPower(scaleInputHang(gamepad2.right_trigger));
 			motorRightH.setPower(scaleInputHang(-gamepad2.right_trigger));
@@ -335,7 +343,7 @@ public class FiveWheelTeleOp extends OpMode {
 		{
 			motorLeftH.setPower(scaleInputHang(-gamepad2.left_trigger));
 			motorRightH.setPower(scaleInputHang(gamepad2.left_trigger));
-		}*/
+		}
 		/*double servoDif = 0.0;
 		if(gamepad1.left_trigger > 0.2 || gamepad1.left_trigger < -0.2)
 			servoDif -= 0.05;
@@ -347,6 +355,7 @@ public class FiveWheelTeleOp extends OpMode {
 			servoDif = 1.0;
 		l.setPosition(1.0 - servoDif);
 		r.setPosition(servoDif);*/
+
 		if(gamepad1.left_bumper)
 		{
 			motorLeftH.setPower(1.0);
