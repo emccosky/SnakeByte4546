@@ -145,10 +145,10 @@ public class MagicAuto extends LinearOpMode
             telemetry.addData("03","encbl " + encbl);
             telemetry.addData("04", "encfr" + encfr);
             //buildAndSendTelemetry("","");
-            encbl = motorBL.getCurrentPosition();
-            encbr = motorBR.getCurrentPosition();
-            encfr = motorFR.getCurrentPosition();
-            encfl = center.getCurrentPosition(); //switched motorFL and center
+            encbl = motorBR.getCurrentPosition();
+            encbr = center.getCurrentPosition();
+            encfr = motorBL.getCurrentPosition();
+            encfl = motorFR.getCurrentPosition(); //switched motorFL and center
 
             if((Math.abs(encbl) + Math.abs(encfl) - 800) > (Math.abs(encfr) + Math.abs(encbr)))
             {
@@ -186,9 +186,4 @@ public class MagicAuto extends LinearOpMode
         motorBL.setPower(0.0);
         center.setPower(0.0);
     }
-
-    //public void stop()
-    //{
-
-    //}
 }

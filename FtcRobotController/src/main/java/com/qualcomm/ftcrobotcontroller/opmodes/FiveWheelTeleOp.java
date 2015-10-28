@@ -47,8 +47,9 @@ public class FiveWheelTeleOp extends OpMode {
     DcMotor motorFL;
     DcMotor motorFR;
 	DcMotor center;
-	DcMotor motorLeftH;
-	DcMotor motorRightH;
+	//DcMotor rand;
+	//DcMotor motorLeftH;
+	//DcMotor motorRightH;
 
     public FiveWheelTeleOp() {}
     /*
@@ -61,10 +62,11 @@ public class FiveWheelTeleOp extends OpMode {
         center = hardwareMap.dcMotor.get("center");
         motorFL = hardwareMap.dcMotor.get("motorfl");
         motorFR = hardwareMap.dcMotor.get("motorfr");
-        motorBR = hardwareMap.dcMotor.get("motorbl");
-		motorBL = hardwareMap.dcMotor.get("motorbr");
-		motorLeftH = hardwareMap.dcMotor.get("motorLeftH");
-		motorRightH = hardwareMap.dcMotor.get("motorRightH");
+        motorBR = hardwareMap.dcMotor.get("motorbr");
+		motorBL = hardwareMap.dcMotor.get("motorbl");
+		//rand = hardwareMap.dcMotor.get("rand");
+		//motorLeftH = hardwareMap.dcMotor.get("motorLeftH");
+		//motorRightH = hardwareMap.dcMotor.get("motorRightH");
 		//center = hardwareMap.dcMotor.get("motorcenter");
     }
 
@@ -125,41 +127,41 @@ public class FiveWheelTeleOp extends OpMode {
 			if(pwr > -0.05) //0 PWR on chart
 				ret = 0.0;
 			else if(pwr <= -0.05 && pwr > -0.10) //0.05 on chart
-				ret = 0.01;
+				ret = -0.01;
 			else if(pwr <= -0.10 && pwr > -0.15) //0.10 on chart
-				ret = 0.02;
+				ret = -0.02;
 			else if(pwr <= -0.15 && pwr > -0.20) //0.15 on chart
-				ret = 0.03;
+				ret = -0.03;
 			else if(pwr <= -0.20 && pwr > -0.25) //0.20 on chart
-				ret = 0.04;
+				ret = -0.04;
 			else if(pwr <= -0.25 && pwr > -0.30) //0.25 on chart
-				ret = 0.05;
+				ret = -0.05;
 			else if(pwr <= -0.30 && pwr > -0.35) //0.30 on chart
-				ret = 0.06;
+				ret = -0.06;
 			else if(pwr <= -0.35 && pwr > -0.40) //0.35 on chart
-				ret = 0.07;
+				ret = -0.07;
 			else if(pwr <= -0.40 && pwr > -0.45) //0.40 on chart
-				ret = 0.075;
+				ret = -0.075;
 			else if(pwr <= -0.45 && pwr > -0.50) //0.45 on chart
-				ret = 0.08;
+				ret = -0.08;
 			else if(pwr <= -0.50 && pwr > -0.55) //0.50 on chart
-				ret = 0.09;
+				ret = -0.09;
 			else if(pwr <= -0.55 && pwr > -0.60) //0.55 on chart
-				ret = 0.10;
+				ret = -0.10;
 			else if(pwr <= -0.60 && pwr > -0.65) //0.60 on chart
-				ret = 0.113;
+				ret = -0.113;
 			else if(pwr <= -0.65 && pwr > -0.70) //0.65 on chart
-				ret = 0.126;
+				ret = -0.126;
 			else if(pwr <= -0.70 && pwr > -0.75) //0.70 on chart
-				ret = 0.14;
+				ret = -0.14;
 			else if(pwr <= -0.75 && pwr > -0.80) //0.75 on chart
-				ret = 0.15;
+				ret = -0.15;
 			else if(pwr <= -0.80 && pwr > -0.85) //0.80 on chart
-				ret = 0.19;
+				ret = -0.19;
 			else if(pwr <= -0.85 && pwr > -0.90) //0.85 on chart
-				ret = 0.225;
+				ret = -0.225;
 			else
-				ret = 1.0;
+				ret = -1.0;
 		}
 		return ret;
 	}
@@ -308,33 +310,36 @@ public class FiveWheelTeleOp extends OpMode {
     public void loop()
     {
         float g1y1 = gamepad1.left_stick_y;
-		//float x1 = gamepad1.left_stick_x;
-		//float x2 = gamepad1.right_stick_x;
 		float g1y2 = gamepad1.right_stick_y;
 		float g2y1 = gamepad2.right_stick_y;
 		float g2y2 = gamepad2.left_stick_y;
-		//if(y1 > 0.1) // fl
-		//	center.setPower(1.0);
-		//if(y1 < -0.1) //br
-		//	motorFL.setPower(1.0);
-		//if(y2 > 0.1) //center
-		//	motorBR.setPower(1.0);
-		//if(y2 < -0.1) //bl
-		//	motorFR.setPower(1.0);
-		//center = motorfr
-		//if same
-		//move center wheel
-		//else
-		//dont move center wheel
-		double sendy1 = scaleInput(y1);
-		double sendy2 = scaleInput(y2);
+		double sendg1y1 = scaleInput(g1y1);
+		double sendg1y2 = scaleInput(g1y2);
+		/*motorFL.setPower(1.0);
+		motorBL.setPower(1.0);
+		motorFR.setPower(1.0);
+		center.setPower(1.0);
+		motorBR.setPower(1.0);*/
+		/*if(Math.abs(g1y1) > 0.1)
+			rand.setPower(sendg1y1);
+		else
+			rand.setPower(0.0);*/
+		/*if(Math.abs(g1y1) > 0.1)
+			motorFR.setPower(sendg1y1);
+		else
+			motorFR.setPower(0.0);
+
+		if(Math.abs(g1y2) > 0.1)
+			motorBR.setPower(sendg1y2);
+		else
+			motorBR.setPower(0.0);*/
 		/*if(y1 > 0.3)
 			motorBR.setPower(0.01);
 		else if(y1 < -0.3)
 			motorBR.setPower(-0.01);
 		else
 			motorBR.setPower(0.0);*/
-		if(Math.abs(gamepad2.right_trigger) > 0.5)
+		/*if(Math.abs(gamepad2.right_trigger) > 0.5)
 		{
 			motorLeftH.setPower(scaleInputHang(gamepad2.right_trigger));
 			motorRightH.setPower(scaleInputHang(-gamepad2.right_trigger));
@@ -343,7 +348,7 @@ public class FiveWheelTeleOp extends OpMode {
 		{
 			motorLeftH.setPower(scaleInputHang(-gamepad2.left_trigger));
 			motorRightH.setPower(scaleInputHang(gamepad2.left_trigger));
-		}
+		}*/
 		/*double servoDif = 0.0;
 		if(gamepad1.left_trigger > 0.2 || gamepad1.left_trigger < -0.2)
 			servoDif -= 0.05;
@@ -356,7 +361,7 @@ public class FiveWheelTeleOp extends OpMode {
 		l.setPosition(1.0 - servoDif);
 		r.setPosition(servoDif);*/
 
-		if(gamepad1.left_bumper)
+		/*if(gamepad1.left_bumper)
 		{
 			motorLeftH.setPower(1.0);
 			motorRightH.setPower(-1.0);
@@ -370,32 +375,32 @@ public class FiveWheelTeleOp extends OpMode {
 		{
 			motorLeftH.setPower(0.0);
 			motorRightH.setPower(0.0);
-		}
-		if((y1 > 0.1 && y2 > 0.1) || (y1 < -0.1 && y2 < -0.1)) //if moving same direction
+		}*/
+		if(((g1y1 > 0.1 && g1y2 > 0.1) || (g1y1 < -0.1 && g1y2 < -0.1))) //if moving same direction
 		{ //move front wheel also
-			center.setPower(sendy2);
-			motorFR.setPower(sendy2);
-			motorBR.setPower(sendy2);
-			motorBL.setPower(-sendy1);
-			motorFL.setPower(-sendy1);
+			center.setPower(-sendg1y2);
+			motorFR.setPower(-sendg1y2);
+			motorBR.setPower(-sendg1y2);
+			motorBL.setPower(sendg1y1);
+			motorFL.setPower(sendg1y1);
 		}
-		else //else (sticks not moving same direction
+		else//else (sticks not moving same direction
 		{
 			center.setPower(0.0);
-			if(y2 > 0.1 || y2 < -0.1)
+			if(g1y2 > 0.1 || g1y2 < -0.1)
 			{
-				motorFR.setPower(sendy2);
-				motorBR.setPower(sendy2);
+				motorFR.setPower(sendg1y2);
+				motorBR.setPower(sendg1y2);
 			}
 			else
 			{
 				motorBR.setPower(0.0);
 				motorFR.setPower(0.0);
 			}
-			if(y1 > 0.1 || y1 < -0.1)
+			if(g1y1 > 0.1 || g1y1 < -0.1)
 			{
-				motorFL.setPower(-sendy1);
-				motorBL.setPower(-sendy1);
+				motorFL.setPower(-sendg1y1);
+				motorBL.setPower(-sendg1y1);
 			}
 			else
 			{
