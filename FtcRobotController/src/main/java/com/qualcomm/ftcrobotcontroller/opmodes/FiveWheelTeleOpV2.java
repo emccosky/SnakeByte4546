@@ -198,6 +198,19 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     }
 
+    public void autoDumpMedium(int side)
+    {
+        //Side 0 = Right
+        //Side 1 = Left
+
+    }
+
+    public void autoDumpHigh(int side)
+    {
+        //Side 0 = Right
+        //Side 1 = Left
+
+    }
     public void autoHang()
     {
         autoHangRunning = true;
@@ -209,9 +222,11 @@ public class FiveWheelTeleOpV2 extends OpMode
     {
         startPhaseRunning = true;
         //Code
+        //Drive down the ramp, turn to prepare to pick up things
         startPhaseRunning = false;
         startPhaseOver = true;
     }
+
     public void init()
     {
         curMode = 0;
@@ -221,6 +236,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     public void loop()
     {
+        updateVals();
         if(!startPhaseOver) //Robot has done nothing since start of match
         {
             if(g1y1 > 0.3 || g1y1 < -0.3 || g1y2 > 0.3 || g1y2 < -0.3)
@@ -249,11 +265,11 @@ public class FiveWheelTeleOpV2 extends OpMode
         }
         else if(curMode == 4) //Manual Override Mode
         {
-            //
+            //After Scrimmage
         }
         else if(curMode == 5) //Individual Wheel control
         {
-            //
+            //After Scrimmage
         }
 
     }
