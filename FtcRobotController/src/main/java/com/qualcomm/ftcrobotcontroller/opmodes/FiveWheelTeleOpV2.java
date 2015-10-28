@@ -1,5 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftccommon.DbgLog;
+import com.qualcomm.ftcrobotcontroller.R;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.eventloop.EventLoopManager;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -23,22 +29,22 @@ public class FiveWheelTeleOpV2 extends OpMode
     DcMotor hangLiftR;
     int curMode; //Current mode
     boolean hasControllerBeenUsed;
-    int g1y1;
-    int g1y2;
-    int g1x1;
-    int g1x2;
-    int g2y1;
-    int g2y2;
-    int g2x1;
-    int g2x2;
-    int scaleg1y1;
-    int scaleg1y2;
-    int scaleg1x1;
-    int scaleg1x2;
-    int scaleg2y1;
-    int scaleg2y2;
-    int scaleg2x1;
-    int scaleg2x2;
+    double g1y1;
+    double g1y2;
+    double g1x1;
+    double g1x2;
+    double g2y1;
+    double g2y2;
+    double g2x1;
+    double g2x2;
+    double scaleg1y1;
+    double scaleg1y2;
+    double scaleg1x1;
+    double scaleg1x2;
+    double scaleg2y1;
+    double scaleg2y2;
+    double scaleg2x1;
+    double scaleg2x2;
     boolean g1Lbump;
     boolean g1Rbump;
     boolean g2Lbump;
@@ -151,12 +157,52 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     public void updateVals() //Updates all variable values
     {
+        g1y1 = gamepad1.left_stick_y;
+        g1y2 = gamepad1.right_stick_y;
+        g1x1 = gamepad1.left_stick_x;
+        g1x2 = gamepad1.right_stick_x;
+        g2y1 = gamepad1.left_stick_y;
+        g2y2 = gamepad1.right_stick_y;
+        g2x1 = gamepad1.left_stick_x;
+        g2x2 = gamepad1.right_stick_x;
+        scaleg1y1 = scaleInputSimple(g1y1);
+        scaleg1y2 = scaleInputSimple(g1y2);
+        scaleg1x1 = scaleInputSimple(g1x1);
+        scaleg1x2 = scaleInputSimple(g1x2);
+        scaleg2y1 = scaleInputSimple(g2y1);
+        scaleg2y2 = scaleInputSimple(g2y2);
+        scaleg2x1 = scaleInputSimple(g2x1);
+        scaleg2x2 = scaleInputSimple(g2x2);
+        g1Lbump = gamepad1.left_bumper;
+        g1Rbump = gamepad1.right_bumper;
+        g2Lbump = gamepad2.left_bumper;
+        g2Rbump = gamepad2.right_bumper;
+        g1Ltrig = gamepad1.left_trigger;
+        g1Rtrig = gamepad1.right_trigger;
+        g2Ltrig = gamepad2.left_trigger;
+        g2Rtrig = gamepad2.right_trigger;
+        g1XPressed = gamepad1.x;
+        g1APressed = gamepad1.a;
+        g1YPressed = gamepad1.y;
+        g1BPressed = gamepad1.b;
+        g2XPressed = gamepad2.x;
+        g2APressed = gamepad2.a;
+        g2YPressed = gamepad2.y;
+        g2BPressed = gamepad2.b;
+        if(g2XPressed)
+            curMode = 1;
+        else if(g2BPressed)
+            curMode = 2;
+        else if(g2YPressed)
+            curMode = 3;
 
     }
 
     public void autoHang()
     {
-
+        autoHangRunning = true;
+        //Code
+        autoHangRunning = false;
     }
 
     public void startPhaseOffRamp()
@@ -189,7 +235,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         }
         else if(curMode == 1) //Debris collection Mode
         {
-            if(!)
+
         }
         else if(curMode == 2) //Ramp Climbing Mode
         {
