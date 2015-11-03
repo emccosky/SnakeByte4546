@@ -65,90 +65,88 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     private double scaleInputSimple(double pwr)
     {
-        double ret = 0.0;
         if(pwr > 0.0)
         {
             if(pwr < 0.05) //0 PWR on chart
-                ret = 0.0;
+                return 0.0;
             else if(pwr >= 0.05 && pwr < 0.10) //0.05 on chart
-                ret = 0.01;
+                return 0.01;
             else if(pwr >= 0.10 && pwr < 0.15) //0.10 on chart
-                ret = 0.02;
+                return 0.02;
             else if(pwr >= 0.15 && pwr < 0.20) //0.15 on chart
-                ret = 0.03;
+                return 0.03;
             else if(pwr >= 0.20 && pwr < 0.25) //0.20 on chart
-                ret = 0.04;
+                return 0.04;
             else if(pwr >= 0.25 && pwr < 0.30) //0.25 on chart
-                ret = 0.05;
+                return 0.05;
             else if(pwr >= 0.30 && pwr < 0.35) //0.30 on chart
-                ret = 0.06;
+                return 0.06;
             else if(pwr >= 0.35 && pwr < 0.40) //0.35 on chart
-                ret = 0.07;
+                return 0.07;
             else if(pwr >= 0.40 && pwr < 0.45) //0.40 on chart
-                ret = 0.075;
+                return 0.075;
             else if(pwr >= 0.45 && pwr < 0.50) //0.45 on chart
-                ret = 0.08;
+                return 0.08;
             else if(pwr >= 0.50 && pwr < 0.55) //0.50 on chart
-                ret = 0.09;
+                return 0.09;
             else if(pwr >= 0.55 && pwr < 0.60) //0.55 on chart
-                ret = 0.10;
+                return 0.10;
             else if(pwr >= 0.60 && pwr < 0.65) //0.60 on chart
-                ret = 0.113;
+                return 0.113;
             else if(pwr >= 0.65 && pwr < 0.70) //0.65 on chart
-                ret = 0.126;
+                return 0.126;
             else if(pwr >= 0.70 && pwr < 0.75) //0.70 on chart
-                ret = 0.14;
+                return 0.14;
             else if(pwr >= 0.75 && pwr < 0.80) //0.75 on chart
-                ret = 0.15;
+                return 0.15;
             else if(pwr >= 0.80 && pwr < 0.85) //0.80 on chart
-                ret = 0.19;
+                return 0.19;
             else if(pwr >= 0.85 && pwr < 0.90) //0.85 on chart
-                ret = 0.225;
+                return 0.225;
             else
-                ret = 1.0;
+                return 1.0;
         }
         else
         {
             if(pwr > -0.05) //0 PWR on chart
-                ret = 0.0;
+                return 0.0;
             else if(pwr <= -0.05 && pwr > -0.10) //0.05 on chart
-                ret = -0.01;
+                return -0.01;
             else if(pwr <= -0.10 && pwr > -0.15) //0.10 on chart
-                ret = -0.02;
+                return -0.02;
             else if(pwr <= -0.15 && pwr > -0.20) //0.15 on chart
-                ret = -0.03;
+                return -0.03;
             else if(pwr <= -0.20 && pwr > -0.25) //0.20 on chart
-                ret = -0.04;
+                return -0.04;
             else if(pwr <= -0.25 && pwr > -0.30) //0.25 on chart
-                ret = -0.05;
+                return -0.05;
             else if(pwr <= -0.30 && pwr > -0.35) //0.30 on chart
-                ret = -0.06;
+                return -0.06;
             else if(pwr <= -0.35 && pwr > -0.40) //0.35 on chart
-                ret = -0.07;
+                return -0.07;
             else if(pwr <= -0.40 && pwr > -0.45) //0.40 on chart
-                ret = -0.075;
+                return -0.075;
             else if(pwr <= -0.45 && pwr > -0.50) //0.45 on chart
-                ret = -0.08;
+                return -0.08;
             else if(pwr <= -0.50 && pwr > -0.55) //0.50 on chart
-                ret = -0.09;
+                return -0.09;
             else if(pwr <= -0.55 && pwr > -0.60) //0.55 on chart
-                ret = -0.10;
+                return -0.10;
             else if(pwr <= -0.60 && pwr > -0.65) //0.60 on chart
-                ret = -0.113;
+                return -0.113;
             else if(pwr <= -0.65 && pwr > -0.70) //0.65 on chart
-                ret = -0.126;
+                return -0.126;
             else if(pwr <= -0.70 && pwr > -0.75) //0.70 on chart
-                ret = -0.14;
+                return -0.14;
             else if(pwr <= -0.75 && pwr > -0.80) //0.75 on chart
-                ret = -0.15;
+                return -0.15;
             else if(pwr <= -0.80 && pwr > -0.85) //0.80 on chart
-                ret = -0.19;
+                return -0.19;
             else if(pwr <= -0.85 && pwr > -0.90) //0.85 on chart
-                ret = -0.225;
+                return -0.225;
             else
-                ret = -1.0;
+                return -1.0;
         }
-        return ret;
     }
 
     public void updateVals() //Updates all variable values
