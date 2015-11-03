@@ -65,7 +65,7 @@ public class FiveWheelTeleOp extends OpMode {
         motorFR = hardwareMap.dcMotor.get("motorfr");
         motorBR = hardwareMap.dcMotor.get("motorbr");
 		motorBL = hardwareMap.dcMotor.get("motorbl");
-		motorManip = hardware.dcMotor.get("manip");
+		motorManip = hardwareMap.dcMotor.get("manip");
 		//rand = hardwareMap.dcMotor.get("rand");
 		//motorLeftH = hardwareMap.dcMotor.get("motorLeftH");
 		//motorRightH = hardwareMap.dcMotor.get("motorRightH");
@@ -319,11 +319,11 @@ public class FiveWheelTeleOp extends OpMode {
 		double sendg1y2 = scaleInput(g1y2);
 
 		if(gamepad1.left_bumper)
-			motorManip = 1.0;
+			motorManip.setPower(1.0);
 		else if(gamepad1.right_bumper)
-			motorManip = -1.0;
+			motorManip.setPower(-1.0);
 		else
-			motorManip = 0.0;
+			motorManip.setPower(0.0);
 		/*motorFL.setPower(1.0);
 		motorBL.setPower(1.0);
 		motorFR.setPower(1.0);

@@ -223,7 +223,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 
 	public void runManip(double speed)
 	{
-		motorManip = speed;
+		motorManip.setPower(speed);
 	}
 
 	public void moveDebrisLift(double speed)
@@ -233,14 +233,14 @@ public class FiveWheelTeleOpV2 extends OpMode
 
 	public void runOddSide(double speed)
 	{
-		motorQ1 = speed;
-		motorQ3 = speed;
+		motorQ1.setPower(speed);
+		motorQ3.setPower(speed);
 	}
 	
 	public void runEvenSide(double speed)
 	{
-		motorQ2 = speed;
-		motorQ4 = speed;
+		motorQ2.setPower(speed);
+		motorQ4.setPower(speed);
 	}
 	
 	public void setDebrisLiftServos(double pos)
@@ -280,7 +280,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         {
         	if(g2Lbump)
         		runManip(1.0);
-        	else if(g2Ltrig)
+        	else if(g2Ltrig > 0.1)
         		runManip(-1.0);
         	else
         		runManip(0.0);
