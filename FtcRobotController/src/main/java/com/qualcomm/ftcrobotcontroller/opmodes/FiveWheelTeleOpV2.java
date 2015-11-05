@@ -19,10 +19,10 @@ import java.util.Date;
 
 public class FiveWheelTeleOpV2 extends OpMode
 {
-    DcMotor motorQ1; //FL if manip considered the front
-    DcMotor motorQ2; //FR if manip considered the front
-    DcMotor motorQ3; //BL if manip considered the front
-    DcMotor motorQ4; //BR if manip considered the front
+    DcMotor motorQ1; //FL if manip considered the front, BR if center wheel is front
+    DcMotor motorQ2; //FR if manip considered the front, BL if center wheel is front
+    DcMotor motorQ3; //BL if manip considered the front, FR if center wheel is front
+    DcMotor motorQ4; //BR if manip considered the front, FL if center wheel is front
     DcMotor center;
     DcMotor debrisLift;
     DcMotor motorManip;
@@ -222,6 +222,13 @@ public class FiveWheelTeleOpV2 extends OpMode
         curMode = 1;
         startPhaseRunning = false;
         startPhaseOver = false;
+        center = hardwareMap.dcMotor.get("center");
+        motorQ1 = hardwareMap.dcMotor.get("motorfl");
+        motorQ2 = hardwareMap.dcMotor.get("motorfr");
+        motorQ3 = hardwareMap.dcMotor.get("motorbr");
+        motorQ4 = hardwareMap.dcMotor.get("motorbl");
+        motorManip = hardwareMap.dcMotor.get("manip");
+        debrisLift = hardwareMap.dcMotor.get("debrisLift");
     }
 
 	public void runManip(double speed)
@@ -279,7 +286,7 @@ public class FiveWheelTeleOpV2 extends OpMode
                 startPhaseOffRamp();
             }
         }*/
-        if(curMode == 0) //Stop robot Mode
+        /*if(curMode == 0) //Stop robot Mode
         {
         	runOddSide(0.0);
         	runEvenSide(0.0);
@@ -288,8 +295,8 @@ public class FiveWheelTeleOpV2 extends OpMode
         	moveDebrisLiftServos(0.0);
         	if(g1YPressed)
         		curMode = 2;
-        }
-        else if(curMode == 1) //Debris collection Mode
+        }*/
+        if(curMode == 1) //Debris collection Mode
         {
         	if(g2Lbump)
         		runManip(1.0);
