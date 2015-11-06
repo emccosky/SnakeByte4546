@@ -262,6 +262,10 @@ public class FiveWheelTeleOpV2 extends OpMode
 	public void moveDebrisLiftServos(double speed)
 	{
 		debrisLiftPos += speed / 10.0;
+		if(debrisLiftPos > 1.0)
+			debrisLiftPos = 1.0;
+		else if(debrisLiftPos < 1.0)
+			debrisLiftPos = 0.0;
 		setDebrisLiftServos(debrisLiftPos);
 	}
 	
