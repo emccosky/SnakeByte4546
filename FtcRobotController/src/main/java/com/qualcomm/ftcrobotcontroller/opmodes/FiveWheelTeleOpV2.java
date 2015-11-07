@@ -347,16 +347,6 @@ public class FiveWheelTeleOpV2 extends OpMode
         		curMode = 2;
         }*/
 
-        if (gamepad1.a) {
-            basketNeutral();
-        }
-        if (gamepad1.b) {
-            basketLeft();
-        }
-        if (gamepad1.x) {
-            basketRight();
-        }
-
         if(curMode == 1) //Debris collection Mode
         {
         	if(g2Lbump)
