@@ -69,6 +69,23 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     public void FiveWheelTeleOpV2() {}
 
+    public void init()
+    {
+        curMode = 1;
+        startPhaseRunning = false;
+        startPhaseOver = false;
+        center = hardwareMap.dcMotor.get("center");
+        motorQ1 = hardwareMap.dcMotor.get("motorq1");
+        motorQ2 = hardwareMap.dcMotor.get("motorq2");
+        motorQ3 = hardwareMap.dcMotor.get("motorq3");
+        motorQ4 = hardwareMap.dcMotor.get("motorq4");
+        motorManip = hardwareMap.dcMotor.get("manip");
+        //debrisLift = hardwareMap.dcMotor.get("debrisLift");
+        debrisLiftServo1 = hardwareMap.servo.get("servo1");
+        debrisLiftServo2 = hardwareMap.servo.get("servo2");
+        debrisLiftServo3 = hardwareMap.servo.get("servo3");
+    }
+
     private double scaleInputSimple(double pwr)
     {
         if(pwr > 0.0)
@@ -222,19 +239,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         startPhaseOver = true;
     }
 
-    public void init()
-    {
-        curMode = 1;
-        startPhaseRunning = false;
-        startPhaseOver = false;
-        center = hardwareMap.dcMotor.get("center");
-        motorQ1 = hardwareMap.dcMotor.get("motorfl");
-        motorQ2 = hardwareMap.dcMotor.get("motorfr");
-        motorQ3 = hardwareMap.dcMotor.get("motorbr");
-        motorQ4 = hardwareMap.dcMotor.get("motorbl");
-        motorManip = hardwareMap.dcMotor.get("manip");
-        debrisLift = hardwareMap.dcMotor.get("debrisLift");
-    }
+
 
 	public void runManip(double speed)
 	{
@@ -258,27 +263,26 @@ public class FiveWheelTeleOpV2 extends OpMode
 		motorQ4.setPower(speed);
 	}
 	
-	public void setDebrisLiftServos(double pos)
+	/*public void setDebrisLiftServos(double pos)
 	{
 		debrisLiftL.setPosition(pos);
 		debrisLiftR.setPosition(1.0 - pos);
-	}
+	}*/
 	
-	public void moveDebrisLiftServos(double speed)
+	/*public void moveDebrisLiftServos(double speed)
 	{
 		debrisLiftPos += speed / 10.0;
 		if(debrisLiftPos > 1.0)
 			debrisLiftPos = 1.0;
 		else if(debrisLiftPos < 1.0)
-			debrisLiftPos = 0.0;
+            debrisLiftPos = 0.0;
 		setDebrisLiftServos(debrisLiftPos);
-	}
+	}*/
 
-	public void resetDebrisLiftServos()
-	{
-		debrisLiftPos = 0.0;
+	/*public void resetDebrisLiftServos() {
+        debrisLiftPos = 0.0;
 		setDebrisLiftServos(debrisLiftPos);
-	}
+	}*/
 
 	public void moveDebrisLiftBasket(double change)
 	{
@@ -286,12 +290,13 @@ public class FiveWheelTeleOpV2 extends OpMode
 		debrisLiftServoPos1 += ch;
 		debrisLiftServoPos2 += ch;
 		debrisLiftServo1.setPosition(debrisLiftServoPos1);
-		debrisLiftServo2.setPosition(debrisLiftServoPos2);
+        debrisLiftServo2.setPosition(debrisLiftServoPos2);
 	}
 	
     public void loop()
     {
-        updateVals();
+        //curMode = 1;
+        //updateVals();
         /*if(!startPhaseOver) //Robot has done nothing since start of match
         {
             if(g1y1 > 0.3 || g1y1 < -0.3 || g1y2 > 0.3 || g1y2 < -0.3)
@@ -314,14 +319,17 @@ public class FiveWheelTeleOpV2 extends OpMode
         	if(g1YPressed)
         		curMode = 2;
         }*/
-        if(Math.abs(g1y1) > 0.1)
+        if(Math.abs(gamepad1.left_stick_y) > 0.1)
         {
-        	debrisLiftServo1.setPosition(0.5 + (g1y1 / 2.0));
-        	debrisLiftServo2.setPosition(0.5 - (g1y1 / 2.0));
+        	debrisLiftServo1.setPosition(0.5 + (gamepad1.left_stick_y / 2.0));
+        	debrisLiftServo2.setPosition(0.5 - (gamepad1.left_stick_y / 2.0));
+            //telemetry.addData("g1y1", g1y1);
         }
-        if(Math.abs(g1y2) > 0.1)
+
+        if(Math.abs(gamepad1.right_stick_y) > 0.1)
 		{
-			debrisLiftServo3.setPosition(0.5 + (g1y2 / 2.0));
+			debrisLiftServo3.setPosition(0.5 + (gamepad1.right_stick_y / 2.0));
+            //telemetry.addData("g1y2",gamepad1.right_stick_y);
 		}        	
         /*if(curMode == 1) //Debris collection Mode
         {

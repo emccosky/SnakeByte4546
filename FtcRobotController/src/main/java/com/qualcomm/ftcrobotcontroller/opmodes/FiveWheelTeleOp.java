@@ -60,7 +60,7 @@ public class FiveWheelTeleOp extends OpMode {
     @Override
     public void init()
 	{
-        center = hardwareMap.dcMotor.get("center");
+        /*center = hardwareMap.dcMotor.get("center");
         motorFL = hardwareMap.dcMotor.get("motorfl");
         motorFR = hardwareMap.dcMotor.get("motorfr");
         motorBR = hardwareMap.dcMotor.get("motorbr");
@@ -69,7 +69,7 @@ public class FiveWheelTeleOp extends OpMode {
 		//rand = hardwareMap.dcMotor.get("rand");
 		//motorLeftH = hardwareMap.dcMotor.get("motorLeftH");
 		//motorRightH = hardwareMap.dcMotor.get("motorRightH");
-		//center = hardwareMap.dcMotor.get("motorcenter");
+		//center = hardwareMap.dcMotor.get("motorcenter");*/
     }
 
 	public void start()
