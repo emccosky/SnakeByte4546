@@ -38,6 +38,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     int curMode; //Current mode
     int prevMode;
     boolean hasControllerBeenUsed;
+    String prevLiftSide;
 
     double g1y1;
     double g1y2;
@@ -75,6 +76,13 @@ public class FiveWheelTeleOpV2 extends OpMode
     	startPhaseRunning = false;
     	startPhaseOver = false;
     	autoHangRunning = false;
+    	prevLiftSide = "right";
+    	debrisLiftServo1.setPosition(0.1); //Up
+        debrisLiftServo2.setPosition(0.9); //Up
+        debrisLiftServo3.setPosition(0.45); //Midlee
+    	debrisLiftServoPos1 = 0.1;
+    	debrisLiftServoPos2 = 0.9;
+    	debrisLiftServoPos3 = 0.45;
         center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
         motorQ2 = hardwareMap.dcMotor.get("motorq2");
@@ -206,8 +214,8 @@ public class FiveWheelTeleOpV2 extends OpMode
             	curMode = 1;
         	else if(g2BPressed)
             	curMode = 2;
-        	else
-                curMode = prevMode;
+        	//else if(g2YPressed)
+            //    curMode = 3;
         }
     }
 
@@ -247,11 +255,11 @@ public class FiveWheelTeleOpV2 extends OpMode
 		motorManip.setPower(speed);
 	}
 
-    /*
+    
 	public void moveDebrisLift(double speed)
 	{
 		debrisLift.setPower(speed);
-	}*/
+	}
 
 	public void runOddSide(double speed)
 	{
@@ -305,21 +313,52 @@ public class FiveWheelTeleOpV2 extends OpMode
     //Left side (Manip = front) = 0.6
     //Right side (Manip = front) = 0.3
     public void basketNeutral() {
-        debrisLiftServo1.setPosition(0.1);
-        debrisLiftServo2.setPosition(0.9);
-        debrisLiftServo3.setPosition(0.45);
+        debrisLiftServo1.setPosition(0.1); //Up
+        debrisLiftServo2.setPosition(0.9); //Up
+        debrisLiftServo3.setPosition(0.45); //Midlee
+        debrisLiftServoPos1 = 0.1;
+        debrisLiftServoPos2 = 0.9;
+        debrisLiftServoPos3 = 0.45;
+    }
+    
+    public void basketNeutralDown(String param)
+    {
+    	if(param.equals("right")
+    	{
+    		debrisLiftServo1.setPosition(0.6); //Down
+        	debrisLiftServo2.setPosition(0.9); //Up
+        	debrisLiftServo3.setPosition(0.45); //Neutral
+        	debrisLiftServoPos1 = 0.6;
+        	debrisLiftServoPos2 = 0.9;
+        	debrisLiftServoPos3 = 0.45;
+    	}
+    	else if(param.equals("left")
+    	{
+    		debrisLiftServo1.setPosition(0.1); //Up
+        	debrisLiftServo2.setPosition(0.475); //Down
+        	debrisLiftServo3.setPosition(0.45); //Neutral
+        	debrisLiftServoPos1 = 0.1;
+        	debrisLiftServoPos2 = 0.475;
+        	debrisLiftServoPos3 = 0.45;
+    	}
     }
 
     public void basketLeft() {
-        debrisLiftServo1.setPosition(0.1);
-        debrisLiftServo2.setPosition(0.475);
-        debrisLiftServo3.setPosition(0.6);
+        debrisLiftServo1.setPosition(0.1); //Up
+        debrisLiftServo2.setPosition(0.475); //Down
+        debrisLiftServo3.setPosition(0.6); //Left
+        debrisLiftServoPos1 = 0.1;
+        debrisLiftServoPos2 = 0.475;
+        debrisLiftServoPos3 = 0.45;
     }
 
     public void basketRight() {
-        debrisLiftServo1.setPosition(0.6);
-        debrisLiftServo2.setPosition(0.9);
-        debrisLiftServo3.setPosition(0.3);
+        debrisLiftServo1.setPosition(0.6); //Down
+        debrisLiftServo2.setPosition(0.9); //Up
+        debrisLiftServo3.setPosition(0.3); //Right
+        debrisLiftServoPos1 = 0.6;
+        debrisLiftServoPos2 = 0.9;
+        debrisLiftServoPos3 = 0.3;
     }
 	
     public void loop()
@@ -351,10 +390,12 @@ public class FiveWheelTeleOpV2 extends OpMode
 
         if(curMode == 1) //Debris collection Mode
         {
-            if (Math.abs(g2y1) > 0.1) {
+            if (Math.abs(g2y1) > 0.1)
+            {
                 runManip(g2y1);
             }
-        	else {
+        	else
+        	{
         		runManip(0.0);
             }
         	//Moves basket
@@ -367,7 +408,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 			else if(g2Ltrig > 0.3)
 				basketRight();
 			
-			//moveDebrisLift(scaleInputSimple(g2y1));
+			moveDebrisLift(scaleInputSimple(g2y1));
 			runOddSide(scaleInputSimple(-g1y1));
 			runEvenSide(scaleInputSimple(g1y2));
 			center.setPower(0.0);
@@ -376,18 +417,28 @@ public class FiveWheelTeleOpV2 extends OpMode
         {
             //Stop manipulator
             runManip(0.0);
-            //moveDebrisLift(scaleInputSimple(g2y1));
-           	if(g1Rbump)
+            moveDebrisLift(scaleInputSimple(g2y1));
+            if(g2APressed)
+            	basketNeutralDown(prevLiftSide);
+           	else if(g1Rbump)
 				basketNeutral();
 			else if(g1Rtrig > 0.3)
+			{
 				basketLeft();
+				prevLiftSide = "left";
+			}
 			else if(g2Lbump)
+			{
 				basketNeutral();
+			}
 			else if(g2Ltrig > 0.3)
+			{
+				prevLiftSide = "right";
 				basketRight();
+			}
             runOddSide(scaleInputSimple(g1y2));
             runEvenSide(scaleInputSimple(-g1y1));
-			if((g1y2 > 0.1 && g1y2 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1))
+			if((g1y1 > 0.1 && g1y1 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1))
 				center.setPower(scaleInputSimple(-g1y2));
         }
         /*else if(curMode == 3) //Hanging Mode
