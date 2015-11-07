@@ -209,7 +209,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         }
     }
 
-    public void autoDumpMedium(int side)
+    /*public void autoDumpMedium(int side)
     {
         //Side 0 = Right
         //Side 1 = Left
@@ -236,7 +236,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         //Drive down the ramp, turn to prepare to pick up things
         startPhaseRunning = false;
         startPhaseOver = true;
-    }
+    }*/
 
 
 
@@ -357,7 +357,7 @@ public class FiveWheelTeleOpV2 extends OpMode
             basketRight();
         }
 
-        /*if(curMode == 1) //Debris collection Mode
+        if(curMode == 1) //Debris collection Mode
         {
         	if(g2Lbump)
         		runManip(1.0);
@@ -365,12 +365,17 @@ public class FiveWheelTeleOpV2 extends OpMode
         		runManip(-1.0);
         	else
         		runManip(0.0);
-			moveDebrisLiftServo3(g2y2);
-			if(g2Lbump)
-				moveDebrisLiftBasket(0.7);
+        	//Moves basket
+			if(g1Rbump)
+				basketNeutral();
+			else if(g1Rtrig > 0.3)
+				basketLeft();
+			else if(g2Lbump)
+				basketNeutral();
 			else if(g2Ltrig > 0.3)
-				moveDebrisLiftBasket(-0.7);
-			moveDebrisLift(scaleInputSimple(g2y1));
+				basketRight();
+			
+			//moveDebrisLift(scaleInputSimple(g2y1));
 			runOddSide(scaleInputSimple(g1y1));
 			runEvenSide(scaleInputSimple(g1y2));
 			center.setPower(0.0);
@@ -379,13 +384,20 @@ public class FiveWheelTeleOpV2 extends OpMode
         {
             //Stop manipulator
             runManip(0.0);
-            moveDebrisLift(scaleInputSimple(g2y1));
-            moveDebrisLiftServos(g2y2);
+            //moveDebrisLift(scaleInputSimple(g2y1));
+           	if(g1Rbump)
+				basketNeutral();
+			else if(g1Rtrig > 0.3)
+				basketLeft();
+			else if(g2Lbump)
+				basketNeutral();
+			else if(g2Ltrig > 0.3)
+				basketRight();
             runOddSide(scaleInputSimple(g1y2));
             runEvenSide(scaleInputSimple(-g1y1));
 			if((g1y2 > 0.1 && g1y2 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1))
 				center.setPower(scaleInputSimple(-g1y2));
-        }*/
+        }
         /*else if(curMode == 3) //Hanging Mode
         {
         	runManip(0.0);
