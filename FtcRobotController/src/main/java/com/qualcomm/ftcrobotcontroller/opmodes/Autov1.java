@@ -207,9 +207,9 @@ public class Autov1 extends OpMode
         this.resetStartTime();
         while(this.getRuntime() < 10.0)
         {
-        	runManip(-1.0);
-        	runEvenSide(0.06);
-        	runOddSide(0.06);
+        	//runManip(-1.0);
+        	runEvenSide(0.075);
+        	runOddSide(-0.075);
         }
         runEvenSide(0.0);
         runOddSide(0.0);
