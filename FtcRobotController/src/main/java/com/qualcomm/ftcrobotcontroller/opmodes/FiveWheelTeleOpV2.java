@@ -245,10 +245,11 @@ public class FiveWheelTeleOpV2 extends OpMode
 		motorManip.setPower(speed);
 	}
 
+    /*
 	public void moveDebrisLift(double speed)
 	{
 		debrisLift.setPower(speed);
-	}
+	}*/
 
 	public void runOddSide(double speed)
 	{
@@ -291,6 +292,16 @@ public class FiveWheelTeleOpV2 extends OpMode
 		debrisLiftServo1.setPosition(debrisLiftServoPos1);
         debrisLiftServo2.setPosition(debrisLiftServoPos2);
 	}*/
+
+    //SERVO 1 Values
+    //0.6 for down
+    //0.1 for up
+    //SERVO 2 values
+    //0.475 for down
+    //0.9 for up
+    //SERVO 3 Values
+    //Left side (Manip = front) = 0.6
+    //Right side (Manip = front) = 0.3
     public void basketNeutral() {
         debrisLiftServo1.setPosition(0.1);
         debrisLiftServo2.setPosition(0.9);
@@ -336,42 +347,16 @@ public class FiveWheelTeleOpV2 extends OpMode
         		curMode = 2;
         }*/
 
-        //SERVO 1 Values
-        //0.6 for down
-        //0.1 for up
-        if(Math.abs(gamepad1.left_stick_y) > 0.1)
-        {
-        	debrisLiftServoPos1 = (0.5 + (gamepad1.left_stick_y / 2.0));
-            telemetry.addData("Servo 1", debrisLiftServoPos1);
-            debrisLiftServo1.setPosition(debrisLiftServoPos1);
+        if (gamepad1.a) {
+            basketNeutral();
+        }
+        if (gamepad1.b) {
+            basketLeft();
+        }
+        if (gamepad1.x) {
+            basketRight();
         }
 
-        //SERVO 2 values
-        //0.475 for down
-        //0.9 for up
-        if(Math.abs(gamepad1.right_stick_y) > 0.1)
-        {
-            debrisLiftServoPos2 = (0.5 - (gamepad1.right_stick_y / 2.0));
-            telemetry.addData("Servo 2", debrisLiftServoPos2);
-            debrisLiftServo2.setPosition(debrisLiftServoPos2);
-        }
-
-        //SERVO 3 Values
-        //Left side (Manip = front) = 0.6
-        //Right side (Manip = front) = 0.3
-
-        if(Math.abs(gamepad1.left_trigger) > 0.1)
-		{
-			debrisLiftServoPos3 = (0.5 + (gamepad1.left_trigger / 2.0));
-            telemetry.addData("Servo 3", debrisLiftServoPos3);
-            debrisLiftServo3.setPosition(debrisLiftServoPos3);
-		}
-        if(Math.abs(gamepad1.right_trigger) > 0.1)
-        {
-            debrisLiftServoPos3 = (0.5 - (gamepad1.right_trigger / 2.0));
-            telemetry.addData("Servo 3",debrisLiftServoPos3);
-            debrisLiftServo3.setPosition(debrisLiftServoPos3);
-        }
         /*if(curMode == 1) //Debris collection Mode
         {
         	if(g2Lbump)
