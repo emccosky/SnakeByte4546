@@ -349,10 +349,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 
         if(curMode == 1) //Debris collection Mode
         {
-        	if(g2Lbump)
-        		runManip(1.0);
-        	else if(g2Ltrig > 0.3)
-        		runManip(-1.0);
+        	runManip(g2y1);
         	else
         		runManip(0.0);
         	//Moves basket
@@ -406,10 +403,5 @@ public class FiveWheelTeleOpV2 extends OpMode
         {
             //After Scrimmage
         }*/
-    }
-
-    public void stop()
-    {
-    
     }
 }
