@@ -34,7 +34,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     double debrisLiftServoPos1;
     double debrisLiftServoPos2;
     double debrisLiftServoPos3;
-/*
+
     int curMode; //Current mode
     int prevMode;
     boolean hasControllerBeenUsed;
@@ -65,15 +65,14 @@ public class FiveWheelTeleOpV2 extends OpMode
     boolean g2BPressed;
     boolean startPhaseRunning;
     boolean startPhaseOver;
-    boolean autoHangRunning;*/
+    boolean autoHangRunning;
 
     public void FiveWheelTeleOpV2() {}
 
     public void init()
     {
-        /*curMode = 1;
         startPhaseRunning = false;
-        startPhaseOver = false;*/
+        startPhaseOver = false;
         center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
         motorQ2 = hardwareMap.dcMotor.get("motorq2");
@@ -85,7 +84,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         debrisLiftServo2 = hardwareMap.servo.get("servo2");
         debrisLiftServo3 = hardwareMap.servo.get("servo3");
     }
-/*
+
     private double scaleInputSimple(double pwr)
     {
         if(pwr > 0.0)
@@ -263,7 +262,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 		motorQ4.setPower(speed);
 	}
 	
-	public void setDebrisLiftServos(double pos)
+	/*public void setDebrisLiftServos(double pos)
 	{
 		debrisLiftL.setPosition(pos);
 		debrisLiftR.setPosition(1.0 - pos);
@@ -292,6 +291,23 @@ public class FiveWheelTeleOpV2 extends OpMode
 		debrisLiftServo1.setPosition(debrisLiftServoPos1);
         debrisLiftServo2.setPosition(debrisLiftServoPos2);
 	}*/
+    public void basketNeutral() {
+        debrisLiftServo1.setPosition(0.1);
+        debrisLiftServo2.setPosition(0.9);
+        debrisLiftServo3.setPosition(0.45);
+    }
+
+    public void basketLeft() {
+        debrisLiftServo1.setPosition(0.1);
+        debrisLiftServo2.setPosition(0.475);
+        debrisLiftServo3.setPosition(0.6);
+    }
+
+    public void basketRight() {
+        debrisLiftServo1.setPosition(0.6);
+        debrisLiftServo2.setPosition(0.9);
+        debrisLiftServo3.setPosition(0.3);
+    }
 	
     public void loop()
     {
@@ -331,7 +347,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         }
 
         //SERVO 2 values
-        //0.475
+        //0.475 for down
         //0.9 for up
         if(Math.abs(gamepad1.right_stick_y) > 0.1)
         {
