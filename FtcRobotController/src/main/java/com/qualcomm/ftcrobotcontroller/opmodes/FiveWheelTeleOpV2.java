@@ -24,7 +24,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     DcMotor motorQ3; //BL if manip considered the front, FR if center wheel is front
     DcMotor motorQ4; //BR if manip considered the front, FL if center wheel is front
     DcMotor center;
-    DcMotor debrisLift;
+    //DcMotor debrisLift;
     DcMotor motorManip;
 
     Servo debrisLiftServo1;
@@ -34,7 +34,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     double debrisLiftServoPos1;
     double debrisLiftServoPos2;
     double debrisLiftServoPos3;
-
+/*
     int curMode; //Current mode
     int prevMode;
     boolean hasControllerBeenUsed;
@@ -65,15 +65,15 @@ public class FiveWheelTeleOpV2 extends OpMode
     boolean g2BPressed;
     boolean startPhaseRunning;
     boolean startPhaseOver;
-    boolean autoHangRunning;
+    boolean autoHangRunning;*/
 
     public void FiveWheelTeleOpV2() {}
 
     public void init()
     {
-        curMode = 1;
+        /*curMode = 1;
         startPhaseRunning = false;
-        startPhaseOver = false;
+        startPhaseOver = false;*/
         center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
         motorQ2 = hardwareMap.dcMotor.get("motorq2");
@@ -85,7 +85,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         debrisLiftServo2 = hardwareMap.servo.get("servo2");
         debrisLiftServo3 = hardwareMap.servo.get("servo3");
     }
-
+/*
     private double scaleInputSimple(double pwr)
     {
         if(pwr > 0.0)
@@ -263,13 +263,13 @@ public class FiveWheelTeleOpV2 extends OpMode
 		motorQ4.setPower(speed);
 	}
 	
-	/*public void setDebrisLiftServos(double pos)
+	public void setDebrisLiftServos(double pos)
 	{
 		debrisLiftL.setPosition(pos);
 		debrisLiftR.setPosition(1.0 - pos);
-	}*/
-	
-	/*public void moveDebrisLiftServos(double speed)
+	}
+
+	public void moveDebrisLiftServos(double speed)
 	{
 		debrisLiftPos += speed / 10.0;
 		if(debrisLiftPos > 1.0)
@@ -277,12 +277,12 @@ public class FiveWheelTeleOpV2 extends OpMode
 		else if(debrisLiftPos < 1.0)
             debrisLiftPos = 0.0;
 		setDebrisLiftServos(debrisLiftPos);
-	}*/
+	}
 
-	/*public void resetDebrisLiftServos() {
+	public void resetDebrisLiftServos() {
         debrisLiftPos = 0.0;
 		setDebrisLiftServos(debrisLiftPos);
-	}*/
+	}
 
 	public void moveDebrisLiftBasket(double change)
 	{
@@ -291,7 +291,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 		debrisLiftServoPos2 += ch;
 		debrisLiftServo1.setPosition(debrisLiftServoPos1);
         debrisLiftServo2.setPosition(debrisLiftServoPos2);
-	}
+	}*/
 	
     public void loop()
     {
@@ -319,18 +319,43 @@ public class FiveWheelTeleOpV2 extends OpMode
         	if(g1YPressed)
         		curMode = 2;
         }*/
+
+        //SERVO 1 Values
+        //0.6 for down
+        //0.1 for up
         if(Math.abs(gamepad1.left_stick_y) > 0.1)
         {
-        	debrisLiftServo1.setPosition(0.5 + (gamepad1.left_stick_y / 2.0));
-        	debrisLiftServo2.setPosition(0.5 - (gamepad1.left_stick_y / 2.0));
-            //telemetry.addData("g1y1", g1y1);
+        	debrisLiftServoPos1 = (0.5 + (gamepad1.left_stick_y / 2.0));
+            telemetry.addData("Servo 1", debrisLiftServoPos1);
+            debrisLiftServo1.setPosition(debrisLiftServoPos1);
         }
 
+        //SERVO 2 values
+        //0.475
+        //0.9 for up
         if(Math.abs(gamepad1.right_stick_y) > 0.1)
+        {
+            debrisLiftServoPos2 = (0.5 - (gamepad1.right_stick_y / 2.0));
+            telemetry.addData("Servo 2", debrisLiftServoPos2);
+            debrisLiftServo2.setPosition(debrisLiftServoPos2);
+        }
+
+        //SERVO 3 Values
+        //Left side (Manip = front) = 0.6
+        //Right side (Manip = front) = 0.3
+
+        if(Math.abs(gamepad1.left_trigger) > 0.1)
 		{
-			debrisLiftServo3.setPosition(0.5 + (gamepad1.right_stick_y / 2.0));
-            //telemetry.addData("g1y2",gamepad1.right_stick_y);
-		}        	
+			debrisLiftServoPos3 = (0.5 + (gamepad1.left_trigger / 2.0));
+            telemetry.addData("Servo 3", debrisLiftServoPos3);
+            debrisLiftServo3.setPosition(debrisLiftServoPos3);
+		}
+        if(Math.abs(gamepad1.right_trigger) > 0.1)
+        {
+            debrisLiftServoPos3 = (0.5 - (gamepad1.right_trigger / 2.0));
+            telemetry.addData("Servo 3",debrisLiftServoPos3);
+            debrisLiftServo3.setPosition(debrisLiftServoPos3);
+        }
         /*if(curMode == 1) //Debris collection Mode
         {
         	if(g2Lbump)

@@ -58,7 +58,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("RookieCode", RookieCode.class);
     manager.register("LifterOp", TrollBotAuto.class);
     manager.register("FiveWheelTeleOp", FiveWheelTeleOp.class);
-    manager.register("FiveWheelTeleOpv2", FiveWheelTeleOp.class);
+    manager.register("FiveWheelTeleOpv2", FiveWheelTeleOpV2.class);
     manager.register("MagicAuto", MagicAuto.class);
     /*
      * The following op modes are example op modes provided by QualComm.
