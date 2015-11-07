@@ -24,7 +24,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     DcMotor motorQ3; //BL if manip considered the front, FR if center wheel is front
     DcMotor motorQ4; //BR if manip considered the front, FL if center wheel is front
     DcMotor center;
-    //DcMotor debrisLift;
+    DcMotor debrisLift;
     DcMotor motorManip;
 
     Servo debrisLiftServo1;
@@ -72,10 +72,20 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     public void init()
     {
+        center = hardwareMap.dcMotor.get("center");
+        motorQ1 = hardwareMap.dcMotor.get("motorq1");
+        motorQ2 = hardwareMap.dcMotor.get("motorq2");
+        motorQ3 = hardwareMap.dcMotor.get("motorq3");
+        motorQ4 = hardwareMap.dcMotor.get("motorq4");
+        motorManip = hardwareMap.dcMotor.get("manip");
+        debrisLift = hardwareMap.dcMotor.get("debrisLift");
+        debrisLiftServo1 = hardwareMap.servo.get("servo1");
+        debrisLiftServo2 = hardwareMap.servo.get("servo2");
+        debrisLiftServo3 = hardwareMap.servo.get("servo3");
     	curMode = 1;
-    	startPhaseRunning = false;
-    	startPhaseOver = false;
-    	autoHangRunning = false;
+    	//startPhaseRunning = false;
+    	//startPhaseOver = false;
+    	//autoHangRunning = false;
     	prevLiftSide = "right";
     	debrisLiftServo1.setPosition(0.1); //Up
         debrisLiftServo2.setPosition(0.9); //Up
@@ -83,16 +93,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     	debrisLiftServoPos1 = 0.1;
     	debrisLiftServoPos2 = 0.9;
     	debrisLiftServoPos3 = 0.45;
-        center = hardwareMap.dcMotor.get("center");
-        motorQ1 = hardwareMap.dcMotor.get("motorq1");
-        motorQ2 = hardwareMap.dcMotor.get("motorq2");
-        motorQ3 = hardwareMap.dcMotor.get("motorq3");
-        motorQ4 = hardwareMap.dcMotor.get("motorq4");
-        motorManip = hardwareMap.dcMotor.get("manip");
-        //debrisLift = hardwareMap.dcMotor.get("debrisLift");
-        debrisLiftServo1 = hardwareMap.servo.get("servo1");
-        debrisLiftServo2 = hardwareMap.servo.get("servo2");
-        debrisLiftServo3 = hardwareMap.servo.get("servo3");
+
     }
 
     private double scaleInputSimple(double pwr)
@@ -187,10 +188,10 @@ public class FiveWheelTeleOpV2 extends OpMode
         g1y2 = gamepad1.right_stick_y;
         g1x1 = gamepad1.left_stick_x;
         g1x2 = gamepad1.right_stick_x;
-        g2y1 = gamepad1.left_stick_y;
-        g2y2 = gamepad1.right_stick_y;
-        g2x1 = gamepad1.left_stick_x;
-        g2x2 = gamepad1.right_stick_x;
+        g2y1 = gamepad2.left_stick_y;
+        g2y2 = gamepad2.right_stick_y;
+        g2x1 = gamepad2.left_stick_x;
+        g2x2 = gamepad2.right_stick_x;
         g1Lbump = gamepad1.left_bumper;
         g1Rbump = gamepad1.right_bumper;
         g2Lbump = gamepad2.left_bumper;
@@ -323,7 +324,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     
     public void basketNeutralDown(String param)
     {
-    	if(param.equals("right")
+    	if(param.equals("right"))
     	{
     		debrisLiftServo1.setPosition(0.6); //Down
         	debrisLiftServo2.setPosition(0.9); //Up
@@ -332,7 +333,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         	debrisLiftServoPos2 = 0.9;
         	debrisLiftServoPos3 = 0.45;
     	}
-    	else if(param.equals("left")
+    	else if(param.equals("left"))
     	{
     		debrisLiftServo1.setPosition(0.1); //Up
         	debrisLiftServo2.setPosition(0.475); //Down
@@ -390,25 +391,24 @@ public class FiveWheelTeleOpV2 extends OpMode
 
         if(curMode == 1) //Debris collection Mode
         {
-            if (Math.abs(g2y1) > 0.1)
+            moveDebrisLift(scaleInputSimple(-g2y1));
+            if (Math.abs(g2y2) > 0.3)
             {
-                runManip(g2y1);
-            }
-        	else
-        	{
-        		runManip(0.0);
+                runManip(-g2y2);
+            } else {
+                runManip(0.0);
             }
         	//Moves basket
-			if(g1Rbump)
-				basketNeutral();
-			else if(g1Rtrig > 0.3)
-				basketLeft();
+            if (g2Rbump)
+                basketNeutral();
+			else if(g2Rtrig > 0.3)
+                basketLeft();
 			else if(g2Lbump)
 				basketNeutral();
 			else if(g2Ltrig > 0.3)
 				basketRight();
 			
-			moveDebrisLift(scaleInputSimple(g2y1));
+			//moveDebrisLift(scaleInputSimple(-g2y1));
 			runOddSide(scaleInputSimple(-g1y1));
 			runEvenSide(scaleInputSimple(g1y2));
 			center.setPower(0.0);
@@ -416,12 +416,16 @@ public class FiveWheelTeleOpV2 extends OpMode
         else if(curMode == 2) //Ramp Climbing Mode
         {
             //Stop manipulator
-            runManip(0.0);
-            moveDebrisLift(scaleInputSimple(g2y1));
-            if(g2APressed)
-            	basketNeutralDown(prevLiftSide);
-           	else if(g1Rbump)
-				basketNeutral();
+            //runManip(0.0);
+            runManip(scaleInputSimple(-g2y1));
+            if (g2Rbump)
+                basketNeutral();
+            else if(g2Rtrig > 0.3)
+                basketLeft();
+            else if(g2Lbump)
+                basketNeutral();
+            else if(g2Ltrig > 0.3)
+                basketRight();
 			else if(g1Rtrig > 0.3)
 			{
 				basketLeft();
@@ -439,7 +443,9 @@ public class FiveWheelTeleOpV2 extends OpMode
             runOddSide(scaleInputSimple(g1y2));
             runEvenSide(scaleInputSimple(-g1y1));
 			if((g1y1 > 0.1 && g1y1 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1))
-				center.setPower(scaleInputSimple(-g1y2));
+				center.setPower(scaleInputSimple(g1y2));
+            else
+                center.setPower(0.0);
         }
         /*else if(curMode == 3) //Hanging Mode
         {

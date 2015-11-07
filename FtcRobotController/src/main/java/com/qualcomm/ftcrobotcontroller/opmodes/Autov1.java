@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Autov1 extends OpMode
+public class Autov1 extends LinearOpMode
 {
     DcMotor motorQ1; //FL if manip considered the front, BR if center wheel is front
     DcMotor motorQ2; //FR if manip considered the front, BL if center wheel is front
@@ -69,23 +69,6 @@ public class Autov1 extends OpMode
 
     public void Autov1() {}
 
-    public void init()
-    {
-    	curMode = 1;
-    	startPhaseRunning = false;
-    	startPhaseOver = false;
-    	autoHangRunning = false;
-        center = hardwareMap.dcMotor.get("center");
-        motorQ1 = hardwareMap.dcMotor.get("motorq1");
-        motorQ2 = hardwareMap.dcMotor.get("motorq2");
-        motorQ3 = hardwareMap.dcMotor.get("motorq3");
-        motorQ4 = hardwareMap.dcMotor.get("motorq4");
-        motorManip = hardwareMap.dcMotor.get("manip");
-        //debrisLift = hardwareMap.dcMotor.get("debrisLift");
-        debrisLiftServo1 = hardwareMap.servo.get("servo1");
-        debrisLiftServo2 = hardwareMap.servo.get("servo2");
-        debrisLiftServo3 = hardwareMap.servo.get("servo3");
-    }
 
     private double scaleInputSimple(double pwr)
     {
@@ -201,9 +184,10 @@ public class Autov1 extends OpMode
         debrisLiftServo1 = hardwareMap.servo.get("servo1");
         debrisLiftServo2 = hardwareMap.servo.get("servo2");
         debrisLiftServo3 = hardwareMap.servo.get("servo3");
-        
-        waitForStart();
-        
+        /*try {
+            waitForStart();
+        }
+        catch(InterruptedException e){}*/
         this.resetStartTime();
         while(this.getRuntime() < 10.0)
         {
