@@ -72,6 +72,9 @@ public class FiveWheelTeleOpV2 extends OpMode
     public void init()
     {
     	curMode = 1;
+    	startPhaseRunning = false;
+    	startPhaseOver = false;
+    	autoHangRunning = false;
         center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
         motorQ2 = hardwareMap.dcMotor.get("motorq2");
