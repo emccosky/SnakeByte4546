@@ -206,8 +206,8 @@ public class FiveWheelTeleOpV2 extends OpMode
             	curMode = 1;
         	else if(g2BPressed)
             	curMode = 2;
-        	//else if(g2YPressed)
-        	//    curMode = 3;
+        	else
+                curMode = prevMode;
         }
     }
 
@@ -325,7 +325,7 @@ public class FiveWheelTeleOpV2 extends OpMode
     public void loop()
     {
         //curMode = 1;
-        //updateVals();
+        updateVals();
         /*if(!startPhaseOver) //Robot has done nothing since start of match
         {
             if(g1y1 > 0.3 || g1y1 < -0.3 || g1y2 > 0.3 || g1y2 < -0.3)
@@ -351,9 +351,12 @@ public class FiveWheelTeleOpV2 extends OpMode
 
         if(curMode == 1) //Debris collection Mode
         {
-        	runManip(g2y1);
-        	else
+            if (Math.abs(g2y1) > 0.1) {
+                runManip(g2y1);
+            }
+        	else {
         		runManip(0.0);
+            }
         	//Moves basket
 			if(g1Rbump)
 				basketNeutral();
@@ -365,7 +368,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 				basketRight();
 			
 			//moveDebrisLift(scaleInputSimple(g2y1));
-			runOddSide(scaleInputSimple(g1y1));
+			runOddSide(scaleInputSimple(-g1y1));
 			runEvenSide(scaleInputSimple(g1y2));
 			center.setPower(0.0);
         }
@@ -405,5 +408,14 @@ public class FiveWheelTeleOpV2 extends OpMode
         {
             //After Scrimmage
         }*/
+        if (curMode == 1) {
+            telemetry.addData("Mode: ", "Debris Collection");
+        }
+        else if (curMode == 2) {
+            telemetry.addData("Mode: ", "Mountain Mode");
+        }
+        else {
+            telemetry.addData("Mode: ", "ERROR");
+        }
     }
 }
