@@ -5,8 +5,6 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 
-import newinventions.AdafruitIMU;
-
 /**
  * Created by Owner on 8/31/2015.
  */
