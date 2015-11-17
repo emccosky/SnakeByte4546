@@ -61,6 +61,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("FiveWheelTeleOpV2", FiveWheelTeleOpV2.class);
     manager.register("MagicAuto", MagicAuto.class);
     manager.register("Autov1", Autov1.class);
+    manager.register("IMUTEST", IMUTest.class);
     /*
      * The following op modes are example op modes provided by QualComm.
      * Uncomment the lines to make the op modes available to the driver station.
