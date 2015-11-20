@@ -626,22 +626,18 @@ public class AdafruitIMU implements HardwareDevice, I2cController.I2cPortReadyCa
         }
     }
 
-    public short getIMUcurrentXVel()
-    {
-        short curXVel = 0;
-        if(totalI2Creads > 2)
-        {
-            try{
-                i2cReadCacheLock.lock();
-                curXVel = i2cReadCache[BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR - readCacheOffset];
-            }
-            finally{
-                i2cReadCacheLock.unlock();
-            }
-        }
-
-        return curXVel;
-    }
+  public void getAccel(double[] accs) // x,y,z acc double[]
+  {
+    accs[0] = (double) ((short)
+            ((i2cReadCache[BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR - readCacheOffset] & 0XFF) << 8)
+            | (i2cReadCache[BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR - readCacheOffset] & 0XFF)) / 100.0;
+    accs[1] = (double) ((short)
+            ((i2cReadCache[BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR - readCacheOffset] & 0XFF) << 8)
+            | (i2cReadCache[BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR - readCacheOffset] & 0XFF)) / 100.0;
+    accs[2] = (double) ((short)
+            ((i2cReadCache[BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR - readCacheOffset] & 0XFF) << 8)
+            | (i2cReadCache[BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR - readCacheOffset] & 0XFF)) / 100.0;
+  }
 
     /*
      * Use of the following callback assumes that I2C reading has been enabled for a particular I2C
