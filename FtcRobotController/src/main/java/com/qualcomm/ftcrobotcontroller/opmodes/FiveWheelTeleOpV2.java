@@ -187,7 +187,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 
     public void updateVals() //Updates all variable values
     {
-        g1y1 = gamepad16.left_stick_y;
+        g1y1 = gamepad1.left_stick_y;
         g1y2 = gamepad1.right_stick_y;
         g1x1 = gamepad1.left_stick_x;
         g1x2 = gamepad1.right_stick_x;

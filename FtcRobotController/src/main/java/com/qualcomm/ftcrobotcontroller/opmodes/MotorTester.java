@@ -25,17 +25,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.EventLoopManager;
-import com.qualcomm.robotcore.eventloop.*;
-import com.qualcomm.robotcore.eventloop.opmode.*;
-import com.qualcomm.ftccommon.*;
+import com.qualcomm.ftccommon.DbgLog;
+import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.*;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
+import com.qualcomm.robotcore.eventloop.EventLoopManager;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.ftccommon.FtcEventLoopHandler;
-//import com.custom.;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -45,12 +50,13 @@ import com.qualcomm.ftccommon.FtcEventLoopHandler;
  */
 public class MotorTester extends OpMode
 {
-    DcMotor motorBL;
-    DcMotor motorBR;
-    DcMotor motorFL;
-    DcMotor motorFR;
+    DcMotor motorQ1;
+    DcMotor motorQ2;
+    DcMotor motorQ3;
+    DcMotor motorQ4;
     DcMotor center;
-    DcMotor lift;
+    DcMotor debrisLift;
+	DcMotor motorManip;
     Servo tiltServo;
     Servo servoRFlap;
     Servo servoLFlap;
@@ -60,9 +66,9 @@ public class MotorTester extends OpMode
     double tiltServoPos;
     double servoRFlapPos;
     double servoLFlapPos;
-    double servoHitClimberL;
-    double servoHitClimberR;
-    
+    double servoHitClimberLPos;
+    double servoHitClimberRPos;
+
     boolean X;
     boolean A;
     boolean B;
@@ -72,7 +78,7 @@ public class MotorTester extends OpMode
     boolean rightBump;
     boolean leftBump;
 
-    public TestAutonChooser() {
+    public MotorTester() {
     }
 
 	private double scaleInputSimple(double pwr)
@@ -163,6 +169,14 @@ public class MotorTester extends OpMode
     @Override
     public void init()
     {
+		X = false;
+		Y = false;
+		A = false;
+		B = false;
+		leftTrig = false;
+		rightTrig = false;
+		rightBump = false;
+		rightTrig = false;
 		center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
         motorQ2 = hardwareMap.dcMotor.get("motorq2");

@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.exception.RobotCoreException;
 /**
  * Created by Owner on 8/31/2015.
  */
-public class IMUTest extends LinearOpMode {
-
+public class IMUTest extends LinearOpMode
+{
     AdafruitIMU gyro;
 
     //The following arrays contain both the Euler angles reported by the IMU (indices = 0) AND the
@@ -21,7 +21,7 @@ public class IMUTest extends LinearOpMode {
     double prevXAcc; //In m/s^2
     double prevYAcc; //In m/s^2
     double prevZAcc; //In m/s^2
-    
+
     double curXVel; //In m/s
     double curYVel; //In m/s
     double curZVel; //In m/s
@@ -41,6 +41,9 @@ public class IMUTest extends LinearOpMode {
     long systemTime;//Relevant values of System.nanoTime
     long elapsedTime;
     long prevTime;
+
+    double curHeading;
+    double desiredHeading;
 
     /************************************************************************************************
      * The following method was introduced in the 3 August 2015 FTC SDK beta release and it runs
