@@ -27,13 +27,17 @@ public class FiveWheelTeleOpV2 extends OpMode
     DcMotor debrisLift;
     DcMotor motorManip;
 
-    Servo debrisLiftServo1;
-    Servo debrisLiftServo2;
-    Servo debrisLiftServo3;
+    Servo tiltServo;
+    Servo servoHitClimberL;
+    Servo servoHitClimberR;
+    Servo servoLFlap;
+    Servo servoRFlap;
 
-    double debrisLiftServoPos1;
-    double debrisLiftServoPos2;
-    double debrisLiftServoPos3;
+    double getServoHitClimberLPos;
+    double getServoHitClimberRPos;
+    double tiltServoPos;
+    double servoLFlapPos;
+    double servoRFlapPos;
 
     int curMode; //Current mode
     int prevMode;
@@ -90,12 +94,12 @@ public class FiveWheelTeleOpV2 extends OpMode
     	//startPhaseOver = false;
     	//autoHangRunning = false;
     	prevLiftSide = "right";
-    	debrisLiftServo1.setPosition(0.1); //Up
+    	/*debrisLiftServo1.setPosition(0.1); //Up
         debrisLiftServo2.setPosition(0.9); //Up
         debrisLiftServo3.setPosition(0.45); //Midlee
     	debrisLiftServoPos1 = 0.1;
     	debrisLiftServoPos2 = 0.9;
-    	debrisLiftServoPos3 = 0.45;
+    	debrisLiftServoPos3 = 0.45;*/
 
     }
 
@@ -325,54 +329,54 @@ public class FiveWheelTeleOpV2 extends OpMode
     //Left side (Manip = front) = 0.6
     //Right side (Manip = front) = 0.3
     public void basketNeutral() {
-        debrisLiftServo1.setPosition(0.1); //Up
+        /*debrisLiftServo1.setPosition(0.1); //Up
         debrisLiftServo2.setPosition(0.9); //Up
         debrisLiftServo3.setPosition(0.45); //Midlee
         debrisLiftServoPos1 = 0.1;
         debrisLiftServoPos2 = 0.9;
-        debrisLiftServoPos3 = 0.45;
+        debrisLiftServoPos3 = 0.45;*/
     }
     
     public void basketNeutralDown(String param)
     {
     	if(param.equals("right"))
     	{
-    		debrisLiftServo1.setPosition(0.6); //Down
+    		/*debrisLiftServo1.setPosition(0.6); //Down
         	debrisLiftServo2.setPosition(0.9); //Up
         	debrisLiftServo3.setPosition(0.45); //Neutral
         	debrisLiftServoPos1 = 0.6;
         	debrisLiftServoPos2 = 0.9;
-        	debrisLiftServoPos3 = 0.45;
+        	debrisLiftServoPos3 = 0.45;*/
     	}
     	else if(param.equals("left"))
     	{
-    		debrisLiftServo1.setPosition(0.1); //Up
+    		/*debrisLiftServo1.setPosition(0.1); //Up
         	debrisLiftServo2.setPosition(0.475); //Down
         	debrisLiftServo3.setPosition(0.45); //Neutral
         	debrisLiftServoPos1 = 0.1;
         	debrisLiftServoPos2 = 0.475;
-        	debrisLiftServoPos3 = 0.45;
+        	debrisLiftServoPos3 = 0.45;*/
     	}
     }
 
     public void basketLeft()
     {
-        debrisLiftServo1.setPosition(0.1); //Up
+        /*debrisLiftServo1.setPosition(0.1); //Up
         debrisLiftServo2.setPosition(0.475); //Down
         debrisLiftServo3.setPosition(0.6); //Left
         debrisLiftServoPos1 = 0.1;
         debrisLiftServoPos2 = 0.475;
-        debrisLiftServoPos3 = 0.45;
+        debrisLiftServoPos3 = 0.45;*/
     }
 
     public void basketRight()
     {
-        debrisLiftServo1.setPosition(0.6); //Down
+        /*debrisLiftServo1.setPosition(0.6); //Down
         debrisLiftServo2.setPosition(0.9); //Up
         debrisLiftServo3.setPosition(0.3); //Right
         debrisLiftServoPos1 = 0.6;
         debrisLiftServoPos2 = 0.9;
-        debrisLiftServoPos3 = 0.3;
+        debrisLiftServoPos3 = 0.3;*/
     }
 	
     public void loop()

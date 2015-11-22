@@ -2,13 +2,16 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Owner on 8/31/2015.
  */
-public class IMUTest extends LinearOpMode
+public class IMUTest extends OpMode
 {
     AdafruitIMU gyro;
 
@@ -27,14 +30,14 @@ public class IMUTest extends LinearOpMode
     double curZVel; //In m/s
     double prevXVel; //In m/s
     double prevYVel; //In m/s
-    double prevZVel; //In m/s
+    double prevZVel; //In m/s
     
     double curXPos; //In cm
     double curYPos; //In cm
     double curZPos; //In cm
     double prevXPos; //In cm
     double prevYPos; //In cm
-    double prevZVel; //In cm
+    double prevZPos; //In cm
     
     boolean hasStarted;
 
@@ -43,69 +46,88 @@ public class IMUTest extends LinearOpMode
     long prevTime;
 
     double curHeading;
+    double prevHeading;
     double desiredHeading;
+
+    DcMotor motorQ1; //FL if manip considered the front, BR if center wheel is front
+    DcMotor motorQ2; //FR if manip considered the front, BL if center wheel is front
+    DcMotor motorQ3; //BL if manip considered the front, FR if center wheel is front
+    DcMotor motorQ4; //BR if manip considered the front, FL if center wheel is front
+    DcMotor center;
+    DcMotor debrisLift;
+    DcMotor motorManip;
+
+    Servo tiltServo;
+    Servo servoHitClimberL;
+    Servo servoHitClimberR;
+    Servo servoLFlap;
+    Servo servoRFlap;
 
     /************************************************************************************************
      * The following method was introduced in the 3 August 2015 FTC SDK beta release and it runs
      * before "start" runs.
      */
      
-	public void runOddSide(double speed)
-	{
-		motorQ1.setPower(speed);
-		motorQ3.setPower(speed);
-	}
-	
-	public void runEvenSide(double speed)
-	{
-		motorQ2.setPower(speed);
-		motorQ4.setPower(speed);
-	}
-	
-	public void stopMotors()
-	{
-		motorQ1.setPower(0.0);
-		motorQ2.setPower(0.0);
-		motorQ3.setPower(0.0);
-		motorQ4.setPower(0.0);
-	}
+
 	
     @Override
-    public void init() {
-    curHeading = 0; //CHANGE BASED ON PROGRAM
-    hasStarted = false;
-    prevHeading = curHeading;
-    curXAcc = 0;
-    curYAcc = 0;
-    curZAcc = 0;
-    prevXAcc = 0;
-    prevYAcc = 0;
-    prevZAcc = 0;
-    
-    curXVel = 0;
-    curYVel = 0;
-    curZVel = 0;
-    prevXVel = 0;
-    prevYVel = 0;
-    prevZVel = 0;
-    
-    curXPos = 0; //CHANGE BASED ON PROGRAM
-    curYPos = 0; //CHANGE BASED ON PROGRAM
-    curZPos = 0;
-    prevXPos = curXPos;
-    prevYPos = 0;
-    prevZVel = 0;
-    
+    public void init()
+    {
+        curHeading = 0; //CHANGE BASED ON PROGRAM
+        hasStarted = false;
+        prevHeading = curHeading;
+        curXAcc = 0;
+        curYAcc = 0;
+        curZAcc = 0;
+        prevXAcc = 0;
+        prevYAcc = 0;
+        prevZAcc = 0;
+
+        curXVel = 0;
+        curYVel = 0;
+        curZVel = 0;
+        prevXVel = 0;
+        prevYVel = 0;
+        prevZVel = 0;
+
+        curXPos = 0; //CHANGE BASED ON PROGRAM
+        curYPos = 0; //CHANGE BASED ON PROGRAM
+        curZPos = 0;
+        prevXPos = curXPos;
+        prevYPos = 0;
+        prevZVel = 0;
+
 
         systemTime = System.nanoTime();
         prevTime = systemTime;
-        try {
+        try
+        {
             gyro = new AdafruitIMU(hardwareMap, "bno055"
-                    , (byte)(AdafruitIMU.BNO055_ADDRESS_A * 2)//By convention the FTC SDK always does 8-bit I2C bus
-                    , (byte)AdafruitIMU.OPERATION_MODE_IMU);
-        } catch (RobotCoreException e){
-            Log.i("FtcRobotController", "Exception: " + e.getMessage());
-        }
+                        , (byte)(AdafruitIMU.BNO055_ADDRESS_A * 2)//By convention the FTC SDK always does 8-bit I2C bus
+                        , (byte)AdafruitIMU.OPERATION_MODE_IMU);
+            } catch (RobotCoreException e){
+                Log.i("FtcRobotController", "Exception: " + e.getMessage());
+            }
+    }
+
+    public void runOddSide(double speed)
+    {
+        motorQ1.setPower(speed);
+        motorQ3.setPower(speed);
+    }
+
+    public void runEvenSide(double speed)
+    {
+        motorQ2.setPower(speed);
+        motorQ4.setPower(speed);
+    }
+
+    public void stopMotors()
+    {
+        motorQ1.setPower(0.0);
+        motorQ2.setPower(0.0);
+        motorQ3.setPower(0.0);
+        motorQ4.setPower(0.0);
     }
 
     /************************************************************************************************
@@ -177,7 +199,7 @@ public class IMUTest extends LinearOpMode
     	
     	//Display information on screen
         telemetry.addData("Headings(yaw): ",
-                String.format("Euler= %4.5f", yawAngle[0]);
+                String.format("Euler= %4.5f", yawAngle[0]));
 	}
  
 	public static double calcDesiredHeading(double startX, double startY, double endX, double endY)
@@ -245,7 +267,7 @@ public class IMUTest extends LinearOpMode
     {
     	desiredHeading = calcDesiredHeading(curXPos, curYPos, x, y);
     	turnToHeading(desiredHeading);
-    	desiredDist = calcDesiredDistance(curXPos, curYPos, x, y);
+    	double desiredDist = calcDesiredDistance(curXPos, curYPos, x, y);
     	double curDist = 0.0;
     	while(curDist < desiredDist)
     	{

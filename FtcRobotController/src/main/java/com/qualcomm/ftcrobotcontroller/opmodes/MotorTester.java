@@ -23,24 +23,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftccommon.DbgLog;
-import com.qualcomm.ftcrobotcontroller.R;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
-import com.qualcomm.robotcore.hardware.DigitalChannelController;
-import com.qualcomm.robotcore.eventloop.EventLoopManager;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.*;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.ftccommon.FtcEventLoopHandler;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -61,8 +51,8 @@ public class MotorTester extends OpMode
     Servo servoRFlap;
     Servo servoLFlap;
     Servo servoHitClimberL;
-    Servo servoHitClimberR;
-    
+	Servo servoHitClimberR;
+
     double tiltServoPos;
     double servoRFlapPos;
     double servoLFlapPos;
@@ -201,13 +191,13 @@ public class MotorTester extends OpMode
 		servoHitClimberR.setPosition(0.5);
 		
 		tiltServoPos = 0.5;
-		servoRFlap = 0.5;
-		servoLFlap = 0.5;
-		servoHitClimberL = 0.5;
-		servoHitClimberR = 0.5;
+		servoRFlapPos = 0.5;
+		servoLFlapPos = 0.5;
+		servoHitClimberLPos = 0.5;
+		servoHitClimberRPos = 0.5;
 	}
 	
-	public static void updateVals()
+	public void updateVals()
 	{
 		if(gamepad1.x)
 		{
@@ -298,7 +288,7 @@ public class MotorTester extends OpMode
 			leftBump = true;
 		}
 	}
-	
+
 	@Override
 	public void loop()
 	{
@@ -307,8 +297,8 @@ public class MotorTester extends OpMode
 		{
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
-			telemetry.addData("Left stick controls motorQ1" + String.format("%.2f",gamepad1.left_stick_y)); //FL if manip is front
-			telemetry.addData("Right stick controls motorQ3" + String.format("%.2f",gamepad1.right_stick_y)); //BL if manip is front
+			telemetry.addData("Left stick controls motorQ1", String.format("%.2f",gamepad1.left_stick_y)); //FL if manip is front
+			telemetry.addData("Right stick controls motorQ3", String.format("%.2f",gamepad1.right_stick_y)); //BL if manip is front
 			motorQ1.setPower(spdL);
 			motorQ3.setPower(spdR);
 		}
@@ -316,8 +306,8 @@ public class MotorTester extends OpMode
 		{
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
-			telemetry.addData("Left stick controls motorQ2" + String.format("%.2f",gamepad1.left_stick_y)); //FR if manip is front
-			telemetry.addData("Right stick controls motorQ4" + String.format("%.2f",gamepad1.right_stick_y)); //BR if manip is front
+			telemetry.addData("Left stick controls motorQ2", String.format("%.2f",gamepad1.left_stick_y)); //FR if manip is front
+			telemetry.addData("Right stick controls motorQ4", String.format("%.2f",gamepad1.right_stick_y)); //BR if manip is front
 			motorQ2.setPower(spdL);
 			motorQ4.setPower(spdR);
 		}
@@ -325,22 +315,22 @@ public class MotorTester extends OpMode
 		{
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
-			telemetry.addData("Left stick controls manip" + String.format("%.2f",gamepad1.left_stick_y));
-			telemetry.addData("Right stick controls lift" + String.format("%.2f",gamepad1.right_stick_y));
-			manip.setPower(spdL);
+			telemetry.addData("Left stick controls manip", String.format("%.2f",gamepad1.left_stick_y));
+			telemetry.addData("Right stick controls lift", String.format("%.2f",gamepad1.right_stick_y));
+			motorManip.setPower(spdL);
 			debrisLift.setPower(spdR);
 		}
 		else if(B)
 		{
 			double spd = scaleInputSimple(gamepad1.left_stick_y);
-			telemetry.addData("Left stick controls center wheel " + String.format("%.2f",gamepad1.left_stick_y);
+			telemetry.addData("Left stick controls center wheel", String.format("%.2f",gamepad1.left_stick_y));
 			center.setPower(spd);
 		}
 		else if(rightTrig)
 		{
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
-			
+
 			servoHitClimberLPos += (spdL / 50);
 			if(servoHitClimberLPos < 0)
 				servoHitClimberLPos = 0.0;
@@ -352,18 +342,17 @@ public class MotorTester extends OpMode
 				servoHitClimberRPos = 0.0;
 			else if(servoHitClimberRPos > 1.0)
 				servoHitClimberRPos = 1.0;
-			
-			
+
 			servoHitClimberL.setPosition(servoHitClimberLPos);
 			servoHitClimberR.setPosition(servoHitClimberRPos);
-			telemetry.addData("Left stick controls servoHitClimberL" + String.format("%.2f",servoHitClimberLPos));
-			telemetry.addData("Right stick controls servoHitClimberR" + String.format("%.2f",servoHitClimberRPos));
+			telemetry.addData("Left stick controls servoHitClimberL", String.format("%.2f",servoHitClimberLPos));
+			telemetry.addData("Right stick controls servoHitClimberR", String.format("%.2f",servoHitClimberRPos));
 		}
 		else if(leftTrig)
 		{
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
-			
+
 			servoLFlapPos += (spdL / 50);
 			if(servoLFlapPos < 0)
 				servoLFlapPos = 0.0;
@@ -375,16 +364,16 @@ public class MotorTester extends OpMode
 				servoRFlapPos = 0.0;
 			else if(servoRFlapPos > 1.0)
 				servoRFlapPos = 1.0;
-			
+
 			servoLFlap.setPosition(servoLFlapPos);
 			servoRFlap.setPosition(servoRFlapPos);
-			telemetry.addData("Left stick controls servoLFlap" + String.format("%.2f",servoLFlapPos));
-			telemetry.addData("Right stick controls servoRFlap" + String.format("%.2f",servoRFlapPos));
+			telemetry.addData("Left stick controls servoLFlap", String.format("%.2f",servoLFlapPos));
+			telemetry.addData("Right stick controls servoRFlap", String.format("%.2f",servoRFlapPos));
 		}
 		else if(rightBump)
 		{
 			double spd = gamepad1.left_stick_y;
-			
+
 			tiltServoPos += (spd / 50);
 			if(tiltServoPos < 0)
 				tiltServoPos = 0.0;
@@ -392,11 +381,11 @@ public class MotorTester extends OpMode
 				tiltServoPos = 1.0;
 			
 			tiltServo.setPosition(tiltServoPos);
-			telemetry.addData("Left stick controls tiltServo" + String.format("%.2f",tiltServoPos));
+			telemetry.addData("Left stick controls tiltServo", String.format("%.2f",tiltServoPos));
 		}
 		else if(leftBump)
 		{
-			telemetry.addData("This mode does not do anything");		
+			telemetry.addData("This mode does not do anything","");
 		}
 	}
 }
