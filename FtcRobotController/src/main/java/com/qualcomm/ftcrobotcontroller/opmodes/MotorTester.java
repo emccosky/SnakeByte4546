@@ -68,6 +68,8 @@ public class MotorTester extends OpMode
     boolean rightBump;
     boolean leftBump;
 
+	boolean switched;
+
     public MotorTester() {
     }
 
@@ -288,6 +290,53 @@ public class MotorTester extends OpMode
 			leftBump = true;
 		}
 	}
+	
+	public void stopOthers(String inp)
+	{
+		if(inp.equals("X"))
+		{
+			motorQ2.setPower(0.0);
+			motorQ4.setPower(0.0);
+			motorManip.setPower(0.0);
+			debrisLift.setPower(0.0);
+			center.setPower(0.0);
+		}
+		else if(inp.equals("Y"))
+		{
+			motorQ1.setPower(0.0);
+			motorQ3.setPower(0.0);
+			motorManip.setPower(0.0);
+			debrisLift.setPower(0.0);
+			center.setPower(0.0);
+		}
+		else if(inp.equals("A"))
+		{
+			motorQ1.setPower(0.0);
+			motorQ2.setPower(0.0);
+			motorQ3.setPower(0.0);
+			motorQ4.setPower(0.0);
+			center.setPower(0.0);
+		}
+		else if(inp.equals("B"))
+		{
+			motorQ1.setPower(0.0);
+			motorQ2.setPower(0.0);
+			motorQ3.setPower(0.0);
+			motorQ4.setPower(0.0);
+			motorManip.setPower(0.0);
+			debrisLift.setPower(0.0);
+		}
+		else
+		{
+			motorQ1.setPower(0.0);
+			motorQ2.setPower(0.0);
+			motorQ3.setPower(0.0);
+			motorQ4.setPower(0.0);
+			motorManip.setPower(0.0);
+			debrisLift.setPower(0.0);
+			center.setPower(0.0);
+		}
+	}
 
 	@Override
 	public void loop()
@@ -295,15 +344,18 @@ public class MotorTester extends OpMode
 		updateVals();
 		if(X)
 		{
+			stopOthers("X");
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
 			telemetry.addData("Left stick controls motorQ1", String.format("%.2f",gamepad1.left_stick_y)); //FL if manip is front
 			telemetry.addData("Right stick controls motorQ3", String.format("%.2f",gamepad1.right_stick_y)); //BL if manip is front
 			motorQ1.setPower(spdL);
 			motorQ3.setPower(spdR);
+			switched = true;
 		}
 		else if(Y)
 		{
+			stopOthers("Y");
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
 			telemetry.addData("Left stick controls motorQ2", String.format("%.2f",gamepad1.left_stick_y)); //FR if manip is front
@@ -313,6 +365,7 @@ public class MotorTester extends OpMode
 		}
 		else if(A)
 		{
+			stopOthers("A");
 			double spdL = scaleInputSimple(gamepad1.left_stick_y);
 			double spdR = scaleInputSimple(gamepad1.right_stick_y);
 			telemetry.addData("Left stick controls manip", String.format("%.2f",gamepad1.left_stick_y));
@@ -322,12 +375,14 @@ public class MotorTester extends OpMode
 		}
 		else if(B)
 		{
+			stopOthers("B");
 			double spd = scaleInputSimple(gamepad1.left_stick_y);
 			telemetry.addData("Left stick controls center wheel", String.format("%.2f",gamepad1.left_stick_y));
 			center.setPower(spd);
 		}
 		else if(rightTrig)
 		{
+			stopOthers("RT");
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
 
@@ -350,6 +405,7 @@ public class MotorTester extends OpMode
 		}
 		else if(leftTrig)
 		{
+			stopOthers("LT");
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
 
@@ -372,6 +428,7 @@ public class MotorTester extends OpMode
 		}
 		else if(rightBump)
 		{
+			stopOthers("RB");
 			double spd = gamepad1.left_stick_y;
 
 			tiltServoPos += (spd / 50);
@@ -385,6 +442,7 @@ public class MotorTester extends OpMode
 		}
 		else if(leftBump)
 		{
+			stopOthers("LB");
 			telemetry.addData("This mode does not do anything","");
 		}
 	}

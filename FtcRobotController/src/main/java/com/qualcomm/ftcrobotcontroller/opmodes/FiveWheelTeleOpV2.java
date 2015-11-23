@@ -227,42 +227,10 @@ public class FiveWheelTeleOpV2 extends OpMode
         }
     }
 
-    /*public void autoDumpMedium(int side)
-    {
-        //Side 0 = Right
-        //Side 1 = Left
-
-    }
-
-    public void autoDumpHigh(int side)
-    {
-        //Side 0 = Right
-        //Side 1 = Left
-    }
-
-    public void autoHang()
-    {
-        autoHangRunning = true;
-        //Code
-        autoHangRunning = false;
-    }
-
-    public void startPhaseOffRamp()
-    {
-        startPhaseRunning = true;
-        //Code
-        //Drive down the ramp, turn to prepare to pick up things
-        startPhaseRunning = false;
-        startPhaseOver = true;
-    }*/
-
-
-
 	public void runManip(double speed)
 	{
 		motorManip.setPower(speed);
 	}
-
     
 	public void moveDebrisLift(double speed)
 	{
