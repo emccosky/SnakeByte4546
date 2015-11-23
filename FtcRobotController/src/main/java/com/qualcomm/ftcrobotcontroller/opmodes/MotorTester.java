@@ -386,13 +386,15 @@ public class MotorTester extends OpMode
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
 
-			servoHitClimberLPos += (spdL / 50);
+			if(Math.abs(spdL) > 0.1)
+				servoHitClimberLPos += (spdL / 400);
 			if(servoHitClimberLPos < 0)
 				servoHitClimberLPos = 0.0;
 			else if(servoHitClimberLPos > 1.0)
 				servoHitClimberLPos = 1.0;
 
-			servoHitClimberRPos += (spdR / 50);
+			if(Math.abs(spdR) > 0.1)
+				servoHitClimberRPos += (spdR / 400);
 			if(servoHitClimberRPos < 0)
 				servoHitClimberRPos = 0.0;
 			else if(servoHitClimberRPos > 1.0)
@@ -409,13 +411,15 @@ public class MotorTester extends OpMode
 			double spdL = gamepad1.left_stick_y;
 			double spdR = gamepad1.right_stick_y;
 
-			servoLFlapPos += (spdL / 50);
+			if(Math.abs(spdL) > 0.1)
+				servoLFlapPos += (spdL / 400);
 			if(servoLFlapPos < 0)
 				servoLFlapPos = 0.0;
 			else if(servoLFlapPos > 1.0)
 				servoLFlapPos = 1.0;
 
-			servoRFlapPos += (spdR / 50);
+			if(Math.abs(spdR) > 0.1)
+				servoRFlapPos += (spdR / 400);
 			if(servoRFlapPos < 0)
 				servoRFlapPos = 0.0;
 			else if(servoRFlapPos > 1.0)
@@ -431,7 +435,8 @@ public class MotorTester extends OpMode
 			stopOthers("RB");
 			double spd = gamepad1.left_stick_y;
 
-			tiltServoPos += (spd / 50);
+			if(Math.abs(spd) > 0.1)
+				tiltServoPos += (spd / 400);
 			if(tiltServoPos < 0)
 				tiltServoPos = 0.0;
 			else if(tiltServoPos > 1.0)
