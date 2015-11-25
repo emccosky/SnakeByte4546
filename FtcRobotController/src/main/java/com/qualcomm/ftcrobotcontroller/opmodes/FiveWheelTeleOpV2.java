@@ -296,16 +296,17 @@ public class FiveWheelTeleOpV2 extends OpMode
     //SERVO 3 Values
     //Left side (Manip = front) = 0.6
     //Right side (Manip = front) = 0.3
-    public void basketNeutral() {
-        /*debrisLiftServo1.setPosition(0.1); //Up
-        debrisLiftServo2.setPosition(0.9); //Up
-        debrisLiftServo3.setPosition(0.45); //Midlee
-        debrisLiftServoPos1 = 0.1;
-        debrisLiftServoPos2 = 0.9;
-        debrisLiftServoPos3 = 0.45;*/
+    public void basketNeutral()
+    {
+        servoLFlap.setPosition(0.62); //Up
+        servoRFlap.setPosition(0.46); //Up
+        //tiltServo.setPosition(0.45); //Midlee
+        servoLFlapPos = 0.62;
+        servoRFlapPos = 0.46;
+        //tiltServoPos = 0.45;
     }
     
-    public void basketNeutralDown(String param)
+    /*public void basketNeutralDown(String param)
     {
     	if(param.equals("right"))
     	{
@@ -325,26 +326,26 @@ public class FiveWheelTeleOpV2 extends OpMode
         	debrisLiftServoPos2 = 0.475;
         	debrisLiftServoPos3 = 0.45;*/
     	}
-    }
+    }*/
 
     public void basketLeft()
     {
-        /*debrisLiftServo1.setPosition(0.1); //Up
-        debrisLiftServo2.setPosition(0.475); //Down
-        debrisLiftServo3.setPosition(0.6); //Left
-        debrisLiftServoPos1 = 0.1;
-        debrisLiftServoPos2 = 0.475;
-        debrisLiftServoPos3 = 0.45;*/
+        servoLFlap.setPosition(0.97); //Down
+        servoRFlap.setPosition(0.47); //Up
+        tiltServo.setPosition(0.6); //Left
+        servoLFlapPos = 0.97;
+        servoRFlapPos = 0.47;
+        tiltServoPos = 0.6;
     }
 
     public void basketRight()
     {
-        /*debrisLiftServo1.setPosition(0.6); //Down
-        debrisLiftServo2.setPosition(0.9); //Up
-        debrisLiftServo3.setPosition(0.3); //Right
-        debrisLiftServoPos1 = 0.6;
-        debrisLiftServoPos2 = 0.9;
-        debrisLiftServoPos3 = 0.3;*/
+        servoLFlap.setPosition(0.62); //Up
+        servoRFlap.setPosition(0.05); //Down
+        tiltServo.setPosition(0.91); //Right
+        servoLFlapPos = 0.2;
+        servoRFlapPos = 0.05;
+        tiltServoPos = 0.91;
     }
 	
     public void loop()
