@@ -94,12 +94,12 @@ public class FiveWheelTeleOpV2 extends OpMode
     	//startPhaseOver = false;
     	//autoHangRunning = false;
     	prevLiftSide = "right";
-    	/*debrisLiftServo1.setPosition(0.1); //Up
-        debrisLiftServo2.setPosition(0.9); //Up
-        debrisLiftServo3.setPosition(0.45); //Midlee
-    	debrisLiftServoPos1 = 0.1;
-    	debrisLiftServoPos2 = 0.9;
-    	debrisLiftServoPos3 = 0.45;*/
+    	servoRFlap.setPosition(0.46); //Up
+        servoLFlap.setPosition(0.62); //Up
+        tiltServo.setPosition(0.6); //Midlee
+    	servoRFlapPos = 0.46;
+    	servoLFlapPos = 0.62;
+    	tiltServoPos = 0.6;
 
     }
 
@@ -315,7 +315,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         	debrisLiftServo3.setPosition(0.45); //Neutral
         	debrisLiftServoPos1 = 0.6;
         	debrisLiftServoPos2 = 0.9;
-        	debrisLiftServoPos3 = 0.45;*/
+        	debrisLiftServoPos3 = 0.45;
     	}
     	else if(param.equals("left"))
     	{
@@ -324,7 +324,7 @@ public class FiveWheelTeleOpV2 extends OpMode
         	debrisLiftServo3.setPosition(0.45); //Neutral
         	debrisLiftServoPos1 = 0.1;
         	debrisLiftServoPos2 = 0.475;
-        	debrisLiftServoPos3 = 0.45;*/
+        	debrisLiftServoPos3 = 0.45;
     	}
     }*/
 
