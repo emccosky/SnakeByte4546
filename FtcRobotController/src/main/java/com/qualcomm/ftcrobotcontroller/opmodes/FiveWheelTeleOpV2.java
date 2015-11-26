@@ -71,6 +71,8 @@ public class FiveWheelTeleOpV2 extends OpMode
     boolean startPhaseRunning;
     boolean startPhaseOver;
     boolean autoHangRunning;
+    
+    boolean tiltSetting;
 
     public void FiveWheelTeleOpV2() {}
 
@@ -215,41 +217,40 @@ public class FiveWheelTeleOpV2 extends OpMode
         g2APressed = gamepad2.a;
         g2YPressed = gamepad2.y;
         g2BPressed = gamepad2.b;
-        prevMode = curMode;
-        if(curMode != 0)
+        prevMode = curMode; //Changes the previous mode to the current mode
+        if(curMode != 0) //Updates current mode
         {
-        	if(g2XPressed)
+        	if(g2XPressed) //If Controller 2 X is pressed, switch to mode 1
             	curMode = 1;
-        	else if(g2BPressed)
+        	else if(g2BPressed) //If Controller 2 B is pressed, switch to mode 2
             	curMode = 2;
-        	//else if(g2YPressed)
-            //    curMode = 3;
+            //Else keep current mode
         }
     }
 
-	public void runManip(double speed)
+	public void runManip(double speed) //Moves manipulator
 	{
 		motorManip.setPower(speed);
 	}
     
-	public void moveDebrisLift(double speed)
+	public void moveDebrisLift(double speed) //Moves lift
 	{
 		debrisLift.setPower(speed);
 	}
 
-	public void runOddSide(double speed)
+	public void runOddSide(double speed) //Runs Q1 and Q3
 	{
 		motorQ1.setPower(speed);
 		motorQ3.setPower(speed);
 	}
 	
-	public void runEvenSide(double speed)
+	public void runEvenSide(double speed) //Runs Q2 and Q4
 	{
 		motorQ2.setPower(speed);
 		motorQ4.setPower(speed);
 	}
 	
-	public void stopMotors()
+	public void stopWheels() //Stops all wheels
 	{
 		motorQ1.setPower(0.0);
 		motorQ2.setPower(0.0);
@@ -296,14 +297,12 @@ public class FiveWheelTeleOpV2 extends OpMode
     //SERVO 3 Values
     //Left side (Manip = front) = 0.6
     //Right side (Manip = front) = 0.3
-    public void basketNeutral()
+    public void basketNeutral() //Returns basket to neutral position
     {
-        servoLFlap.setPosition(0.62); //Up
-        servoRFlap.setPosition(0.46); //Up
-        //tiltServo.setPosition(0.45); //Midlee
-        servoLFlapPos = 0.62;
-        servoRFlapPos = 0.46;
-        //tiltServoPos = 0.45;
+        servoLFlap.setPosition(0.39); //Locked
+        servoRFlap.setPosition(0.68); //Locked
+        servoLFlapPos = 0.39;
+        servoRFlapPos = 0.68;
     }
     
     /*public void basketNeutralDown(String param)
@@ -377,60 +376,76 @@ public class FiveWheelTeleOpV2 extends OpMode
 
         if(curMode == 1) //Debris collection Mode
         {
-            moveDebrisLift(scaleInputSimple(-g2y1));
-            if (Math.abs(g2y2) > 0.3)
+            //Controller 1
+            //Left Stick
+            runOddSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Manipulator is front of robot)
+            //Right Stick
+			runEvenSide(scaleInputSimple(g1y2)); //Moves right side of robot (Manipulator is front of robot)
+            
+            //Controller 2
+        	//Left stick
+            moveDebrisLift(scaleInputSimple(-g2y1)); //Moves the lift
+            
+            //Right stick
+            if (g2y2 > 0.3 || g2y2 < 0.3) //Moves manipulator
             {
                 runManip(-g2y2);
-            } else {
+            } else { //Stops manipulator
                 runManip(0.0);
             }
+            
         	//Moves basket
+        	//Right Bumper
             if (g2Rbump)
-                basketNeutral();
-			else if(g2Rtrig > 0.3)
-                basketLeft();
-			else if(g2Lbump)
-				basketNeutral();
-			else if(g2Ltrig > 0.3)
-				basketRight();
+                basketNeutral(); //Moves basket back to neutral position
+			else if(g2Rtrig > 0.3) //Right Trigger
+                basketLeft(); //Dumps debris to the left
+			else if(g2Lbump) //Left Bumper
+				basketNeutral(); //Moves basket back to neutral position
+			else if(g2Ltrig > 0.3) //Left Trigger
+				basketRight(); //Dumps debris to the right
 
-			runOddSide(scaleInputSimple(-g1y1));
-			runEvenSide(scaleInputSimple(g1y2));
-			center.setPower(0.0);
+			
+			center.setPower(0.0); //Stops center wheel
         }
         else if(curMode == 2) //Ramp Climbing Mode
         {
-            //Stop manipulator
-            //runManip(0.0);
-            runManip(scaleInputSimple(-g2y1));
-            if (g2Rbump)
-                basketNeutral();
-            else if(g2Rtrig > 0.3)
-                basketLeft();
-            else if(g2Lbump)
-                basketNeutral();
-            else if(g2Ltrig > 0.3)
-                basketRight();
-			else if(g1Rtrig > 0.3)
-			{
-				basketLeft();
-				prevLiftSide = "left";
-			}
-			else if(g2Lbump)
-			{
-				basketNeutral();
-			}
-			else if(g2Ltrig > 0.3)
-			{
-				prevLiftSide = "right";
-				basketRight();
-			}
-            runOddSide(scaleInputSimple(g1y2));
-            runEvenSide(scaleInputSimple(-g1y1));
-			if((g1y1 > 0.1 && g1y1 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1))
-				center.setPower(scaleInputSimple(g1y2));
+        	//Controller 1
+        	
+        	//Left Stick
+            runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
+            //Right Stick
+            runOddSide(scaleInputSimple(g1y2)); //Moves right side of robot (Center wheel is front of robot)
+            
+            //Both sticks
+			if((g1y1 > 0.1 && g1y1 > 0.1) || (g1y2 < -0.1 && g1y2 < -0.1)) //If both sticks being moved
+				center.setPower(scaleInputSimple(g1y2)); //Move center wheel along with other wheels
             else
                 center.setPower(0.0);
+            
+            //Controller 2
+            //Left stick
+            moveDebrisLift(scaleInputSimple(-g2y1)); //Moves the lift
+            
+            if (g2Rbump) //Right Bumper
+            {
+                basketNeutral(); //Goes to neutral
+            }
+			else if(g2Rtrig > 0.3) //Right trigger
+			{
+				prevLiftSide = "left";
+				basketRight(); //Dumps on right side
+			}
+			else if(g2Lbump) //Left Bumper
+			{
+				basketNeutral(); //Goes to neutral
+			}
+			else if(g2Ltrig > 0.3) //Left Trigger
+			{
+				prevLiftSide = "right";
+				basketLeft(); //Dumps on left side
+			}
+            manip.setPower(0.0); //Turns off manipulator
         }
         /*else if(curMode == 3) //Hanging Mode
         {
@@ -451,13 +466,13 @@ public class FiveWheelTeleOpV2 extends OpMode
             //After Scrimmage
         }*/
         if (curMode == 1) {
-            telemetry.addData("Mode: ", "Debris Collection");
+            telemetry.addData("Mode", " Debris Collection");
         }
         else if (curMode == 2) {
-            telemetry.addData("Mode: ", "Mountain Mode");
+            telemetry.addData("Mode", " Mountain Mode");
         }
         else {
-            telemetry.addData("Mode: ", "ERROR");
+            telemetry.addData("Mode", " ERROR");
         }
     }
 }
