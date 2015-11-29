@@ -68,15 +68,17 @@ public class FiveWheelTeleOpV2 extends OpMode
     boolean g2APressed;
     boolean g1BPressed;
     boolean g2BPressed;
+
     boolean startPhaseRunning;
     boolean startPhaseOver;
     boolean autoHangRunning;
     
-    boolean tiltSetting;
+    boolean isTiltRight;
+    boolean isTiltLeft;
 
     public void FiveWheelTeleOpV2() {}
 
-    public void init()
+    public void init() //Initialization
     {
         center = hardwareMap.dcMotor.get("center");
         motorQ1 = hardwareMap.dcMotor.get("motorq1");
@@ -90,22 +92,24 @@ public class FiveWheelTeleOpV2 extends OpMode
         servoLFlap = hardwareMap.servo.get("servoLFlap");
 		servoHitClimberL = hardwareMap.servo.get("servoHitClimberL");
 		servoHitClimberR = hardwareMap.servo.get("servoHitClimberR");
-        
-    	curMode = 1;
+
+    	curMode = 1; //Sets mode to 1
     	//startPhaseRunning = false;
     	//startPhaseOver = false;
     	//autoHangRunning = false;
     	prevLiftSide = "right";
-    	servoRFlap.setPosition(0.46); //Up
-        servoLFlap.setPosition(0.62); //Up
-        tiltServo.setPosition(0.6); //Midlee
+    	
+    	//Side dependent
+    	servoRFlap.setPosition(0.46); //Lock
+        servoLFlap.setPosition(0.62); //Lock
+        tiltServo.setPosition(0.6); //Left
     	servoRFlapPos = 0.46;
     	servoLFlapPos = 0.62;
     	tiltServoPos = 0.6;
 
     }
 
-    private double scaleInputSimple(double pwr)
+    private double scaleInputSimple(double pwr) //Scales input power
     {
         if(pwr > 0.0)
         {

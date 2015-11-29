@@ -58,7 +58,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("RookieCode", RookieCode.class);
     //manager.register("LifterOp", TrollBotAuto.class);
     //manager.register("FiveWheelTeleOp", FiveWheelTeleOp.class);
-    manager.register("FiveWV2", FiveWheelTeleOpV2.class);
+    manager.register("TeV4", TeleOp.class);
+    manager.register("AutoR", RedAutonomous.class);
+    manager.register("AutoB", BlueAutonomous.class);
+    //manager.register("RedTele", RedFiveWeheelTeleOpV3.class);
     //manager.register("MagicAuto", MagicAuto.class);
     //manager.register("Autov1", Autov1.class);
     manager.register("IMUTEST", IMUTest.class);

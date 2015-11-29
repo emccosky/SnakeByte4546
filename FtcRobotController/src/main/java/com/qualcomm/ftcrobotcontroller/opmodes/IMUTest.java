@@ -278,23 +278,20 @@ public class IMUTest extends OpMode
     	}
     }
 
-    @Override
-    public void loop()
-    {
+	@Override
+	public void loop()
+	{
 		updatePosition();
 		if(gamepad1.x && !hasStarted)
 		{
 			moveTo(0,0);
 			hasStarted = true;	
 		}
-    }
+	}
 
-    /*
-    * Code to run when the op mode is first disabled goes here
-    * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
-    */
-    @Override
-    public void stop() {
+	@Override
+	public void stop()
+	{
         //When the FTC Driver Station's "Start with Timer" button commands autonomous mode to start,
         //then stop after 30 seconds, stop the motors immediately!
         //Following this method, the underlying FTC system will call a "stop" routine of its own
