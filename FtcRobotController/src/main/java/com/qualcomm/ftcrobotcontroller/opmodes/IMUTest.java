@@ -275,6 +275,7 @@ public class IMUTest extends OpMode
     		runOddSide(0.8);
     		runEvenSide(0.8);
     		curDist += calcDesiredDistance(prevXPos, prevYPos, curXPos, curYPos);
+            try{Thread.sleep(20);}catch(InterruptedException e){}
     	}
     }
 

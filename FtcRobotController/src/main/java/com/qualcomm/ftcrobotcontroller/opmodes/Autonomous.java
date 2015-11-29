@@ -17,11 +17,7 @@ public class Autonomous extends LinearOp
 	public void runOpMode()
 	{
 		super.runOpMode();
-		waitForStart();
-	}
+		try {waitForStart();}catch(InterruptedException e){}
 
-	public void stop()
-	{
-		
 	}
 }

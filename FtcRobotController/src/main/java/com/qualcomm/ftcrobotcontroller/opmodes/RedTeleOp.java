@@ -1,3 +1,5 @@
+package com.qualcomm.ftcrobotcontroller.opmodes;
+
 public class RedTeleOp extends TeleOp
 {
 	@Override
