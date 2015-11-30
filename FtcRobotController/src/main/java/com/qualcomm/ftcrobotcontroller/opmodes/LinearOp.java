@@ -5,6 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.math.*;
+import android.util.Log;
+import com.qualcomm.robotcore.exception.RobotCoreException;
 
 public class LinearOp extends LinearOpMode
 {
@@ -26,6 +29,12 @@ public class LinearOp extends LinearOpMode
     double motorQ3Pos;
     double motorQ4Pos;
     double debrisLiftPos;
+
+	//Position calculation variables
+	double curRightSidePosition;
+	double curLeftSidePosition;
+	double prevRightSidePosition;
+	double prevLeftSidePosition;
 
 	//All Servos
     Servo tiltServo;
@@ -69,12 +78,17 @@ public class LinearOp extends LinearOpMode
 
     }
 
+	public void sleep(int time)
+	{
+		try{Thread.sleep(time);}catch(InterruptedException e){}
+	}
+
 	//Setup Methods
 	public void initIMU()
 	{
 		try
         {
-            gyro = new AdafruitIMU(hardwareMap, "bno055"
+            imu = new AdafruitIMU(hardwareMap, "bno055"
                         , (byte)(AdafruitIMU.BNO055_ADDRESS_A * 2)//By convention the FTC SDK always does 8-bit I2C bus
                         , (byte)AdafruitIMU.OPERATION_MODE_IMU);
             } catch (RobotCoreException e){
@@ -84,7 +98,7 @@ public class LinearOp extends LinearOpMode
 
 	public void startIMU()
 	{
-		gyro.startIMU();
+		imu.startIMU();
 	}
 
 	public void initSetup()
@@ -101,7 +115,7 @@ public class LinearOp extends LinearOpMode
         servoLFlap = hardwareMap.servo.get("servoLFlap");
 		servoHitClimberL = hardwareMap.servo.get("servoHitClimberL");
 		servoHitClimberR = hardwareMap.servo.get("servoHitClimberR");
-		initIMU();
+		//initIMU();
 	}
 
 	public void initPosition(double x, double y, double z, double yaw, double pitch, double roll)
@@ -117,6 +131,11 @@ public class LinearOp extends LinearOpMode
 	public void updatePosition()
 	{
 		//Update position variables
+		motorQ1Pos = motorQ1.getCurrentPosition();
+		motorQ2Pos = motorQ2.getCurrentPosition();
+		motorQ3Pos = motorQ3.getCurrentPosition();
+		motorQ4Pos = motorQ4.getCurrentPosition();
+		//debrisLiftPos = debrisLift.getCurrentPosition();
 	}
 
 	public void updatePositionLoop()
@@ -124,8 +143,33 @@ public class LinearOp extends LinearOpMode
 		while(opModeIsActive())
 		{
 			updatePosition();
-			Thead.sleep(20);
+			sleep(20);
 		}
+	}
+
+	public void displayDistance()
+	{
+		double multiplier = (3.775 * Math.PI) / 1440;
+		double q1cm = motorQ1Pos * multiplier;
+		double q2cm = motorQ2Pos * multiplier;
+		double q3cm = motorQ3Pos * multiplier;
+		double q4cm = motorQ4Pos * multiplier;
+		if(q1cm < 0)
+			q1cm *= -1;
+		if(q2cm < 0)
+			q2cm *= -1;
+		if(q3cm < 0)
+			q3cm *= -1;
+		if(q4cm < 0)
+			q4cm *= -1;
+		telemetry.addData("motorQ1Pos",motorQ1Pos);
+		telemetry.addData("motorQ2Pos",motorQ2Pos);
+		telemetry.addData("motorQ3Pos",motorQ3Pos);
+		telemetry.addData("motorQ4Pos",motorQ4Pos);
+
+		double estDist = (q1cm + q2cm + q3cm + q4cm)/4;
+		telemetry.addData("estdist", estDist);
+		//telemetry.addData("debrisLift", debrisLiftPos);
 	}
 
 	//Simple Movement methods
@@ -264,48 +308,48 @@ public class LinearOp extends LinearOpMode
 	public void basketInitBlue()
 	{
 		unlockFlaps();
-		Thread.sleep(200);
+		sleep(200);
 		tiltRight();
-		Thread.sleep(200);
+		sleep(200);
 		lockFlaps();
 	}
 
 	public void basketInitRed()
 	{
 		unlockFlaps();
-		Thread.sleep(200);
+		sleep(200);
 		tiltRight();
-		Thread.sleep(200);
+		sleep(200);
 		lockFlaps();
 	}
 
 	public void dumpLeft()
 	{
-		f(isTiltLeft)
+		if(isTiltLeft)
 		{
 			openLeftFlap();
-			Thread.sleep(2000);
+			sleep(2000);
 			lockLeftFlap();
 		}
 		else if(isTiltRight)
 		{
 			unlockRightFlap();
 			unlockLeftFlap();
-			Thread.sleep(200);
+			sleep(200);
 			tiltLeft();
-			Thread.sleep(500);
+			sleep(500);
 			openLeftFlap();
-			Thread.sleep(2000);
+			sleep(2000);
 			lockLeftFlap();
 		}
 		else
 		{
 			unlockLeftFlap();
-			Thread.sleep(200);
+			sleep(200);
 			tiltLeft();
-			Thread.sleep(500);
-			openLeftFLap();
-			Thread.sleep(2000);
+			sleep(500);
+			openLeftFlap();
+			sleep(2000);
 			lockLeftFlap();
 		}
 		isTiltRight = false;
@@ -317,28 +361,28 @@ public class LinearOp extends LinearOpMode
 		if(isTiltRight)
 		{
 			openRightFlap();
-			Thread.sleep(2000);
+			sleep(2000);
 			lockRightFlap();
 		}
 		else if(isTiltLeft)
 		{
 			unlockLeftFlap();
 			unlockRightFlap();
-			Thread.sleep(200);
+			sleep(200);
 			tiltRight();
-			Thread.sleep(500);
+			sleep(500);
 			openRightFlap();
-			Thread.sleep(2000);
+			sleep(2000);
 			lockRightFlap();
 		}
 		else
 		{
 			unlockRightFlap();
-			Thread.sleep(200);
+			sleep(200);
 			tiltRight();
-			Thread.sleep(500);
-			openRightFLap();
-			Thread.sleep(2000);
+			sleep(500);
+			openRightFlap();
+			sleep(2000);
 			lockRightFlap();
 		}
 		isTiltRight = true;
@@ -346,7 +390,7 @@ public class LinearOp extends LinearOpMode
 	}
 
 	//Motor Power Scaling
-	private double scaleInput(double y)
+	protected double scaleInput(double y)
 	{
 		double ret = 0.0;
 		double pwr = 0.0;
@@ -393,7 +437,7 @@ public class LinearOp extends LinearOpMode
 		return ret;
 	}
 
-	private double scaleInputSimple(double pwr) //Scales input power
+	protected double scaleInputSimple(double pwr) //Scales input power
     {
         if(pwr > 0.0)
         {
@@ -515,25 +559,25 @@ public class LinearOp extends LinearOpMode
 
 	public void turnToHeading(double desiredHeading)
     {
-		if(curHeading > desiredHeading)
+		if(curYaw > desiredHeading)
 		{
 			//Turn left until robot reaches the desiredHeading
 			while(curYaw > desiredHeading)
 			{
 				runOddSide(0.8);
 				runEvenSide(-0.8);
-				Thread.sleep(25);
+				sleep(25);
 			}
 			stopWheels();
 		}
 		else
 		{
 			//Turn right until robot reaches the desiredHeading
-			while(curHeading < desiredHeading)
+			while(curYaw < desiredHeading)
 			{
 				runOddSide(-0.8);
 				runEvenSide(0.8);
-				Thread.sleep(25);
+				sleep(25);
 			}
 			stopWheels();
 		}
@@ -541,16 +585,16 @@ public class LinearOp extends LinearOpMode
 
 	public void moveTo(double desiredX, double desiredY)
 	{
-		desiredHeading = calcDesiredHeading(curXPos, curYPos, x, y);
+		double desiredHeading = calcDesiredHeading(curXPos, curYPos, desiredX, desiredY);
     	turnToHeading(desiredHeading);
-    	double desiredDist = calcDesiredDistance(curXPos, curYPos, x, y);
+    	double desiredDist = calcDesiredDistance(curXPos, curYPos, desiredX, desiredY);
     	double curDist = 0.0;
     	while(curDist < desiredDist)
     	{
     		runOddSide(0.8);
     		runEvenSide(0.8);
-    		curDist += calcDesiredDistance(prevXPos, prevYPos, curXPos, curYPos);
-    		Thread.sleep(25);
+    		//curDist += calcDesiredDistance(prevXPos, prevYPos, curXPos, curYPos);
+    		sleep(25);
     	}
     	stopWheels();
 	}

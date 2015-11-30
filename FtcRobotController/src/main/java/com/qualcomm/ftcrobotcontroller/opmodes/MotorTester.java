@@ -132,6 +132,7 @@ public class MotorTester extends OpMode
                 return -1.0;
         }
     }
+
     @Override
     public void init()
     {
@@ -160,19 +161,19 @@ public class MotorTester extends OpMode
 	@Override
 	public void start()
 	{
-		tiltServo.setPosition(0.5);
-		servoRFlap.setPosition(0.5);
-		servoLFlap.setPosition(0.5);
+		tiltServo.setPosition(0.75);
+		servoRFlap.setPosition(0.46);
+		servoLFlap.setPosition(0.62);
 		servoHitClimberL.setPosition(0.5);
 		servoHitClimberR.setPosition(0.5);
 		
-		tiltServoPos = 0.5;
-		servoRFlapPos = 0.5;
-		servoLFlapPos = 0.5;
+		tiltServoPos = 0.75;
+		servoRFlapPos = 0.46;
+		servoLFlapPos = 0.62;
 		servoHitClimberLPos = 0.5;
 		servoHitClimberRPos = 0.5;
 	}
-	
+
 	public void updateVals()
 	{
 		if(gamepad1.x)
@@ -415,7 +416,7 @@ public class MotorTester extends OpMode
 				tiltServoPos = 0.0;
 			else if(tiltServoPos > 1.0)
 				tiltServoPos = 1.0;
-			
+
 			tiltServo.setPosition(tiltServoPos);
 			telemetry.addData("Left stick controls tiltServo", String.format("%.2f",tiltServoPos));
 		}

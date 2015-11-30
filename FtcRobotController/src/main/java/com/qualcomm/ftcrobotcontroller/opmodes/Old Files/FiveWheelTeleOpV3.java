@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FiveWheelTeleOpV2 extends OpMode
+public class FiveWheelTeleOpV3 extends OpMode
 {
     DcMotor motorQ1; //FL if manip considered the front, BR if center wheel is front
     DcMotor motorQ2; //FR if manip considered the front, BL if center wheel is front
@@ -449,7 +449,7 @@ public class FiveWheelTeleOpV2 extends OpMode
 				prevLiftSide = "right";
 				basketLeft(); //Dumps on left side
 			}
-            manip.setPower(0.0); //Turns off manipulator
+            motorManip.setPower(0.0); //Turns off manipulator
         }
         /*else if(curMode == 3) //Hanging Mode
         {

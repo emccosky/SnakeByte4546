@@ -49,7 +49,8 @@ public class TeleOp extends LinearOp {
 
 	}
 
-	public void updateControllerVals() {
+	public void updateControllerVals()
+	{
 		g1y1 = gamepad1.left_stick_y;
 		g1y2 = gamepad1.right_stick_y;
 		g1x1 = gamepad1.left_stick_x;
@@ -79,7 +80,7 @@ public class TeleOp extends LinearOp {
 	public void updateControllerValsLoop() {
 		while (opModeIsActive()) {
 			updateControllerVals();
-			sleep(50);
+			sleep(200);
 		}
 	}
 
@@ -174,13 +175,15 @@ public class TeleOp extends LinearOp {
 		return false;
 	}
 
-	public boolean controllersBeingUsed() {
+	public boolean controllersBeingUsed()
+	{
 		if (controller2BeingUsed() || controller1BeingUsed())
 			return true;
 		return false;
 	}
 
-	public void mode1() {
+	public void mode1()
+	{
 		//Controller 1
 		//Left Stick
 		runOddSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Manipulator is front of robot)
@@ -217,6 +220,7 @@ public class TeleOp extends LinearOp {
 	public void mode2() {
 		//Controller 1
 
+		//runOddSide(0.9);
 		//Left Stick
 		runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
 		//Right Stick
@@ -262,15 +266,23 @@ public class TeleOp extends LinearOp {
 	@Override
 	public void runOpMode()
 	{
+		curMode = 1;
+		isBlueSide = true;
 		super.runOpMode();
 		//POSITION SETUP IS NOT NEEDED, AS #s ARE SAVED FROM AUTO
 		try{waitForStart();}catch(InterruptedException e){}
-		updateControllerValsLoop();
-		updateModeLoop();
+		//startIMU();
+		//updateControllerValsLoop();
+		/*updateModeLoop();
 		displayDistanceLoop();
-		updatePositionLoop();
+		updatePositionLoop();*/
+		//basketInitBlue();
 		while(opModeIsActive())
 		{
+			updatePosition();
+			updateControllerVals();
+			updateMode();
+			displayDistance();
 			if(curMode == 1)
 			{
 				mode1();
@@ -281,7 +293,8 @@ public class TeleOp extends LinearOp {
 			}
 			else
 				curMode = 2;
-			sleep(20);
+			//mode2();
+
 		}
 	}
 }
