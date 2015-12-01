@@ -318,7 +318,8 @@ public class TeleOp extends LinearOp {
 			}
 			else
 				curMode = 2;
-			//mode2()
+			//mode2();
+			sleep(20);
 		}
 	}
 }
