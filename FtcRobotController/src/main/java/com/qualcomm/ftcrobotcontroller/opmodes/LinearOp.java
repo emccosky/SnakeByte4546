@@ -135,7 +135,15 @@ public class LinearOp extends LinearOpMode
 		motorQ2Pos = motorQ2.getCurrentPosition();
 		motorQ3Pos = motorQ3.getCurrentPosition();
 		motorQ4Pos = motorQ4.getCurrentPosition();
+		debrisLiftPos = debrisLift.getCurrentPosition();
 		//debrisLiftPos = debrisLift.getCurrentPosition();
+		double[] yaws = new double[2];
+		double[] rolls = new double[2];
+		double[] pitches = new double[2];
+		imu.getIMUGyroAngles(yaws,rolls,pitches);
+		curYaw = yaws[0];
+		curRoll = rolls[0];
+		curPitch = pitches[0];
 	}
 
 	public void updatePositionLoop()
@@ -227,17 +235,63 @@ public class LinearOp extends LinearOpMode
 	//Lift movement methods (Complex)
 	public void raiseLift(double dist)
 	{
-		
+		while(debrisLiftPos < dist)
+		{
+			debrisLift.setPower(0.6);
+			updatePosition();
+		}
+		debrisLift.setPower(0.0);
 	}
 
 	public void raiseLiftMedium()
 	{
-		
+		raiseLift(1000);
 	}
 
 	public void raiseLiftHigh()
 	{
-		
+		raiseLift(2000);
+	}
+
+	public void retractLift()
+	{
+		while(debrisLiftPos > 0)
+		{
+			debrisLift.setPower(-0.6);
+			updatePosition();
+		}
+	}
+
+	public void macroLiftMedium(String side)
+	{
+		if(side.equals("right")
+		{
+			raiseLiftMedium();
+			dumpRight();
+			retractLift();
+		}
+		else
+		{
+			raiseLiftMedium();
+			dumpLeft();
+			retractLift();
+		}
+	}
+
+	public void macroLiftHigh()
+	{
+		if(side.equals("right")
+		{
+			raiseLiftHigh();
+			dumpRight();
+			retractLift();
+		}
+		else
+		{
+			raiseLiftHigh();
+			dumpLeft();
+			retractLift();
+		}
 	}
 
 	public void updateServoPos()
@@ -340,13 +394,33 @@ public class LinearOp extends LinearOpMode
 		lockFlaps();
 	}
 
+	public void wiggleTilt(String side)
+	{
+		if(side.equals("right")
+		{
+			tiltServoPos = 0.89;
+			tiltServo.setPosition(tiltServoPos);
+			sleep(200);
+			tiltServoPos = 0.91;
+			tiltServo.setPosition(tiltServoPos);
+			sleep(200);
+		}
+		else
+		{
+			tiltServoPos = 0.58;
+			tiltServo.setPosition(tiltServoPos);
+			sleep(200);
+			tiltServoPos = 0.6;
+			tiltServo.setPosition(tiltServoPos);
+			sleep(200);
+		}
+	}
+
 	public void dumpLeft()
 	{
 		if(isTiltLeft)
 		{
 			openLeftFlap();
-			sleep(2000);
-			lockLeftFlap();
 		}
 		else if(isTiltRight)
 		{
@@ -356,8 +430,6 @@ public class LinearOp extends LinearOpMode
 			tiltLeft();
 			sleep(600);
 			openLeftFlap();
-			sleep(2000);
-			lockLeftFlap();
 		}
 		else
 		{
@@ -366,9 +438,13 @@ public class LinearOp extends LinearOpMode
 			tiltLeft();
 			sleep(500);
 			openLeftFlap();
-			sleep(2000);
-			lockLeftFlap();
 		}
+		sleep(500);
+		wiggleTilt("left");
+		sleep(700);
+		wiggleTilt("left");
+		sleep(700);
+		lockLeftFlap();
 		isTiltRight = false;
 		isTiltLeft = true;
 	}
@@ -378,8 +454,6 @@ public class LinearOp extends LinearOpMode
 		if(isTiltRight)
 		{
 			openRightFlap();
-			sleep(2000);
-			lockRightFlap();
 		}
 		else if(isTiltLeft)
 		{
@@ -389,8 +463,6 @@ public class LinearOp extends LinearOpMode
 			tiltRight();
 			sleep(500);
 			openRightFlap();
-			sleep(2000);
-			lockRightFlap();
 		}
 		else
 		{
@@ -399,9 +471,13 @@ public class LinearOp extends LinearOpMode
 			tiltRight();
 			sleep(500);
 			openRightFlap();
-			sleep(2000);
-			lockRightFlap();
 		}
+		sleep(500);
+		wiggleTilt("right");
+		sleep(700);
+		wiggleTilt("right");
+		sleep(700);
+		lockRightFlap();
 		isTiltRight = true;
 		isTiltLeft = false;
 	}
