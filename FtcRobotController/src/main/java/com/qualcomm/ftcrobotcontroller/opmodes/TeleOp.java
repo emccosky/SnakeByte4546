@@ -91,22 +91,22 @@ public class TeleOp extends LinearOp {
 			if (g2XPressed && curMode != 1) //If Controller 2 X is pressed, switch to mode 1
 			{
 				curMode = 1;
-				if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed down
+				/*if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed down
 					haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 				else
-					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up
-			} else if ((g2BPressed && curMode != 2) || (curPitch > 10 || curPitch < -10)) //If Controller 2 B is pressed, switch to mode 2
+					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up*/
+			} else if ((g2BPressed && curMode != 2)) //|| (curPitch > 10 || curPitch < -10)) //If Controller 2 B is pressed, switch to mode 2
 			{
 				curMode = 2;
-				if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed up
+				/*if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed up
 					haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 				else
-					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up
+					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up*/
 			}
 			//Else keep current mode
 		}
-		if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed up
-			haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
+		//if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed up
+		//	haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 	}
 
 	public void updateModeLoop() {
@@ -222,7 +222,7 @@ public class TeleOp extends LinearOp {
 	public void mode2() {
 		//Controller 1
 
-		if(!haveSticksBeenPushedUpSinceModeChanged) //Sticks have not been pushed up
+		/*if(!haveSticksBeenPushedUpSinceModeChanged) //Sticks have not been pushed up
 		{
 			//Controller 1
 			//Left Stick
@@ -232,7 +232,7 @@ public class TeleOp extends LinearOp {
 			center.setPower(0.0);
 		}
 		else
-		{
+		{*/
 			//runOddSide(0.9);
 			//Left Stick
 			runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
@@ -245,7 +245,7 @@ public class TeleOp extends LinearOp {
 				center.setPower(scaleInputSimple(g1y2)); //Move center wheel along with other wheels
 			else
 				center.setPower(0.0);
-		}
+		//}
 
 		//Controller 2
 		//Left stick
@@ -293,12 +293,7 @@ public class TeleOp extends LinearOp {
 		//basketInitBlue();
 		while(opModeIsActive())
 		{
-			updatePosition();
-			updateControllerVals();
-			updateServoPos();
-			updateMode();
-			displayDistance();
-			if(g1Rtrig > 0.1)
+			/*if(g1Rtrig > 0.1)
 			{
 				servoHitClimberRPos = 0.7; //Move out
 			}
@@ -307,7 +302,12 @@ public class TeleOp extends LinearOp {
 			if(g2Lbump)
 				servoHitClimberLPos = 0.3; //
 			if(g2Ltrig > 0.1)
-				servoHitClimberRPos = 0.3;
+				servoHitClimberRPos = 0.7;*/
+			//updatePosition();
+			updateControllerVals();
+			updateServoPos();
+			updateMode();
+			//displayDistance();
 			if(curMode == 1)
 			{
 				mode1();
@@ -318,8 +318,7 @@ public class TeleOp extends LinearOp {
 			}
 			else
 				curMode = 2;
-			//mode2();
-
+			//mode2()
 		}
 	}
 }

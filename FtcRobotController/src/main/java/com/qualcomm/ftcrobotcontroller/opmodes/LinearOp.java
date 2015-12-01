@@ -140,10 +140,10 @@ public class LinearOp extends LinearOpMode
 		double[] yaws = new double[2];
 		double[] rolls = new double[2];
 		double[] pitches = new double[2];
-		imu.getIMUGyroAngles(yaws,rolls,pitches);
+		/*imu.getIMUGyroAngles(yaws,rolls,pitches);
 		curYaw = yaws[0];
 		curRoll = rolls[0];
-		curPitch = pitches[0];
+		curPitch = pitches[0];*/
 	}
 
 	public void updatePositionLoop()
@@ -264,7 +264,7 @@ public class LinearOp extends LinearOpMode
 
 	public void macroLiftMedium(String side)
 	{
-		if(side.equals("right")
+		if(side.equals("right"))
 		{
 			raiseLiftMedium();
 			dumpRight();
@@ -278,9 +278,9 @@ public class LinearOp extends LinearOpMode
 		}
 	}
 
-	public void macroLiftHigh()
+	public void macroLiftHigh(String side)
 	{
-		if(side.equals("right")
+		if(side.equals("right"))
 		{
 			raiseLiftHigh();
 			dumpRight();
@@ -311,7 +311,7 @@ public class LinearOp extends LinearOpMode
 
 	public void unlockRightFlap()
 	{
-		servoRFlapPos = 0.46;
+		servoRFlapPos = 0.20;
 		servoRFlap.setPosition(servoRFlapPos);
 	}
 
@@ -329,7 +329,7 @@ public class LinearOp extends LinearOpMode
 
 	public void unlockLeftFlap()
 	{
-		servoLFlapPos = 0.62;
+		servoLFlapPos = 0.8;
 		servoLFlap.setPosition(servoLFlapPos);
 	}
 
@@ -396,7 +396,7 @@ public class LinearOp extends LinearOpMode
 
 	public void wiggleTilt(String side)
 	{
-		if(side.equals("right")
+		if(side.equals("right"))
 		{
 			tiltServoPos = 0.89;
 			tiltServo.setPosition(tiltServoPos);
