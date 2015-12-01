@@ -269,6 +269,7 @@ public class TeleOp extends LinearOp {
 		curMode = 1;
 		isBlueSide = true;
 		super.runOpMode();
+		updateServoPos();
 		//POSITION SETUP IS NOT NEEDED, AS #s ARE SAVED FROM AUTO
 		try{waitForStart();}catch(InterruptedException e){}
 		//startIMU();
@@ -281,6 +282,7 @@ public class TeleOp extends LinearOp {
 		{
 			updatePosition();
 			updateControllerVals();
+			updateServoPos();
 			updateMode();
 			displayDistance();
 			if(curMode == 1)
