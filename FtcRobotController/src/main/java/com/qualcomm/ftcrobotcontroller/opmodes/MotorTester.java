@@ -311,6 +311,8 @@ public class MotorTester extends OpMode
 			debrisLift.setPower(0.0);
 			center.setPower(0.0);
 		}
+		telemetry.addData("Switching","");
+		telemetry.addData("Switching","");
 	}
 
 	@Override

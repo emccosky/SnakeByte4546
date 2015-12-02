@@ -214,22 +214,22 @@ public class LinearOp extends LinearOpMode
 
 	public void extendRightClimberServo()
 	{
-		servoHitClimberRPos = 0.8;
+		servoHitClimberRPos = 0.75;
 	}
 
 	public void retractRightClimberServo()
 	{
-		servoHitClimberRPos = 0.2;
+		servoHitClimberRPos = 0.25;
 	}
 
 	public void extendLeftClimberServo()
 	{
-		servoHitClimberLPos = 0.8;
+		servoHitClimberLPos = 0.75;
 	}
 
 	public void retractLeftClimberServo()
 	{
-		servoHitClimberLPos = 0.2;
+		servoHitClimberLPos = 0.25;
 	}
 
 	//Lift movement methods (Complex)
@@ -267,13 +267,17 @@ public class LinearOp extends LinearOpMode
 		if(side.equals("right"))
 		{
 			raiseLiftMedium();
+			sleep(500);
 			dumpRight();
+			sleep(500);
 			retractLift();
 		}
 		else
 		{
 			raiseLiftMedium();
+			sleep(500);
 			dumpLeft();
+			sleep(500);
 			retractLift();
 		}
 	}
@@ -283,13 +287,17 @@ public class LinearOp extends LinearOpMode
 		if(side.equals("right"))
 		{
 			raiseLiftHigh();
+			sleep(500);
 			dumpRight();
+			sleep(500);
 			retractLift();
 		}
 		else
 		{
 			raiseLiftHigh();
+			sleep(500);
 			dumpLeft();
+			sleep(500);
 			retractLift();
 		}
 	}
@@ -303,40 +311,55 @@ public class LinearOp extends LinearOpMode
 		tiltServo.setPosition(tiltServoPos);
 	}
 	//Basket movement methods (Simple)
+	public void moveServoVel(Servo servo, double curPos, double newPos, double seconds)
+	{
+		long start = System.nanoTime();
+		long end = System.nanoTime();
+		long timeElapsed = (end - start)/1000000000;
+		double distToMove = newPos - curPos;
+		while(timeElapsed < seconds)
+		{
+			servo.setPosition(curPos + (distToMove*timeElapsed));
+			servoHitClimberLPos = curPos + (distToMove*timeElapsed));
+			end = System.nanoTime();
+			timeElapsed = (end - start)/1000000000;
+		}
+	}
+
 	public void lockRightFlap()
 	{
+		moveServoVel(servoRFlap, servoRFlapPos, 0.68, 0.5);
 		servoRFlapPos = 0.68;
-		servoRFlap.setPosition(servoRFlapPos);
 	}
 
 	public void unlockRightFlap()
 	{
+		moveServoVel(servoRFlap, servoRFlapPos, 0.20, 0.5);
 		servoRFlapPos = 0.20;
-		servoRFlap.setPosition(servoRFlapPos);
 	}
 
 	public void openRightFlap()
 	{
+		moveServoVel(servoRFlap, servoRFlapPos, 0.05, 0.5);
 		servoRFlapPos = 0.05;
-		servoRFlap.setPosition(servoRFlapPos);
 	}
 
 	public void lockLeftFlap()
 	{
+		moveServoVel(servoRLlap, servoLFlapPos, 0.42, 0.5);
 		servoLFlapPos = 0.42;
-		servoLFlap.setPosition(servoLFlapPos);
 	}
 
 	public void unlockLeftFlap()
 	{
+		moveServoVel(servoLFlap, servoLFlapPos, 0.8, 0.5);
 		servoLFlapPos = 0.8;
-		servoLFlap.setPosition(servoLFlapPos);
 	}
 
 	public void openLeftFlap()
 	{
+		moveServoVel(servoLFlap, servoLFlapPos, 0.97, 0.5);
 		servoLFlapPos = 0.97;
-		servoLFlap.setPosition(servoLFlapPos);
 	}
 
 	public void lockFlaps()
@@ -359,20 +382,20 @@ public class LinearOp extends LinearOpMode
 
 	public void tiltRight()
 	{
+		moveServoVel(tiltServo, tiltServoPos, 0.91, 0.5);
 		tiltServoPos = 0.91;
-		tiltServo.setPosition(tiltServoPos);
 	}
 
 	public void tiltLeft()
 	{
+		moveServoVel(tiltServo, tiltServoPos, 0.6, 0.5);
 		tiltServoPos = 0.6;
-		tiltServo.setPosition(tiltServoPos);
 	}
 
 	public void tiltFlat()
 	{
+		moveServoVel(tiltServo, tiltServoPos, 0.75, 0.5);
 		tiltServoPos = 0.75;
-		tiltServo.setPosition(tiltServoPos);
 	}
 
 	//Basket movement methods (Complex)
@@ -398,21 +421,17 @@ public class LinearOp extends LinearOpMode
 	{
 		if(side.equals("right"))
 		{
+			moveServoVel(tiltServo, tiltServoPos, 0.87, 0.2);
 			tiltServoPos = 0.89;
-			tiltServo.setPosition(tiltServoPos);
-			sleep(200);
+			moveServoVel(tiltServo, tiltServoPos, 0.91, 0.2);
 			tiltServoPos = 0.91;
-			tiltServo.setPosition(tiltServoPos);
-			sleep(200);
 		}
 		else
 		{
+			moveServoVel(tiltServo, tiltServoPos, 0.58, 0.2);
 			tiltServoPos = 0.58;
-			tiltServo.setPosition(tiltServoPos);
-			sleep(200);
+			moveServoVel(tiltServo, tiltServoPos, 0.6, 0.2);
 			tiltServoPos = 0.6;
-			tiltServo.setPosition(tiltServoPos);
-			sleep(200);
 		}
 	}
 
@@ -459,9 +478,9 @@ public class LinearOp extends LinearOpMode
 		{
 			unlockLeftFlap();
 			unlockRightFlap();
-			sleep(300);
+			sleep(200);
 			tiltRight();
-			sleep(500);
+			sleep(200);
 			openRightFlap();
 		}
 		else
@@ -469,14 +488,14 @@ public class LinearOp extends LinearOpMode
 			unlockRightFlap();
 			sleep(200);
 			tiltRight();
-			sleep(500);
+			sleep(200);
 			openRightFlap();
 		}
-		sleep(500);
+		sleep(200);
 		wiggleTilt("right");
-		sleep(700);
+		sleep(200);
 		wiggleTilt("right");
-		sleep(700);
+		sleep(200);
 		lockRightFlap();
 		isTiltRight = true;
 		isTiltLeft = false;
