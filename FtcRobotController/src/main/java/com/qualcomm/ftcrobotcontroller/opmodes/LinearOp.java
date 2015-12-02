@@ -402,25 +402,11 @@ public class LinearOp extends LinearOpMode
 	//Basket movement methods (Complex)
 	public void basketInitBlue()
 	{
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-		unlockFlaps();
-		sleep(400);
-		tiltRight();
-		sleep(400);
-		lockFlaps();
-=======
->>>>>>> Stashed changes
 		openFlaps();
 		sleep(200);
 		tiltLeft();
 		sleep(200);
 		lockLeftFlap();
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 	}
 
 	public void basketInitRed()
@@ -438,6 +424,7 @@ public class LinearOp extends LinearOpMode
 		{
 			moveServoVel(tiltServo, tiltServoPos, 0.87, 0.2);
 			tiltServoPos = 0.89;
+			sleep(200);
 			moveServoVel(tiltServo, tiltServoPos, 0.91, 0.2);
 			tiltServoPos = 0.91;
 		}
@@ -445,6 +432,7 @@ public class LinearOp extends LinearOpMode
 		{
 			moveServoVel(tiltServo, tiltServoPos, 0.58, 0.2);
 			tiltServoPos = 0.58;
+			sleep(200);
 			moveServoVel(tiltServo, tiltServoPos, 0.6, 0.2);
 			tiltServoPos = 0.6;
 		}

@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class TeleOp extends LinearOp {
+public class TeleOp extends LinearOp
+{
 	//Controller values
 	double g1y1;
 	double g1y2;
@@ -268,31 +269,15 @@ public class TeleOp extends LinearOp {
 			
 		} else if (g2Rtrig > 0.3) //Right trigger
 		{
-<<<<<<< Updated upstream
 			dumpLeft(); //Dumps on right side
-=======
-<<<<<<< HEAD
-			dumpRight(); //Dumps on right side
 			loopsSinceLastDump = 0;
-=======
-			dumpLeft(); //Dumps on right side
->>>>>>> origin/master
->>>>>>> Stashed changes
 		} else if (g2Lbump) //Left Bumper
 		{
 			basketInitRed(); //Goes to neutral
 		} else if (g2Ltrig > 0.3 && loopsSinceLastDump > 20) //Left Trigger
 		{
-<<<<<<< Updated upstream
 			dumpRight(); //Dumps on left side
-=======
-<<<<<<< HEAD
-			dumpLeft(); //Dumps on left side
 			loopsSinceLastDump = 0;
-=======
-			dumpRight(); //Dumps on left side
->>>>>>> origin/master
->>>>>>> Stashed changes
 		}
 		motorManip.setPower(0.0); //Turns off manipulato
 	}
