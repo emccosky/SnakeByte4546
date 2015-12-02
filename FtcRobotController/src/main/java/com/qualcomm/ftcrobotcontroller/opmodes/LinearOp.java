@@ -319,8 +319,8 @@ public class LinearOp extends LinearOpMode
 		double distToMove = newPos - curPos;
 		while(timeElapsed < seconds)
 		{
-			servo.setPosition(curPos + (distToMove*timeElapsed));
-			//servoHitClimberLPos = curPos + (distToMove*timeElapsed);
+			servo.setPosition(curPos + (distToMove*(timeElapsed/seconds)));
+			//servoHitClimberLPos = curPos + (distToMove*(timeElapsed/seconds));
 			end = System.nanoTime();
 			timeElapsed = (end - start)/1000000000;
 			sleep(50);
