@@ -323,6 +323,7 @@ public class LinearOp extends LinearOpMode
 			//servoHitClimberLPos = curPos + (distToMove*timeElapsed);
 			end = System.nanoTime();
 			timeElapsed = (end - start)/1000000000;
+			sleep(50);
 		}
 	}
 
@@ -401,11 +402,25 @@ public class LinearOp extends LinearOpMode
 	//Basket movement methods (Complex)
 	public void basketInitBlue()
 	{
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+		unlockFlaps();
+		sleep(400);
+		tiltRight();
+		sleep(400);
+		lockFlaps();
+=======
+>>>>>>> Stashed changes
 		openFlaps();
 		sleep(200);
 		tiltLeft();
 		sleep(200);
 		lockLeftFlap();
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 	}
 
 	public void basketInitRed()

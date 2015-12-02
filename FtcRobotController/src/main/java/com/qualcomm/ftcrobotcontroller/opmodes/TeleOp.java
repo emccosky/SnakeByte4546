@@ -37,6 +37,7 @@ public class TeleOp extends LinearOp {
 	double numHighDumps;
 	double numMediumDumps;
 	double numLowDumps;
+	double loopsSinceLastDump;
 
 	//Mode variables
 	int curMode;
@@ -207,14 +208,23 @@ public class TeleOp extends LinearOp {
 
 		//Moves basket
 		//Right Bumper
+		updateControllerVals();
 		if (g2Rbump)
 			basketInitBlue(); //Moves basket back to neutral position
-		else if (g2Rtrig > 0.3) //Right Trigger
+		else if (g2Rtrig > 0.3 && loopsSinceLastDump > 20) //Right Trigger
+		{
 			dumpLeft(); //Dumps debris to the left
+			loopsSinceLastDump = 0;
+			g2Rtrig = 0;
+		}
 		else if (g2Lbump) //Left Bumper
 			basketInitRed(); //Moves basket back to neutral position
 		else if (g2Ltrig > 0.3) //Left Trigger
+		{
 			dumpRight(); //Dumps debris to the right
+			loopsSinceLastDump = 0;
+			g2Ltrig = 0;
+		}
 
 		center.setPower(0.0); //Stops center wheel
 	}
@@ -250,18 +260,39 @@ public class TeleOp extends LinearOp {
 		//Left stick
 		moveDebrisLift(scaleInputSimple(-g2y1)); //Moves the lift
 
+		updateControllerVals();
 		if (g2Rbump) //Right Bumper
 		{
 			basketInitBlue(); //Goes to neutral
+			g2Rbump = false;
+			
 		} else if (g2Rtrig > 0.3) //Right trigger
 		{
+<<<<<<< Updated upstream
 			dumpLeft(); //Dumps on right side
+=======
+<<<<<<< HEAD
+			dumpRight(); //Dumps on right side
+			loopsSinceLastDump = 0;
+=======
+			dumpLeft(); //Dumps on right side
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		} else if (g2Lbump) //Left Bumper
 		{
 			basketInitRed(); //Goes to neutral
-		} else if (g2Ltrig > 0.3) //Left Trigger
+		} else if (g2Ltrig > 0.3 && loopsSinceLastDump > 20) //Left Trigger
 		{
+<<<<<<< Updated upstream
 			dumpRight(); //Dumps on left side
+=======
+<<<<<<< HEAD
+			dumpLeft(); //Dumps on left side
+			loopsSinceLastDump = 0;
+=======
+			dumpRight(); //Dumps on left side
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		}
 		motorManip.setPower(0.0); //Turns off manipulato
 	}
@@ -278,6 +309,7 @@ public class TeleOp extends LinearOp {
 	@Override
 	public void runOpMode()
 	{
+		loopsSinceLastDump = 21;
 		curMode = 1;
 		isBlueSide = true;
 		super.runOpMode();
@@ -316,6 +348,7 @@ public class TeleOp extends LinearOp {
 			else
 				curMode = 2;
 			//mode2();
+			loopsSinceLastDump++;
 			sleep(20);
 		}
 	}
