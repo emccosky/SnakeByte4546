@@ -325,6 +325,7 @@ public class LinearOp extends LinearOpMode
 			timeElapsed = (end - start)/1000000000;
 			sleep(50);
 		}
+              servo.setPosition(newPos);
 	}
 
 	public void lockRightFlap()
