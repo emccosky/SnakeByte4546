@@ -255,13 +255,13 @@ public class TeleOp extends LinearOp {
 			basketInitBlue(); //Goes to neutral
 		} else if (g2Rtrig > 0.3) //Right trigger
 		{
-			dumpRight(); //Dumps on right side
+			dumpLeft(); //Dumps on right side
 		} else if (g2Lbump) //Left Bumper
 		{
 			basketInitRed(); //Goes to neutral
 		} else if (g2Ltrig > 0.3) //Left Trigger
 		{
-			dumpLeft(); //Dumps on left side
+			dumpRight(); //Dumps on left side
 		}
 		motorManip.setPower(0.0); //Turns off manipulato
 	}
@@ -293,13 +293,13 @@ public class TeleOp extends LinearOp {
 		while(opModeIsActive())
 		{
 			if(g1Rtrig > 0.1)
-				extendRightClimberServo():
+				extendRightClimberServo();
 			if(g1Rbump)
-				retractRightClimberServo():
+				retractRightClimberServo();
 			if(g2Lbump)
-				extendLeftClimberServo():
+				extendLeftClimberServo();
 			if(g2Ltrig > 0.1)
-				retractLeftClimberServo():
+				retractLeftClimberServo();
 			//updatePosition();
 			updateControllerVals();
 			updateServoPos();

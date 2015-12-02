@@ -320,7 +320,7 @@ public class LinearOp extends LinearOpMode
 		while(timeElapsed < seconds)
 		{
 			servo.setPosition(curPos + (distToMove*timeElapsed));
-			servoHitClimberLPos = curPos + (distToMove*timeElapsed));
+			//servoHitClimberLPos = curPos + (distToMove*timeElapsed);
 			end = System.nanoTime();
 			timeElapsed = (end - start)/1000000000;
 		}
@@ -346,7 +346,7 @@ public class LinearOp extends LinearOpMode
 
 	public void lockLeftFlap()
 	{
-		moveServoVel(servoRLlap, servoLFlapPos, 0.42, 0.5);
+		moveServoVel(servoLFlap, servoLFlapPos, 0.42, 0.5);
 		servoLFlapPos = 0.42;
 	}
 
@@ -401,20 +401,20 @@ public class LinearOp extends LinearOpMode
 	//Basket movement methods (Complex)
 	public void basketInitBlue()
 	{
-		unlockFlaps();
+		openFlaps();
 		sleep(200);
-		tiltRight();
+		tiltLeft();
 		sleep(200);
-		lockFlaps();
+		lockLeftFlap();
 	}
 
 	public void basketInitRed()
 	{
-		unlockFlaps();
+		openFlaps();
 		sleep(200);
 		tiltRight();
 		sleep(200);
-		lockFlaps();
+		lockRightFlap();
 	}
 
 	public void wiggleTilt(String side)
@@ -437,10 +437,12 @@ public class LinearOp extends LinearOpMode
 
 	public void dumpLeft()
 	{
-		if(isTiltLeft)
-		{
+		//if(isTiltLeft)
+		//{
 			openLeftFlap();
-		}
+			sleep(2000);
+			lockLeftFlap();
+		/*}
 		else if(isTiltRight)
 		{
 			unlockRightFlap();
@@ -465,15 +467,17 @@ public class LinearOp extends LinearOpMode
 		sleep(700);
 		lockLeftFlap();
 		isTiltRight = false;
-		isTiltLeft = true;
+		isTiltLeft = true;*/
 	}
 
 	public void dumpRight()
 	{
-		if(isTiltRight)
-		{
+		//if(isTiltRight)
+		//{
 			openRightFlap();
-		}
+			sleep(2000);
+			lockRightFlap();
+		/*}
 		else if(isTiltLeft)
 		{
 			unlockLeftFlap();
@@ -498,7 +502,7 @@ public class LinearOp extends LinearOpMode
 		sleep(200);
 		lockRightFlap();
 		isTiltRight = true;
-		isTiltLeft = false;
+		isTiltLeft = false;*/
 	}
 
 	//Motor Power Scaling
