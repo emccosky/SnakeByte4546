@@ -109,6 +109,117 @@ public class TeleOp extends LinearOp {
 			haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 	}
 
+	@Override
+	public void wiggleTilt(String side)
+	{
+		if(side.equals("right"))
+		{
+			tiltServo.setPosition(0.77);
+			sleep(6);
+			tiltServo.setPosition(0.9);
+			sleep(2);
+			tiltServoPos = 0.87;
+		}
+		else
+		{
+			tiltServo.setPosition(0.73);
+			sleep(6);
+			tiltServo.setPosition(0.52);
+			sleep(2);
+			tiltServoPos = 0.58;
+			/*tiltServoPos = moveServoVel(tiltServo, tiltServoPos, 0.62, 0.06);
+			tiltServoPos = moveServoVel(tiltServo, tiltServoPos, 0.58, 0.06);*/
+		}
+	}
+
+	@Override
+	public void dumpLeft()
+	{
+		//if(isTiltLeft)
+		//{
+		tiltLeft();
+
+		openLeftFlap();
+		do{
+			updateControllerVals();
+			if(g1y1 > 0.1 || g1y1 < -0.1 || g1y2 < -0.1 || g1y2 > 0.1) {
+				runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
+				//Right Stick
+				runOddSide(scaleInputSimple(g1y2)); //Moves right side of robot (Center wheel is front of robot)
+			}
+			wiggleTilt("left");
+			sleep(5);
+		}while(!controller2BumpersBeingUsed());
+		//wiggleTilt("left");
+		//wiggleTilt("left");
+		/*}
+		else if(isTiltRight)
+		{
+			unlockRightFlap();
+			unlockLeftFlap();
+			sleep(300);
+			tiltLeft();
+			sleep(600);
+			openLeftFlap();
+		}
+		else
+		{
+			unlockLeftFlap();
+			sleep(300);
+			tiltLeft();
+			sleep(500);
+			openLeftFlap();
+		}
+		sleep(500);
+		wiggleTilt("left");
+		sleep(700);
+		wiggleTilt("left");
+		sleep(700);
+		lockLeftFlap();
+		isTiltRight = false;
+		isTiltLeft = true;*/
+	}
+
+	@Override
+	public void dumpRight()
+	{
+		//if(isTiltRight)
+		//{
+		tiltRight();
+		openRightFlap();
+		do{
+			wiggleTilt("right");
+			sleep(2);
+		}while(!controller2BumpersBeingUsed());
+		//wiggleTilt("right");
+		//wiggleTilt("right");
+		/*}
+		else if(isTiltLeft)
+		{
+			unlockLeftFlap();
+			unlockRightFlap();
+			sleep(200);
+			tiltRight();
+			sleep(200);
+			openRightFlap();
+		}
+		else
+		{
+			unlockRightFlap();
+			sleep(200);
+			tiltRight();
+			sleep(200);
+			openRightFlap();
+		}
+		sleep(200);
+		wiggleTilt("right");
+		sleep(200);
+		wiggleTilt("right");
+		sleep(200);
+		lockRightFlap();
+		isTiltRight = true;
+		isTiltLeft = false;*/
+	}
 	public void updateModeLoop() {
 		while (opModeIsActive()) {
 			updateMode();
@@ -130,6 +241,7 @@ public class TeleOp extends LinearOp {
 	}
 
 	public boolean controller1BeingUsed() {
+		updateControllerVals();
 		if (g1y1 > 0.1 || g1y1 < 0.1)
 			return true;
 		if (g1y2 > 0.1 || g1y2 < 0.1)
@@ -154,6 +266,7 @@ public class TeleOp extends LinearOp {
 	}
 
 	public boolean controller2BeingUsed() {
+		updateControllerVals();
 		if (g2y1 > 0.1 || g2y1 < 0.1)
 			return true;
 		if (g2y2 > 0.1 || g2y2 < 0.1)
@@ -177,6 +290,16 @@ public class TeleOp extends LinearOp {
 		return false;
 	}
 
+	public boolean controller2BumpersBeingUsed()
+	{
+		updateControllerVals();
+		if(g2Lbump)
+			return true;
+		if(g2Rbump)
+			return true;
+		return false;
+	}
+
 	public boolean controllersBeingUsed()
 	{
 		if (controller2BeingUsed() || controller1BeingUsed())
@@ -188,9 +311,9 @@ public class TeleOp extends LinearOp {
 	{
 		//Controller 1
 		//Left Stick
-		runOddSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Manipulator is front of robot)
+		runOddSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Manipulator is front of robot) 1
 		//Right Stick
-		runEvenSide(scaleInputSimple(g1y2)); //Moves right side of robot (Manipulator is front of robot)
+		runEvenSide(scaleInputSimple(g1y2)); //Moves right side of robot (Manipulator is front of robot) -1
 
 		//Controller 2
 		//Left stick
@@ -207,13 +330,13 @@ public class TeleOp extends LinearOp {
 
 		//Moves basket
 		//Right Bumper
-		if (g2Rbump)
+		if (g2Lbump)
 			basketInitBlue(); //Moves basket back to neutral position
-		else if (g2Rtrig > 0.3) //Right Trigger
+		else if (g2Ltrig > 0.3) //Right Trigger
 			dumpLeft(); //Dumps debris to the left
-		else if (g2Lbump) //Left Bumper
+		else if (g2Rbump) //Left Bumper
 			basketInitRed(); //Moves basket back to neutral position
-		else if (g2Ltrig > 0.3) //Left Trigger
+		else if (g2Rtrig > 0.3) //Left Trigger
 			dumpRight(); //Dumps debris to the right
 
 		center.setPower(0.0); //Stops center wheel
@@ -250,16 +373,16 @@ public class TeleOp extends LinearOp {
 		//Left stick
 		moveDebrisLift(scaleInputSimple(-g2y1)); //Moves the lift
 
-		if (g2Rbump) //Right Bumper
+		if (g2Lbump) //Right Bumper
 		{
 			basketInitBlue(); //Goes to neutral
-		} else if (g2Rtrig > 0.3) //Right trigger
+		} else if (g2Ltrig > 0.3) //Right trigger
 		{
 			dumpLeft(); //Dumps on right side
-		} else if (g2Lbump) //Left Bumper
+		} else if (g2Rbump) //Left Bumper
 		{
 			basketInitRed(); //Goes to neutral
-		} else if (g2Ltrig > 0.3) //Left Trigger
+		} else if (g2Rtrig > 0.3) //Left Trigger
 		{
 			dumpRight(); //Dumps on left side
 		}
@@ -290,21 +413,32 @@ public class TeleOp extends LinearOp {
 		displayDistanceLoop();
 		updatePositionLoop();*/
 		//basketInitBlue();
-		while(opModeIsActive())
-		{
-			if(g1Rtrig > 0.1)
+		while(opModeIsActive()) {
+			if (g1Rtrig > 0.1)
 				extendRightClimberServo();
-			if(g1Rbump)
+			if (g1Rbump)
 				retractRightClimberServo();
-			if(g2Lbump)
+			if (g1Lbump)
 				extendLeftClimberServo();
-			if(g2Ltrig > 0.1)
+			if (g1Ltrig > 0.1)
 				retractLeftClimberServo();
 			//updatePosition();
 			updateControllerVals();
 			updateServoPos();
 			updateMode();
 			//displayDistance();
+			/*if (g1YPressed)
+			{
+				extendDumpClimberArm();
+			}
+			else if(g2APressed)
+			{
+				retractDumpClimberArm();
+			}
+			else
+			{
+				setDumpClimberArm(0.5);
+			}*/
 			if(curMode == 1)
 			{
 				mode1();

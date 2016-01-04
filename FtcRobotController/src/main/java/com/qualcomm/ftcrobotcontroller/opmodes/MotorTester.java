@@ -26,12 +26,14 @@ public class MotorTester extends OpMode
     Servo servoLFlap;
     Servo servoHitClimberL;
 	Servo servoHitClimberR;
+	Servo servoDumpClimbers;
 
     double tiltServoPos;
     double servoRFlapPos;
     double servoLFlapPos;
     double servoHitClimberLPos;
     double servoHitClimberRPos;
+	double servoDumpClimbersPos;
 
     boolean X;
     boolean A;
@@ -410,17 +412,29 @@ public class MotorTester extends OpMode
 		else if(rightBump)
 		{
 			stopOthers("RB");
-			double spd = gamepad1.left_stick_y;
+			double spdL = gamepad1.left_stick_y;
 
-			if(Math.abs(spd) > 0.1)
-				tiltServoPos += (spd / 400);
+			if(Math.abs(spdL) > 0.1)
+				tiltServoPos += (spdL / 400);
 			if(tiltServoPos < 0)
 				tiltServoPos = 0.0;
 			else if(tiltServoPos > 1.0)
 				tiltServoPos = 1.0;
 
 			tiltServo.setPosition(tiltServoPos);
-			telemetry.addData("Left stick controls tiltServo", String.format("%.2f",tiltServoPos));
+			telemetry.addData("Left stick controls tiltServo", String.format("%.2f", tiltServoPos));
+
+			double spdR = gamepad1.right_stick_y;
+
+			if(Math.abs(spdR) > 0.1)
+				servoDumpClimbersPos += (spdR / 400);
+			if(servoDumpClimbersPos < 0)
+				servoDumpClimbersPos = 0.0;
+			else if(servoDumpClimbersPos > 1.0)
+				servoDumpClimbersPos = 1.0;
+
+			tiltServo.setPosition(servoDumpClimbersPos);
+			telemetry.addData("Left stick controls servoDumpClimbers", String.format("%.2f",servoDumpClimbersPos));
 		}
 		else if(leftBump)
 		{
