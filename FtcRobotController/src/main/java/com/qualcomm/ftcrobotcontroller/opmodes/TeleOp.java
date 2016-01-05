@@ -92,7 +92,6 @@ public class TeleOp extends LinearOp {
 			{
 				curMode = 1;
 				if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed down
-					haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 				else
 					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up
 			} else if ((g2BPressed && curMode != 2)) //|| (curPitch > 10 || curPitch < -10)) //If Controller 2 B is pressed, switch to mode 2
@@ -135,22 +134,29 @@ public class TeleOp extends LinearOp {
 	@Override
 	public void dumpLeft()
 	{
+		boolean hasBeenCancelled = false;
 		//if(isTiltLeft)
 		//{
 		tiltLeft();
 
 		openLeftFlap();
 		do{
-			updateControllerVals();
-			if(g1y1 > 0.1 || g1y1 < -0.1 || g1y2 < -0.1 || g1y2 > 0.1) {
-				runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
-				//Right Stick
-				runOddSide(scaleInputSimple(g1y2)); //Moves right side of robot (Center wheel is front of robot)
+			if(!hasBeenCancelled) {
+				updateControllerVals();
+				if (g1y1 > 0.1 || g1y1 < -0.1 || g1y2 < -0.1 || g1y2 > 0.1) {
+					runEvenSide(scaleInputSimple(-g1y1)); //Moves left side of robot (Center wheel is front of robot)
+					//Right Stick
+					runOddSide(scaleInputSimple(g1y2)); //Moves right side of robot (Center wheel is front of robot)
+					motorQ1.setPower(1.0);
+					hasBeenCancelled = true;
+				}
+				wiggleTilt("left");
+
+				sleep(5);
 			}
-			wiggleTilt("left");
-			sleep(5);
 		}while(!controller2BumpersBeingUsed());
-		//wiggleTilt("left");
+		if(hasBeenCancelled)
+			wiggleTilt("left");
 		//wiggleTilt("left");
 		/*}
 		else if(isTiltRight)
@@ -403,6 +409,7 @@ public class TeleOp extends LinearOp {
 	{
 		curMode = 1;
 		isBlueSide = true;
+		isRedSide = false;
 		super.runOpMode();
 		updateServoPos();
 		//POSITION SETUP IS NOT NEEDED, AS #s ARE SAVED FROM AUTO

@@ -149,7 +149,7 @@ public class LinearOp extends LinearOpMode
 		curPitch = pitches[0];*/
 	}
 
-	public void updatePositionLoop()
+	public void updatePositionLoop() //Doesn't work
 	{
 		while(opModeIsActive())
 		{
@@ -265,7 +265,7 @@ public class LinearOp extends LinearOpMode
 		}
 	}
 
-	public void macroLiftMedium(String side)
+	public void macroLiftMedium(String side) //Bad method
 	{
 		if(side.equals("right"))
 		{
@@ -313,25 +313,6 @@ public class LinearOp extends LinearOpMode
 		servoHitClimberR.setPosition(servoHitClimberRPos);
 		tiltServo.setPosition(tiltServoPos);
 	}
-
-	/*public void setDumpClimberArm(double param)
-	{
-		servoDumpClimbers.setPosition(param);
-	}
-
-	public void extendDumpClimberArm()
-	{
-		setDumpClimberArm(0.8);
-		sleep(500);
-		setDumpClimberArm(0.5);
-	}
-
-	public void retractDumpClimberArm()
-	{
-		setDumpClimberArm(0.2);
-		sleep(200);
-		setDumpClimberArm(0.5);
-	}*/
 
 	//Basket movement methods (Simple)
 	public double moveServoVel(Servo servo, double curPos, double newPos, double seconds)

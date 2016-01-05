@@ -67,7 +67,15 @@ public class IMUTest extends OpMode
      * The following method was introduced in the 3 August 2015 FTC SDK beta release and it runs
      * before "start" runs.
      */
-     
+
+    //Init - Press it
+        //Runs the init method ONCE
+        //Runs init_loop infinite times until play is pressed
+    //Play button
+        //Pressed - Runs start() once
+        //Forever - runs loop() until stop is pressed
+    //Stop button is pressed
+        //Runs stop()
 
 	
     @Override
@@ -108,6 +116,12 @@ public class IMUTest extends OpMode
             } catch (RobotCoreException e){
                 Log.i("FtcRobotController", "Exception: " + e.getMessage());
             }
+    }
+
+    @Override
+    public void init_loop()
+    {
+
     }
 
     public void runOddSide(double speed)

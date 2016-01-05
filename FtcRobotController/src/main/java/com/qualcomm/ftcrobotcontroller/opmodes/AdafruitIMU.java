@@ -506,6 +506,7 @@ public class AdafruitIMU implements HardwareDevice, I2cController.I2cPortReadyCa
     * Tait-Bryan equations listed in:
     * https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     */
+
     public void getIMUGyroAngles(double[] roll, double[] pitch, double[] yaw) {
         short tempR = 0, tempP = 0, tempY = 0;
         double tempRoll = 0.0, tempPitch = 0.0, tempYaw = 0.0;
