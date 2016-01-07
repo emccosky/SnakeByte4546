@@ -327,6 +327,7 @@ public class LinearOp extends LinearOpMode
 			//servoHitClimberLPos = curPos + (distToMove*(timeElapsed/seconds));
 			end = System.nanoTime();
 			timeElapsed = (end - start)/1000000000;
+			sleep(50);
 		}
 		servo.setPosition(newPos);
 		return newPos;
@@ -438,6 +439,19 @@ public class LinearOp extends LinearOpMode
 		{
 			tiltServoPos = moveServoVel(tiltServo, tiltServoPos, 0.54, 0.2);
 			tiltServoPos = moveServoVel(tiltServo, tiltServoPos, 0.58, 0.2);
+		}
+			moveServoVel(tiltServo, tiltServoPos, 0.87, 0.2);
+			tiltServoPos = 0.89;
+			sleep(200);
+			moveServoVel(tiltServo, tiltServoPos, 0.91, 0.2);
+			tiltServoPos = 0.91;
+		else
+		{
+			moveServoVel(tiltServo, tiltServoPos, 0.58, 0.2);
+			tiltServoPos = 0.58;
+			sleep(200);
+			moveServoVel(tiltServo, tiltServoPos, 0.6, 0.2);
+			tiltServoPos = 0.6;
 		}*/
 	}
 

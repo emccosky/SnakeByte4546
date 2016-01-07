@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class TeleOp extends LinearOp {
+public class TeleOp extends LinearOp
+{
 	//Controller values
 	double g1y1;
 	double g1y2;
@@ -37,6 +38,7 @@ public class TeleOp extends LinearOp {
 	double numHighDumps;
 	double numMediumDumps;
 	double numLowDumps;
+	double loopsSinceLastDump;
 
 	//Mode variables
 	int curMode;
@@ -92,6 +94,7 @@ public class TeleOp extends LinearOp {
 			{
 				curMode = 1;
 				if (g1y1 < -0.1 && g1y2 < -0.1) //Are sticks pushed down
+					haveSticksBeenPushedUpSinceModeChanged = true; //The sticks have been pushed up
 				else
 					haveSticksBeenPushedUpSinceModeChanged = false; //The sticks have not been pushed up
 			} else if ((g2BPressed && curMode != 2)) //|| (curPitch > 10 || curPitch < -10)) //If Controller 2 B is pressed, switch to mode 2
@@ -343,7 +346,11 @@ public class TeleOp extends LinearOp {
 		else if (g2Rbump) //Left Bumper
 			basketInitRed(); //Moves basket back to neutral position
 		else if (g2Rtrig > 0.3) //Left Trigger
+		{
 			dumpRight(); //Dumps debris to the right
+			loopsSinceLastDump = 0;
+			g2Ltrig = 0;
+		}
 
 		center.setPower(0.0); //Stops center wheel
 	}
@@ -391,6 +398,7 @@ public class TeleOp extends LinearOp {
 		} else if (g2Rtrig > 0.3) //Left Trigger
 		{
 			dumpRight(); //Dumps on left side
+			loopsSinceLastDump = 0;
 		}
 		motorManip.setPower(0.0); //Turns off manipulato
 	}
@@ -407,6 +415,7 @@ public class TeleOp extends LinearOp {
 	@Override
 	public void runOpMode()
 	{
+		loopsSinceLastDump = 21;
 		curMode = 1;
 		isBlueSide = true;
 		isRedSide = false;
@@ -457,6 +466,7 @@ public class TeleOp extends LinearOp {
 			else
 				curMode = 2;
 			//mode2();
+			loopsSinceLastDump++;
 			sleep(20);
 		}
 	}
