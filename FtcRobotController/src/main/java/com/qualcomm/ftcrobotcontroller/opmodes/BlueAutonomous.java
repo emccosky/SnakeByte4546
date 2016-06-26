@@ -26,6 +26,7 @@ public class BlueAutonomous extends Autonomous
     	double startRoll = 0.0;
 		initPosition(startX, startY, startZ, startYaw, startPitch, startRoll);*/
 		super.runOpMode();
+<<<<<<< Updated upstream
 		double oddSideAvg = (Math.abs(motorQ1Pos) + Math.abs(motorQ3Pos)) / 2;
 		double evenSideAvg = (Math.abs(motorQ2Pos) + Math.abs(motorQ4Pos)) / 2;
 		while(((evenSideAvg < (oddSideAvg + 1000)) || (oddSideAvg < (evenSideAvg + 1000))) && opModeIsActive())
@@ -43,9 +44,12 @@ public class BlueAutonomous extends Autonomous
 			//retractDumpClimberArm();
 		}
 		/*ACTUAL AUTONOMOUS MOVEMENT HERE, EX:
+=======
+
+>>>>>>> Stashed changes
 		moveTo(100,100);
 		raiseLift(1000);
 		dumpRight();
-		*/
+		
 	}
 }
