@@ -686,10 +686,6 @@ public class LinearOp extends LinearOpMode
         double changeX = startX - endX;
         double changeY = startY - endY;
 
-        if(changeX < 0)
-            changeX *= -1;
-        if(changeY < 0)
-            changeY *= -1;
         dist = (changeX * changeX) + (changeY * changeY);
         dist = Math.sqrt(dist);
         return dist;
